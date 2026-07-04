@@ -1,121 +1,121 @@
-Briefing generated: Saturday, 04 July 2026, 13:07 IST
+Briefing generated: Saturday, 04 July 2026, 13:20 IST
 
 TODAY'S TOP 5
 1. Microsoft launches firm to help companies adopt AI with $2.5 billion
-2. Telangana Govt approves recruitment for 6,424 Police dept posts
-3. Mapping cancer, testing capacity
-4. Government school built with CSR funds inaugurated in Vijayapura in Karnataka
-5. V K Furniture & Electronics expands footprint with grand sixth showroom in...
+2. Assam district orders deportation of man declared foreigner
+3. OpenAI discusses giving U.S. government 5% stake: Report
+4. Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised...
+5. Google loses fight against record EUR4.1 billion EU antitrust fine
 
 ---
 
 GLOBAL SIGNALS
 
-**Nasa launches mission to save falling space telescope**
-A Nasa-funded robot has blasted off to catch a falling telescope in mid-orbit and blast it back to safety before it burns up. [Source: BBC World](https://www.bbc.co.uk/news/articles/c0ry4xx7rk8o?at_medium=RSS&at_campaign=rss) `03 Jul, 15:58 IST; score 20`
-
-**China launches coast guard patrol east of Taiwan despite international pushback**
-This is the second time in roughly a month that China, which views democratically governed Taiwan as its own territory, has sent coast guard ships into the waters. [Source: The Hindu World](https://www.thehindu.com/news/international/china-launches-coast-guard-patrol-east-of-taiwan-despite-international-pushback/article71181868.ece) `04 Jul, 12:06 IST; score 19`
-
 **Polish PM warns critical months ahead in face of Russian threat**
-Tusk says Poland is preparing for "various" scenarios after media reports of a planned Russian attack. [Source: BBC World](https://www.bbc.co.uk/news/articles/cj0gp88q4l4o?at_medium=RSS&at_campaign=rss) `03 Jul, 22:11 IST; score 17`
-
-**Dissident Hong Kong bookseller Lam Wing-kee dies aged 70**
-Lam Wing-kee, who defied China by selling material critical of Beijing, passed away after suffering from lung cancer. [Source: BBC World](https://www.bbc.co.uk/news/articles/cwy0wy0nenvo?at_medium=RSS&at_campaign=rss) `03 Jul, 22:01 IST; score 17`
+Tusk says Poland is preparing for "various" scenarios after media reports of a planned Russian attack. [Source: BBC World](https://www.bbc.co.uk/news/articles/cj0gp88q4l4o?at_medium=RSS&at_campaign=rss) `03 Jul, 22:11 IST; score 22; high_impact`
 
 **Russia, Ukraine exchange deadly strikes after massive Kyiv attack**
-Kyiv's air force said on Friday that Russia launched two missiles and 105 drones at Ukraine overnight. [Source: The Hindu World](https://www.thehindu.com/news/international/russia-ukraine-exchange-deadly-strikes-after-massive-kyiv-attack/article71179819.ece) `03 Jul, 21:34 IST; score 17`
+Kyiv's air force said on Friday that Russia launched two missiles and 105 drones at Ukraine overnight. [Source: The Hindu World](https://www.thehindu.com/news/international/russia-ukraine-exchange-deadly-strikes-after-massive-kyiv-attack/article71179819.ece) `03 Jul, 21:34 IST; score 22; high_impact`
 
-**German row over plan for workers to need sick note on first day...**
-A doctors' group says it "borders on madness" that patients will have to obtain the note in person. [Source: BBC World](https://www.bbc.co.uk/news/articles/c4gyxnj38m1o?at_medium=RSS&at_campaign=rss) `03 Jul, 20:26 IST; score 17`
+**Brutal heat cancels Fourth of July events, from DC to Philadelphia**
+More than 165 million people are enduring dangerous heat and humidity, with temperatures expected to stay at 38C (100F) for several days. [Source: BBC World](https://www.bbc.co.uk/news/articles/cevlkzer7vdo?at_medium=RSS&at_campaign=rss) `04 Jul, 08:27 IST; score 21; high_impact`
 
-**Australian Prime Minister condemns delay of changes to child social media ban**
-Parliament passed the initial legislation with overwhelming support in 2024. [Source: The Hindu World](https://www.thehindu.com/news/international/australian-prime-minister-condemns-delay-of-changes-to-child-social-media-ban/article71177697.ece) `03 Jul, 16:58 IST; score 17`
+**Trump administration cannot hold migrants without bond hearings past 90 days, court rules**
+U.S. [Source: The Hindu World](https://www.thehindu.com/news/international/trump-administration-cannot-hold-migrants-without-bond-hearings-past-90-days-court-rules/article71177044.ece) `03 Jul, 07:24 IST; score 21; civic_safety`
 
-**Fans mark release of new Haruki Murakami novel at midnight event in Tokyo**
-Murakami's first full-length novel featuring female protagonist releases in Tokyo. [Source: The Hindu World](https://www.thehindu.com/books/fans-mark-release-of-new-haruki-murakami-novel-at-midnight-event-in-tokyo/article71178024.ece) `03 Jul, 15:43 IST; score 17`
+**Nasa launches mission to save falling space telescope**
+A Nasa-funded robot has blasted off to catch a falling telescope in mid-orbit and blast it back to safety before it burns up. [Source: BBC World](https://www.bbc.co.uk/news/articles/c0ry4xx7rk8o?at_medium=RSS&at_campaign=rss) `03 Jul, 15:58 IST; score 20; general`
+
+**China launches coast guard patrol east of Taiwan despite international pushback**
+This is the second time in roughly a month that China, which views democratically governed Taiwan as its own territory, has sent coast guard ships into the waters. [Source: The Hindu World](https://www.thehindu.com/news/international/china-launches-coast-guard-patrol-east-of-taiwan-despite-international-pushback/article71181868.ece) `04 Jul, 12:06 IST; score 19; general`
+
+**Relative of Pakistan Deputy PM Ishaq Dar arrested in alleged gangrape of two...**
+The suspects, identified as Muhammad Raza Dar, Hassan Raza, Sikandar Khan and Sajid Ali, were sent to five-day police remand by a Lahore court. [Source: The Hindu World](https://www.thehindu.com/news/international/relative-of-pakistan-deputy-pm-ishaq-dar-arrested-in-alleged-gangrape-of-two-foreigners/article71181849.ece) `04 Jul, 11:38 IST; score 19; civic_safety`
+
+**Iran prepares for weeklong funeral of late Supreme Leader Ayatollah Ali Khamenei, killed...**
+"We will continue our policy of pursuing independence, and decisions will be made inside the country, and the people will decide their own fate," he said. [Source: The Hindu World](https://www.thehindu.com/news/international/iran-prepares-for-weeklongfuneral-of-late-supreme-leader-ayatollah-ali-khamenei-killed-in-war/article71180029.ece) `03 Jul, 22:27 IST; score 19; civic_safety`
 
 ---
 
 INDIA
 
+**Assam district orders deportation of man declared foreigner**
+Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 25; civic_safety`
+
+**Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised caution**
+Idukki district administration permits opening of dam shutters as precautionary measure following heavy rainfall in catchment areas. [Source: The Hindu India](https://www.thehindu.com/news/national/kerala/kerala-rains-water-from-idukki-pambla-dam-released-residents-along-periyar-advised-caution/article71181863.ece) `04 Jul, 12:13 IST; score 23; civic_safety`
+
+**After Ayodhya, Badrinath Dham hit by donation theft claims; inquiry ordered**
+BKTC president Hemant Dwivedi said that if the allegations are proven true during the investigation, no guilty party will be spared, and strict action will be taken. [Source: The Hindu India](https://www.thehindu.com/news/national/after-ayodhya-badrinath-dham-hit-by-donation-theft-claims-inquiry-ordered/article71181662.ece) `04 Jul, 10:03 IST; score 23; civic_safety`
+
 **Telangana Govt approves recruitment for 6,424 Police dept posts**
-Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:01 IST; score 22`
+Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:02 IST; score 22; general`
 
 **Mapping cancer, testing capacity**
-Telangana government's decision to make cancer a notifiable disease promises to reveal its true burden in the State. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/mapping-cancer-testing-capacity/article71174493.ece) `04 Jul, 10:42 IST; score 22`
-
-**Government school built with CSR funds inaugurated in Vijayapura in Karnataka**
-Has STEM lab and Nali Kali rooms. [Source: The Hindu India](https://www.thehindu.com/news/national/karnataka/government-school-built-with-csr-funds-inaugurated-in-vijayapura-in-karnataka/article71179612.ece) `04 Jul, 09:49 IST; score 22`
-
-**Assam district orders deportation of man declared foreigner**
-Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 21`
+Telangana government's decision to make cancer a notifiable disease promises to reveal its true burden in the State. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/mapping-cancer-testing-capacity/article71174493.ece) `04 Jul, 10:42 IST; score 22; general`
 
 **Delhi CM Rekha Gupta orders rollback of work from home, staggered office timings**
-With the geopolitical situation normalising, Delhi Chief Minister Rekha Gupta has approved the withdrawal of work from home on Wednesday and Saturday. [Source: The Hindu India](https://www.thehindu.com/news/cities/Delhi/delhi-cm-rekha-gupta-orders-rollback-of-work-from-home-staggered-office-timings/article71181867.ece) `04 Jul, 12:37 IST; score 21`
-
-**PM Modi inaugurates new Jodhpur airport terminal, launches Modified UDAN scheme**
-PM Modi arrived in Jodhpur and was received at the airport by Governor Haribhau Bagade, Union Minister and Jodhpur MP Gajendra Singh Shekhawat, and Chief Minister Bhajanlal Sharma. [Source: The Hindu India](https://www.thehindu.com/news/national/rajasthan/pm-modi-inaugurates-new-jodhpur-airport-terminal-launches-modified-udan-scheme/article71181992.ece) `04 Jul, 12:40 IST; score 19`
+With the geopolitical situation normalising, Delhi Chief Minister Rekha Gupta has approved the withdrawal of work from home on Wednesday and Saturday. [Source: The Hindu India](https://www.thehindu.com/news/cities/Delhi/delhi-cm-rekha-gupta-orders-rollback-of-work-from-home-staggered-office-timings/article71181867.ece) `04 Jul, 12:37 IST; score 21; general`
 
 ---
 
 TECH / AI
 
 **Microsoft launches firm to help companies adopt AI with $2.5 billion**
-Microsoft Frontier Company, as the new operating entity is called, will kick off with $2.5 billion in funding from the tech giant. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/microsoft-launches-firm-to-help-companies-adopt-ai-with-25-billion/article71177209.ece) `03 Jul, 11:48 IST; score 24`
+Microsoft Frontier Company, as the new operating entity is called, will kick off with $2.5 billion in funding from the tech giant. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/microsoft-launches-firm-to-help-companies-adopt-ai-with-25-billion/article71177209.ece) `03 Jul, 11:48 IST; score 29; high_impact`
 
 **OpenAI discusses giving U.S. government 5% stake: Report**
-Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece) `03 Jul, 13:54 IST; score 20`
-
-**Battery apps taken down in India after stalled e-rickshaw rides**
-Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-takes-down-battery-apps-after-stalled-e-rickshaw-rides/article71181698.ece) `04 Jul, 12:18 IST; score 19`
+Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece) `03 Jul, 13:54 IST; score 25; high_impact`
 
 **Google loses fight against record EUR4.1 billion EU antitrust fine**
-The European Commission had originally handed out a EUR4.34 billion fine to Google in 2018 for its agreements which forced phone manufacturers to pre-install Google offerings. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/google-loses-fight-against-record-41-billion-eu-antitrust-fine/article71181704.ece) `04 Jul, 11:33 IST; score 18`
+The European Commission had originally handed out a EUR4.34 billion fine to Google in 2018 for its agreements which forced phone manufacturers to pre-install Google offerings. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/google-loses-fight-against-record-41-billion-eu-antitrust-fine/article71181704.ece) `04 Jul, 11:33 IST; score 23; high_impact`
 
 **India investigating Tata data leak that exposed Apple iPhone secrets**
-Tata has hired a global consultant to conduct a forensic audit after the leak also saw Tesla, Qualcomm and TSMC documents posted on the dark web. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece) `04 Jul, 10:29 IST; score 18`
+Tata has hired a global consultant to conduct a forensic audit after the leak also saw Tesla, Qualcomm and TSMC documents posted on the dark web. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece) `04 Jul, 10:29 IST; score 23; high_impact`
 
-**Meta's Mark Zuckerberg says AI agent tech progressing slower than expected**
-Mark Zuckerberg added that a company reorganisation that included major job cuts was not as "clean" as it could have been. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/metas-zuckerberg-says-ai-agent-tech-progressing-slower-than-expected/article71177205.ece) `03 Jul, 10:39 IST; score 17`
+**Battery apps taken down in India after stalled e-rickshaw rides**
+Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-takes-down-battery-apps-after-stalled-e-rickshaw-rides/article71181698.ece) `04 Jul, 12:18 IST; score 19; general`
+
+**GoDaddy fears government's fake website crackdown could make the internet less safe**
+The legal dispute embroiling GoDaddy and others was triggered by more than 20 companies that sought the court's intervention on fake websites damaging their brand. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/godaddy-fears-governments-fake-website-crackdown-could-make-the-internet-less-safe/article71178069.ece) `03 Jul, 16:08 IST; score 18; civic_safety`
 
 ---
 
 MANGALORE / COASTAL KARNATAKA
 
-**V K Furniture & Electronics expands footprint with grand sixth showroom in Udupi**
-Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319028) `04 Jul, 13:00 IST; score 21`
-
-**Malabar Gold & Diamonds, Mangaluru launches Silver Show with 25% off on making...**
-Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1318984) `03 Jul, 21:09 IST; score 19`
-
 **Bantwal: Illegal laterite stone, soil mining busted near Vittal; vehicles, machinery seized**
-Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319009) `04 Jul, 09:35 IST; score 17`
+Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319009) `04 Jul, 09:35 IST; score 21; civic_safety`
 
 **Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl**
-Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl Mangalore Today. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMixwFBVV95cUxOWUtjM0k5NURWNzRtS2JBdFJSYWN0RDUwMS1scFJXb2dmTFcxVmNQZGxmczV2NU8tUEh2d3FVLWZWME96aW5XaTlKOWZ5dWhoc2FHVVRnek4wRndTOEc5Y29mVTU3YjJwWDNWcjBnaFdwMVo3TWJDdVYwUzZyb0dMSVlyTFpYb19LM0ZpRmFNSUJCU1l5QnZrRjZ4MzlsR3Frb18ydkFRdjBQOGZDWkFXS0x0ajZtUklSMzN3dW92Vi00X0JuZkhB?oc=5) `03 Jul, 17:51 IST; score 17`
+Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl Mangalore Today. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMixwFBVV95cUxOWUtjM0k5NURWNzRtS2JBdFJSYWN0RDUwMS1scFJXb2dmTFcxVmNQZGxmczV2NU8tUEh2d3FVLWZWME96aW5XaTlKOWZ5dWhoc2FHVVRnek4wRndTOEc5Y29mVTU3YjJwWDNWcjBnaFdwMVo3TWJDdVYwUzZyb0dMSVlyTFpYb19LM0ZpRmFNSUJCU1l5QnZrRjZ4MzlsR3Frb18ydkFRdjBQOGZDWkFXS0x0ajZtUklSMzN3dW92Vi00X0JuZkhB?oc=5) `03 Jul, 17:51 IST; score 21; civic_safety`
 
-**Udupi: Sunken fishing boat drifts ashore at Ucchila beach**
-Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319012) `04 Jul, 10:31 IST; score 15`
+**Mangaluru: Man arrested for facilitating cyber fraud, linked to multiple cases**
+Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1318998) `04 Jul, 08:57 IST; score 19; civic_safety`
+
+**Years of promises, no pipeline: Boloor residents await UGD connectivity**
+Mangaluru: Residents of Boloor, under the jurisdiction of the Mangaluru City Corporation (MCC), have once again appealed to the authorities to complete the long-pending underground drainage (UGD) project. [Source: Coastal Digest](https://coastaldigest.com/years-of-promises-no-pipeline-boloor-residents-await-ugd-connectivity/) `04 Jul, 12:09 IST; score 17; civic_safety`
+
+**Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case...**
+Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case booked Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi8wFBVV95cUxNVGNMaXJmcTluVFgyb1dEb2RtMmJ0Y2dfRzR2Z1VyZVdrOUd0VnpKY1Z0U3U0NmFId1NScXlOZmdObmpCbWsyMDBaNTZ4Z2JtOURRdUpHNVdvWkQ0cWRQVWc0N1VaR09Rcm1fUm5idUt0VVFIS0dlbTBwVm1DSGFCX2x1dTFheGxEcFlBSjlZNzJrcHRiNmlIelQyN0lYeUpKd0ZkQzMzVEw0X0tEVkh3akh2bEllYWR6azhxWlZmRnlSUGdBY1FnVkNWWDR0VmU4Wk9uMHBmZUZoN0ctV1dVbkRlSEY4RGo2ODg2UGZPV3RGaEU?oc=5) `04 Jul, 12:53 IST; score 15; civic_safety`
 
 ---
 
 WATCHLIST
 
-**Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised caution**
-Idukki district administration permits opening of dam shutters as precautionary measure following heavy rainfall in catchment areas. [Source: The Hindu India](https://www.thehindu.com/news/national/kerala/kerala-rains-water-from-idukki-pambla-dam-released-residents-along-periyar-advised-caution/article71181863.ece) `04 Jul, 12:13 IST; score 19`
+**India clears air defence systems: How MR-SAM, V-SHORADS and Akash Tarang will secure...**
+India is bolstering its air defence with the Defence Acquisition Council's approval for new weapon systems. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/defence/news/india-clears-three-new-air-defence-systems-how-mr-sam-v-shorads-and-akash-tarang-will-secure-the-skies/articleshow/132160810.cms) `04 Jul, 11:37 IST; score 21; high_impact`
 
-**The rise of Mahjong in Visakhapatnam**
-Once confined to niche circles, Mahjong, the centuries-old tile game is drawing a growing community of players in Visakhapatnam. [Source: The Hindu India](https://www.thehindu.com/society/history-and-culture/the-rise-of-mahjong-in-visakhapatnam/article71173238.ece) `04 Jul, 12:10 IST; score 19`
+**High Court quashes externment order, comments on 'horse trading' in Maharashtra**
+The Bombay High Court Judge Justice Madhav Jamdar also made additional oral remarks on the tendency to curb protests, stating that citizens were being treated as slaves of. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/high-court-quashes-externment-order-comments-on-horse-trading-in-maharashtra/article71179161.ece) `04 Jul, 08:28 IST; score 20; civic_safety`
 
-**Can landlords enter your rented home without notice? Here's what the law says**
-According to the Model Tenancy Act of 2021, landlords must provide at least 24 hours notice in writing before entering rented properties. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/real-estate/news/can-landlords-enter-your-rented-home-without-notice-heres-what-the-law-says/articleshow/132167836.cms) `04 Jul, 12:01 IST; score 19`
+**PM Modi inaugurates new Jodhpur airport terminal, launches Modified UDAN scheme**
+PM Modi arrived in Jodhpur and was received at the airport by Governor Haribhau Bagade, Union Minister and Jodhpur MP Gajendra Singh Shekhawat, and Chief Minister Bhajanlal Sharma. [Source: The Hindu India](https://www.thehindu.com/news/national/rajasthan/pm-modi-inaugurates-new-jodhpur-airport-terminal-launches-modified-udan-scheme/article71181992.ece) `04 Jul, 12:40 IST; score 19; general`
 
-**After Ayodhya, Badrinath Dham hit by donation theft claims; inquiry ordered**
-BKTC president Hemant Dwivedi said that if the allegations are proven true during the investigation, no guilty party will be spared, and strict action will be taken. [Source: The Hindu India](https://www.thehindu.com/news/national/after-ayodhya-badrinath-dham-hit-by-donation-theft-claims-inquiry-ordered/article71181662.ece) `04 Jul, 10:03 IST; score 19`
+**Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
+The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 19; civic_safety`
 
 **Officials not obliged to attend 'review' meetings with Governor, says T.N. Law Minister**
-His remarks followed reports that Tamil Nadu Governor Rajendra Vishwanath Arlekar had wanted to hold a 'review' meeting with officials at the Madurai Circuit House. [Source: The Hindu India](https://www.thehindu.com/news/national/tamil-nadu/officials-not-obliged-to-attend-review-meetings-with-governor-says-law-minister/article71179364.ece) `04 Jul, 08:05 IST; score 19`
+His remarks followed reports that Tamil Nadu Governor Rajendra Vishwanath Arlekar had wanted to hold a 'review' meeting with officials at the Madurai Circuit House. [Source: The Hindu India](https://www.thehindu.com/news/national/tamil-nadu/officials-not-obliged-to-attend-review-meetings-with-governor-says-law-minister/article71179364.ece) `04 Jul, 08:05 IST; score 19; general`
 
 **Centre orders blocking of battery management apps used to turn off e-rickshaws**
-Action comes after e-rickshaws in various parts of the country were turned off via apps developed by Chinese firms to manage lithium ion battery packs; extortion incident reported. [Source: The Hindu India](https://www.thehindu.com/news/national/centre-orders-blocking-of-battery-management-apps-used-to-turn-off-e-rickshaws/article71179574.ece) `04 Jul, 07:17 IST; score 19`
+Action comes after e-rickshaws in various parts of the country were turned off via apps developed by Chinese firms to manage lithium ion battery packs; extortion incident reported. [Source: The Hindu India](https://www.thehindu.com/news/national/centre-orders-blocking-of-battery-management-apps-used-to-turn-off-e-rickshaws/article71179574.ece) `04 Jul, 07:17 IST; score 19; general`

@@ -96,6 +96,94 @@ BUCKET_KEYWORDS = {
     ],
 }
 
+EDITORIAL_CLASS_RULES = {
+    "commercial": [
+        "discount",
+        "showroom",
+        "grand opening",
+        "furniture",
+        "jewellery",
+        "jewelry",
+        "silver show",
+        "gold rate",
+        "sale",
+        "offer",
+        "inaugurates showroom",
+        "expands footprint",
+    ],
+    "culture_lite": [
+        "mahjong",
+        "novel",
+        "film",
+        "celebrity",
+        "recipe",
+        "students excel",
+        "school built",
+        "csr funds",
+        "seminar",
+        "felicitation",
+        "honoured",
+        "honored",
+        "esports",
+        "chess.com",
+        "world cup",
+        "what the law says",
+        "here's what",
+        "viral reddit",
+        "definition of success",
+        "difficult childhood",
+        "money can't buy happiness",
+    ],
+    "civic_safety": [
+        "court",
+        "arrested",
+        "probe",
+        "busted",
+        "seized",
+        "ordered",
+        "deportation",
+        "blocked",
+        "fined",
+        "rain",
+        "flood",
+        "dam",
+        "accident",
+        "fire",
+        "cyber fraud",
+        "pipeline",
+        "drainage",
+        "mining",
+        "port",
+        "policy",
+    ],
+    "high_impact": [
+        "supreme court",
+        "rbi",
+        "sebi",
+        "regulator",
+        "billion",
+        "million",
+        "nationwide",
+        "global",
+        "war",
+        "attack",
+        "antitrust",
+        "data leak",
+        "cybersecurity",
+        "artificial intelligence",
+    ],
+}
+
+SECTION_MIN_SCORE = {
+    "global": 14,
+    "india": 14,
+    "tech": 14,
+    "local": 12,
+}
+
+TOP_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
+WATCHLIST_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
+
 
 @dataclass(frozen=True)
 class Story:
@@ -109,6 +197,7 @@ class Story:
     quality: int
     score: int
     reason: str
+    editorial_class: str
 
 
 def load_json(path: Path) -> Any:
@@ -269,6 +358,21 @@ def keyword_matches(text: str, keyword: str) -> bool:
     return re.search(rf"\b{re.escape(keyword)}\b", text) is not None
 
 
+def classify_story(title: str, summary: str, bucket: str) -> str:
+    haystack = f"{title} {summary}".lower()
+    if any(keyword_matches(haystack, term) for term in EDITORIAL_CLASS_RULES["commercial"]):
+        return "commercial"
+    if any(keyword_matches(haystack, term) for term in EDITORIAL_CLASS_RULES["culture_lite"]):
+        return "culture_lite"
+    if any(keyword_matches(haystack, term) for term in EDITORIAL_CLASS_RULES["civic_safety"]):
+        return "civic_safety"
+    if any(keyword_matches(haystack, term) for term in EDITORIAL_CLASS_RULES["high_impact"]):
+        return "high_impact"
+    if bucket == "local":
+        return "local_community"
+    return "general"
+
+
 def canonical_link(link: str) -> str:
     try:
         parsed = urllib.parse.urlsplit(link)
@@ -316,8 +420,9 @@ def score_item(
     published: datetime,
 ) -> tuple[int, str]:
     haystack = f"{title} {summary}".lower()
+    editorial_class = classify_story(title, summary, bucket)
     score = quality * 2
-    reasons: list[str] = [f"source {quality}/5"]
+    reasons: list[str] = [f"source {quality}/5", editorial_class]
 
     age_hours = max(0.0, (now - published).total_seconds() / 3600)
     if age_hours <= 12:
@@ -342,6 +447,19 @@ def score_item(
     if any(term in haystack for term in impact_terms):
         score += 3
         reasons.append("impact")
+
+    class_adjustments = {
+        "high_impact": 5,
+        "civic_safety": 4,
+        "general": 0,
+        "local_community": -2,
+        "culture_lite": -7,
+        "commercial": -12,
+    }
+    adjustment = class_adjustments.get(editorial_class, 0)
+    score += adjustment
+    if adjustment:
+        reasons.append(f"class {adjustment:+d}")
 
     return score, "; ".join(reasons)
 
@@ -415,6 +533,7 @@ def collect_rss(source: dict[str, Any], settings: dict[str, Any], now: datetime,
             continue
         image_url = image_from_rss_item(item, summary)
         score, reason = score_item(title, summary, source["bucket"], int(source["quality"]), settings, now, published)
+        editorial_class = classify_story(title, summary, source["bucket"])
         stories.append(
             Story(
                 title=title,
@@ -427,6 +546,7 @@ def collect_rss(source: dict[str, Any], settings: dict[str, Any], now: datetime,
                 quality=int(source["quality"]),
                 score=score,
                 reason=reason,
+                editorial_class=editorial_class,
             )
         )
     return stories
@@ -469,6 +589,7 @@ def collect_daijiworld(source: dict[str, Any], settings: dict[str, Any], now: da
             except Exception:
                 image_url = ""
         score, reason = score_item(title, "", source["bucket"], int(source["quality"]), settings, now, published)
+        editorial_class = classify_story(title, "", source["bucket"])
         stories.append(
             Story(
                 title=title,
@@ -481,6 +602,7 @@ def collect_daijiworld(source: dict[str, Any], settings: dict[str, Any], now: da
                 quality=int(source["quality"]),
                 score=score,
                 reason=reason,
+                editorial_class=editorial_class,
             )
         )
     return stories
@@ -522,6 +644,7 @@ def collect_gdelt(source: dict[str, Any], settings: dict[str, Any], now: datetim
         domain = article.get("domain") or urllib.parse.urlsplit(link).netloc
         source_name = f"{source['name']} / {domain}"
         score, reason = score_item(title, summary, source["bucket"], int(source["quality"]), settings, now, published)
+        editorial_class = classify_story(title, summary, source["bucket"])
         stories.append(
             Story(
                 title=title,
@@ -534,6 +657,7 @@ def collect_gdelt(source: dict[str, Any], settings: dict[str, Any], now: datetim
                 quality=int(source["quality"]),
                 score=score,
                 reason=reason,
+                editorial_class=editorial_class,
             )
         )
     return stories
@@ -588,16 +712,52 @@ def select_sections(stories: list[Story], settings: dict[str, Any]) -> dict[str,
     max_items = settings["max_items"]
     sections: dict[str, list[Story]] = {}
     for bucket in ("global", "india", "tech", "local"):
-        bucket_stories = [story for story in stories if story.bucket == bucket]
+        min_score = SECTION_MIN_SCORE[bucket]
+        bucket_stories = [
+            story
+            for story in stories
+            if story.bucket == bucket and story.score >= min_score
+        ]
+        if bucket == "local":
+            bucket_stories = sorted(
+                bucket_stories,
+                key=lambda story: (
+                    story.editorial_class in {"civic_safety", "high_impact"},
+                    story.editorial_class not in {"commercial", "culture_lite"},
+                    story.score,
+                    story.published,
+                ),
+                reverse=True,
+            )
         sections[bucket] = bucket_stories[: int(max_items[bucket])]
 
     seen_links = {canonical_link(story.link) for bucket in sections.values() for story in bucket}
-    top_pool = [story for story in stories if canonical_link(story.link) not in seen_links or story.score >= 20]
+    top_pool = [
+        story
+        for story in stories
+        if story.score >= 18
+        and story.editorial_class not in TOP_EXCLUDED_CLASSES
+        and (canonical_link(story.link) not in seen_links or story.score >= 22)
+    ]
+    top_pool = sorted(
+        top_pool,
+        key=lambda story: (
+            story.editorial_class in {"high_impact", "civic_safety"},
+            story.bucket != "local",
+            story.score,
+            story.published,
+        ),
+        reverse=True,
+    )
     sections["top"] = top_pool[: int(max_items["top"])]
 
     selected = {canonical_link(story.link) for bucket in sections.values() for story in bucket}
     sections["watchlist"] = [
-        story for story in stories if canonical_link(story.link) not in selected and story.score >= 12
+        story
+        for story in stories
+        if canonical_link(story.link) not in selected
+        and story.score >= 16
+        and story.editorial_class not in WATCHLIST_EXCLUDED_CLASSES
     ][: int(max_items["watchlist"])]
     return sections
 
@@ -609,7 +769,7 @@ def story_line(story: Story, tz: ZoneInfo) -> str:
         f"**{headline(story.title)}**\n"
         f"{summary} "
         f"[Source: {story.source}]({story.link}) "
-        f"`{timestamp}; score {story.score}`"
+        f"`{timestamp}; score {story.score}; {story.editorial_class}`"
     )
 
 
@@ -805,7 +965,7 @@ def html_story_card(
           <div class="story-kicker">{rank_html}<span>{source}</span><span>{timestamp}</span></div>
           <h3>{title}</h3>
           <p>{summary}</p>
-          <div class="story-meta"><span>Score {story.score}</span><span>Open source</span></div>
+          <div class="story-meta"><span>Score {story.score} / {html.escape(story.editorial_class.replace('_', ' '))}</span><span>Open source</span></div>
         </a>
       </article>
     """
