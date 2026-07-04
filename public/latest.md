@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 13:04 IST
+Briefing generated: Saturday, 04 July 2026, 13:07 IST
 
 TODAY'S TOP 5
 1. Microsoft launches firm to help companies adopt AI with $2.5 billion
@@ -40,7 +40,7 @@ Murakami's first full-length novel featuring female protagonist releases in Toky
 INDIA
 
 **Telangana Govt approves recruitment for 6,424 Police dept posts**
-Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 12:56 IST; score 22`
+Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:01 IST; score 22`
 
 **Mapping cancer, testing capacity**
 Telangana government's decision to make cancer a notifiable disease promises to reveal its true burden in the State. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/mapping-cancer-testing-capacity/article71174493.ece) `04 Jul, 10:42 IST; score 22`
