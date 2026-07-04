@@ -1,6 +1,9 @@
 name: Daily News Brief
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     # 09:00 IST = 03:30 UTC.
     - cron: "30 3 * * *"
