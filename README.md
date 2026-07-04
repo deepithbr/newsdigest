@@ -35,3 +35,9 @@ After pushing this repository to GitHub:
 4. Run the `Daily News Brief` workflow manually once from the `Actions` tab.
 
 The stable reading URL will be the repository's GitHub Pages URL.
+
+If you create an empty GitHub repository, you can publish this folder with:
+
+```powershell
+.\publish_to_github.ps1 -RepoUrl "https://github.com/YOUR_USERNAME/news-brief.git"
+```
