@@ -1201,7 +1201,7 @@ def render_markdown(sections: dict[str, list[Story]], settings: dict[str, Any], 
             lines.append(story_line(story, generated_at.tzinfo or ZoneInfo(settings["timezone"])))
             lines.append("")
     else:
-        lines.append("No critical breaking-watch items crossed the threshold.")
+        lines.append("No critical breaking items crossed the threshold.")
         lines.append("")
     lines.append("---")
 
@@ -1340,7 +1340,7 @@ def section_deck(bucket: str) -> str:
         "india": "National decisions, institutions, infrastructure, economy, regulation, and court outcomes.",
         "tech": "AI, platforms, chips, cybersecurity, funding, product shifts, and technology regulation.",
         "local": "Mangalore, coastal Karnataka, Udupi, Kasaragod, and nearby civic or regional updates.",
-        "watchlist": "Lower-confidence or secondary items worth a quick scan, not a main briefing slot.",
+        "watchlist": "Secondary but credible signals worth a quick scan after the main brief.",
     }
     return decks.get(bucket, "")
 
@@ -1423,20 +1423,6 @@ def html_top_story(story: Story, tz: ZoneInfo, rank: int, lead: bool = False) ->
           <div class="story-meta"><span>{source}</span><span>{timestamp}</span></div>
         </a>
       </article>
-    """
-
-
-def html_breaking_item(story: Story, tz: ZoneInfo) -> str:
-    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
-    title = html.escape(headline(story.title, 12))
-    source = html.escape(story.source)
-    url = html.escape(story.link, quote=True)
-    return f"""
-      <a class="breaking-item" href="{url}">
-        <span>{html.escape(impact_tier(story))}</span>
-        <strong>{title}</strong>
-        <small>{source} / {timestamp}</small>
-      </a>
     """
 
 
@@ -1585,7 +1571,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
             cards = '<p class="empty">No strong, recent items found for this section.</p>'
         section_blocks.append(
             f"""
-            <section id="{bucket}" class="news-section">
+            <section id="{bucket}" class="news-section section-{bucket}">
               <div class="section-head">
                 <div>
                   <p class="eyebrow">{html.escape(labels[bucket])}</p>
@@ -1740,64 +1726,6 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       line-height: 1;
     }}
     .editorial-strip span {{
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }}
-    .breaking-watch {{
-      display: grid;
-      grid-template-columns: 180px minmax(0, 1fr);
-      margin: 16px 0 28px;
-      border: 1px solid var(--accent);
-      background: #fff8f4;
-    }}
-    .breaking-label {{
-      padding: 14px 16px;
-      border-right: 1px solid rgba(155, 21, 63, 0.28);
-      color: var(--accent);
-      display: grid;
-      align-content: space-between;
-      min-height: 104px;
-    }}
-    .breaking-label span {{
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }}
-    .breaking-label strong {{
-      font-family: Newsreader, Georgia, "Times New Roman", serif;
-      font-size: 36px;
-      line-height: 1;
-    }}
-    .breaking-list {{
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }}
-    .breaking-item {{
-      display: grid;
-      gap: 7px;
-      padding: 14px 16px;
-      border-right: 1px solid rgba(155, 21, 63, 0.18);
-      border-bottom: 1px solid rgba(155, 21, 63, 0.18);
-    }}
-    .breaking-item:hover {{
-      background: #ffffff;
-    }}
-    .breaking-item span {{
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }}
-    .breaking-item strong {{
-      font-family: Newsreader, Georgia, "Times New Roman", serif;
-      font-size: 21px;
-      line-height: 1.04;
-    }}
-    .breaking-item small {{
       color: var(--muted);
       font-size: 11px;
       text-transform: uppercase;
@@ -2199,15 +2127,6 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       padding: 0 0 16px;
       border-bottom: 1px solid var(--faint);
     }}
-    .masthead::before {{
-      content: "MENU  Search";
-      justify-self: start;
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }}
     .masthead > div:first-child {{
       grid-column: 2;
       text-align: center;
@@ -2546,6 +2465,131 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       font-weight: 800;
       line-height: 1.02;
     }}
+    .masthead::before {{
+      content: none;
+    }}
+    .issue-box {{
+      border-left: 1px solid var(--faint);
+      color: var(--ink);
+    }}
+    .issue-box strong {{
+      color: var(--ink);
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+    }}
+    .issue-box span {{
+      margin-top: 6px;
+      padding: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }}
+    .news-section {{
+      margin-top: 34px;
+      padding: 22px;
+      border: 1px solid var(--faint);
+      border-top: 3px solid var(--ink);
+      background: #fff;
+    }}
+    .news-section + .news-section {{
+      margin-top: 24px;
+    }}
+    .news-section .section-head {{
+      grid-template-columns: minmax(240px, 0.42fr) minmax(0, 0.58fr);
+      align-items: end;
+      padding-bottom: 15px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--faint);
+    }}
+    .news-section .section-head h2 {{
+      font-size: clamp(32px, 3.6vw, 48px);
+      line-height: 0.95;
+    }}
+    .news-section .section-head > p {{
+      max-width: 640px;
+      justify-self: end;
+      color: #4b514d;
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: right;
+    }}
+    .news-section .eyebrow {{
+      display: inline-block;
+      margin-bottom: 9px !important;
+      padding: 6px 8px;
+      background: #e22c2f;
+      color: #fff;
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.06em;
+    }}
+    .news-section .story-grid {{
+      gap: 16px;
+    }}
+    .news-section .story {{
+      border-color: var(--faint);
+      background: #fff;
+      box-shadow: none;
+    }}
+    .news-section .story:hover {{
+      border-color: #e22c2f;
+      box-shadow: 0 12px 30px rgba(18, 20, 17, 0.07);
+      transform: translateY(-1px);
+    }}
+    .news-section .story h3 {{
+      font-size: 23px;
+    }}
+    .news-section .story-media {{
+      border-bottom-color: var(--faint);
+      background:
+        linear-gradient(135deg, rgba(226, 44, 47, 0.22), transparent 42%),
+        linear-gradient(315deg, rgba(18, 20, 17, 0.24), transparent 48%),
+        #242521;
+    }}
+    .news-section .rubric span {{
+      border-color: rgba(226, 44, 47, 0.28);
+      background: rgba(226, 44, 47, 0.065);
+      color: #e22c2f;
+    }}
+    .section-local {{
+      border-top-color: #e22c2f;
+    }}
+    .watchlist {{
+      color: var(--ink);
+    }}
+    .watchlist .section-head {{
+      border-bottom-color: var(--faint);
+    }}
+    .watchlist .section-head p,
+    .watchlist .story-kicker,
+    .watchlist .story-meta {{
+      color: var(--muted);
+    }}
+    .watchlist .story {{
+      background: #fff;
+      border-color: var(--faint);
+      box-shadow: none;
+    }}
+    .watchlist .story-media {{
+      border-color: var(--faint);
+    }}
+    .watchlist .story p {{
+      color: #313836;
+    }}
+    .watchlist .rubric span {{
+      border-color: rgba(226, 44, 47, 0.28);
+      background: rgba(226, 44, 47, 0.065);
+      color: #e22c2f;
+    }}
+    .watchlist .story-meta {{
+      border-color: var(--faint);
+    }}
     @media (max-width: 820px) {{
       .page {{ padding: 20px 14px 44px; }}
       .page {{
@@ -2653,6 +2697,21 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         margin-top: 12px;
         text-align: left;
       }}
+      .news-section {{
+        padding: 16px;
+        margin-top: 26px;
+      }}
+      .news-section .section-head {{
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }}
+      .news-section .section-head > p {{
+        justify-self: start;
+        text-align: left;
+      }}
+      .news-section .story-grid {{
+        grid-template-columns: 1fr;
+      }}
       .front-head {{
         display: block;
       }}
@@ -2686,19 +2745,11 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .editorial-strip div:nth-child(2n) {{
         border-right: 0;
       }}
-      .breaking-watch {{
-        grid-template-columns: 1fr;
-      }}
-      .breaking-label {{
-        min-height: auto;
-        border-right: 0;
-        border-bottom: 1px solid rgba(155, 21, 63, 0.28);
-      }}
-      .breaking-list {{
-        grid-template-columns: 1fr;
-      }}
       .brand {{ font-size: 44px; }}
-      .issue-box {{ text-align: left; }}
+      .issue-box {{
+        border-left: 0;
+        text-align: center;
+      }}
       .lead h3 {{ font-size: 28px; }}
       .story h3 {{ font-size: 21px; }}
       .compact .story-link {{
@@ -2720,14 +2771,14 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       </div>
       <div class="issue-box">
         <strong>{total_count}</strong>
-        <span>selected items</span>
+        <span>editor selected</span>
       </div>
     </header>
     <nav class="nav" aria-label="Brief sections">
       <a href="#global">Global</a>
       <a href="#india">India</a>
       <a href="#tech">Tech / AI</a>
-      <a href="#local">Coastal</a>
+      <a href="#local">Mangalore / Coast</a>
       <a href="#breaking">Breaking</a>
       <a href="#watchlist">Watchlist</a>
     </nav>
@@ -2758,7 +2809,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     </section>
     {breaking_html}
     {''.join(section_blocks)}
-    <section id="watchlist" class="watchlist">
+    <section id="watchlist" class="news-section watchlist">
       <div class="section-head">
         <div>
           <p class="eyebrow">WATCHLIST</p>
