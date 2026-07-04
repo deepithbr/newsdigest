@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 14:46 IST
+Briefing generated: Saturday, 04 July 2026, 14:59 IST
 
 TODAY'S TOP 5
 1. India investigating Tata data leak that exposed Apple iPhone secrets
@@ -86,14 +86,14 @@ Microsoft Frontier Company, as the new operating entity is called, will kick off
 **Google loses fight against record EUR4.1 billion EU antitrust fine**
 The European Commission had originally handed out a EUR4.34 billion fine to Google in 2018 for its agreements which forced phone manufacturers to pre-install Google offerings. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/google-loses-fight-against-record-41-billion-eu-antitrust-fine/article71181704.ece) `04 Jul, 12:59 IST; score 37; high_impact`
 
+**Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers**
+Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers Business Today. [Source: Business Today](https://news.google.com/rss/articles/CBMi4wFBVV95cUxPaXJNNERzdHdBR1hFeWVqd1R1Y1NHaXpfVm9OZzFHNkNLTktyZVE0MDlwdU9Kd3hvQWhBSzNKTU8wb1paNWRGa19LYWpINlNtbHk4RXJIRi0wLWRoR3BENU5yd0dPTlp5am9oN1d1TjJvNWMtdlZKTzd1bl9LUGpBcVBPVTF3NWxiQm52eFVoNlRNQU5jQ05sejE4ZWJWX1VrX1d0Nno4blpoWmVlWm5WaUZhQmtEMkliRG5rcEFnYTdKOXpuLVFoZ2ZRZm5IQVVyNFNDc2IxR3JJVVVGZ3Y5SE11MNIB6AFBVV95cUxOX0I5bnMxczYzWWRmdDlBWlBnTnFzRFlQaFE5U19HaHQyOHk0RVFDSDRJTEhseEZfYkc5c2dla3ZCbWpZZHJnd1JaTlRXWFYwSUlkd2JuOHI4MUxYWUduZXl6akJqTjRMdGNBNXVuRk1pdFU5T2pITTk2SnFkUUFvem9IRXh2ZVJvRVdDOU12LWJfd1N3ekxpcHppR3I5U09aLWIxaHBUZ09RLWhPZ0FsSGhlcWNMZ1ZtQzdBQWdOcFVjaE03UU9OaTZaeDRJYzZzYVdZbnFSM0JCakVPN2I5RnJwZUxzVlk1?oc=5) `03 Jul, 11:32 IST; score 34; high_impact`
+
 **OpenAI may cut AI subscription prices as Anthropic rivalry intensifies: Report**
 Open the source for the full update. [Source: Indian Express Technology](https://indianexpress.com/article/technology/tech-news-technology/openai-may-cut-ai-subscription-prices-as-anthropic-rivalry-intensifies-report-10771134/) `04 Jul, 13:37 IST; score 32; general`
 
 **Battery apps taken down in India after stalled e-rickshaw rides**
 Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-takes-down-battery-apps-after-stalled-e-rickshaw-rides/article71181698.ece) `04 Jul, 12:18 IST; score 29; general`
-
-**OpenAI discusses giving U.S. government 5% stake: Report**
-Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece) `03 Jul, 13:54 IST; score 28; high_impact`
 
 ---
 

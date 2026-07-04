@@ -35,6 +35,7 @@
       font: 15px/1.55 Inter, "Segoe UI", system-ui, sans-serif;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
     a:focus-visible {
@@ -587,10 +588,466 @@
       color: var(--muted);
       background: var(--surface);
     }
+    .masthead {
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--faint);
+    }
+    .masthead::before {
+      content: "MENU  Search";
+      justify-self: start;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .masthead > div:first-child {
+      grid-column: 2;
+      text-align: center;
+    }
+    .brand {
+      color: #e22c2f;
+      font-size: clamp(60px, 8.4vw, 112px);
+      font-style: italic;
+      line-height: 0.76;
+      margin: 0;
+    }
+    .dateline {
+      max-width: none;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .issue-box {
+      justify-self: end;
+      min-width: 132px;
+      padding: 10px 12px;
+      border: 0;
+      background: transparent;
+      text-align: right;
+    }
+    .issue-box strong {
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .issue-box span {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: #e22c2f;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .nav {
+      justify-content: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--faint);
+    }
+    .nav a {
+      border: 0;
+      background: transparent;
+      padding: 6px 12px;
+      color: #191b18;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .nav a:hover {
+      background: transparent;
+      color: #e22c2f;
+    }
+    .editorial-strip {
+      margin-top: 14px;
+      border-color: var(--faint);
+      border-top: 1px solid var(--faint);
+      background: #fff;
+    }
+    .front-page {
+      margin: 26px 0 22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+    .magazine-layout {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.74fr) minmax(360px, 1.55fr) minmax(220px, 0.9fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .rail-head {
+      margin-bottom: 14px;
+    }
+    .rail-head h2 {
+      margin: 0;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+    .rail-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+    .rail-item {
+      display: block;
+      padding: 11px 0 12px;
+      border-bottom: 1px solid var(--faint);
+    }
+    .rail-item span,
+    .popular-item span,
+    .breaking-copy span {
+      display: inline-block;
+      color: #e22c2f;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .rail-item strong {
+      display: block;
+      margin-top: 6px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+    .rail-item small,
+    .popular-item small,
+    .breaking-copy small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .hero-story {
+      min-width: 0;
+      background: #111;
+    }
+    .hero-story a {
+      position: relative;
+      display: block;
+      min-height: 540px;
+      overflow: hidden;
+      color: #fff;
+    }
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(226, 44, 47, 0.42), transparent 38%),
+        linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.88)),
+        #252525;
+    }
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+    .hero-media span {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.24);
+      font-family: Newsreader, Georgia, serif;
+      font-size: 76px;
+      font-weight: 800;
+      z-index: 0;
+    }
+    .hero-copy {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 28px 28px 30px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.68) 18%, rgba(0,0,0,0.92));
+    }
+    .hero-kicker {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .hero-kicker span {
+      background: #e22c2f;
+      padding: 5px 7px;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .hero-kicker small {
+      color: rgba(255,255,255,0.74);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    .hero-copy h2 {
+      max-width: 720px;
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      font-size: clamp(34px, 4.8vw, 58px);
+      font-weight: 900;
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+    .hero-copy p {
+      max-width: 610px;
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      line-height: 1.42;
+    }
+    .popular-rail {
+      background: #fff;
+      padding: 18px 18px 8px;
+      box-shadow: 0 10px 30px rgba(15, 15, 15, 0.08);
+    }
+    .compact-head h2 {
+      font-size: 36px;
+    }
+    .popular-item {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--faint);
+    }
+    .popular-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #1f2522;
+    }
+    .popular-thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .popular-thumb span {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.72);
+      font-size: 10px;
+      font-weight: 900;
+      z-index: 0;
+    }
+    .popular-item strong {
+      display: block;
+      margin-top: 5px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.03;
+    }
+    .breaking-gallery {
+      margin: 28px 0 30px;
+      padding: 22px;
+      border-top: 1px solid var(--faint);
+      border-bottom: 1px solid var(--faint);
+      background: #fff;
+    }
+    .module-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .module-head span {
+      display: inline-block;
+      background: #e22c2f;
+      color: #fff;
+      padding: 8px 12px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-style: italic;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .module-head strong {
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      line-height: 1.1;
+      text-align: right;
+    }
+    .breaking-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .breaking-card {
+      background: #111;
+      min-width: 0;
+    }
+    .breaking-card a {
+      display: grid;
+      min-height: 100%;
+      color: #fff;
+    }
+    .breaking-media {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #202523;
+    }
+    .breaking-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+    .breaking-media span {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.64);
+      font-weight: 900;
+      z-index: 0;
+    }
+    .breaking-copy {
+      padding: 12px 12px 14px;
+    }
+    .breaking-copy span {
+      background: #e22c2f;
+      color: #fff;
+      padding: 4px 6px;
+    }
+    .breaking-copy strong {
+      display: block;
+      margin-top: 8px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.02;
+    }
     @media (max-width: 820px) {
       .page { padding: 20px 14px 44px; }
+      .page {
+        width: 100%;
+        max-width: 100vw;
+        overflow: hidden;
+      }
+      body {
+        overflow-x: hidden;
+      }
       .masthead, .section-head, .story-grid {
         grid-template-columns: 1fr;
+      }
+      .masthead {
+        text-align: center;
+      }
+      .masthead::before {
+        justify-self: center;
+      }
+      .masthead > div:first-child {
+        grid-column: auto;
+        min-width: 0;
+      }
+      .issue-box {
+        justify-self: center;
+        text-align: center;
+      }
+      .magazine-layout,
+      .breaking-grid {
+        grid-template-columns: 1fr;
+      }
+      .magazine-layout {
+        display: block;
+      }
+      .fresh-rail,
+      .popular-rail,
+      .hero-story {
+        width: calc(100vw - 28px);
+      }
+      .brand {
+        max-width: 100%;
+        font-size: 44px;
+        line-height: 0.82;
+        white-space: nowrap;
+      }
+      .dateline {
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .nav {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0;
+        justify-content: stretch;
+        overflow: hidden;
+      }
+      .nav a {
+        padding: 7px 7px;
+        font-size: 10px;
+        text-align: center;
+      }
+      .editorial-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .editorial-strip div {
+        min-width: 0;
+      }
+      .rail-head p,
+      .rail-item strong,
+      .popular-item strong,
+      .breaking-copy strong,
+      .hero-copy h2 {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .magazine-layout,
+      .fresh-rail,
+      .popular-rail,
+      .hero-story,
+      .rail-item,
+      .popular-item,
+      .breaking-card {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .rail-head p {
+        max-width: 100%;
+        font-size: 11px;
+      }
+      .hero-story a {
+        min-height: 500px;
+      }
+      .popular-rail {
+        padding: 16px;
+      }
+      .breaking-gallery {
+        padding: 16px;
+      }
+      .module-head {
+        display: block;
+      }
+      .module-head strong {
+        display: block;
+        margin-top: 12px;
+        text-align: left;
       }
       .front-head {
         display: block;
@@ -636,7 +1093,7 @@
       .breaking-list {
         grid-template-columns: 1fr;
       }
-      .brand { font-size: 64px; }
+      .brand { font-size: 44px; }
       .issue-box { text-align: left; }
       .lead h3 { font-size: 28px; }
       .story h3 { font-size: 21px; }
@@ -655,7 +1112,7 @@
     <header class="masthead">
       <div>
         <h1 class="brand">News Brief</h1>
-        <p class="dateline">Generated Saturday, 04 July 2026, 14:46 IST. A compact scan of global, India, technology, and coastal Karnataka signals.</p>
+        <p class="dateline">Generated Saturday, 04 July 2026, 14:59 IST. A compact scan of global, India, technology, and coastal Karnataka signals.</p>
       </div>
       <div class="issue-box">
         <strong>31</strong>
@@ -677,108 +1134,184 @@
       </div>
       <div><strong>8</strong><span>Global Signals</span></div><div><strong>6</strong><span>India</span></div><div><strong>6</strong><span>Tech / Ai</span></div><div><strong>5</strong><span>Mangalore / Coastal Karnataka</span></div>
     </section>
-    
-        <section id="breaking" class="breaking-watch" aria-label="Breaking watch">
-          <div class="breaking-label">
-            <span>Breaking Watch</span>
-            <strong>4</strong>
+    <section class="front-page" aria-label="Top stories">
+      <div class="magazine-layout">
+        <aside class="fresh-rail" aria-label="Fresh signals">
+          <div class="rail-head">
+            <h2>Fresh Signals</h2>
+            <p>Editor-picked updates worth knowing before the day moves.</p>
           </div>
-          <div class="breaking-list">
-      <a class="breaking-item" href="https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece">
-        <span>High impact</span>
-        <strong>Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6</strong>
+          
+      <a class="rail-item" href="https://www.thehindu.com/sci-tech/technology/microsoft-launches-firm-to-help-companies-adopt-ai-with-25-billion/article71177209.ece">
+        <span>TECH</span>
+        <strong>Microsoft launches firm to help companies adopt AI with $2.5 billion</strong>
+        <small>The Hindu Technology / 03 Jul, 11:48 IST</small>
+      </a>
+    
+
+      <a class="rail-item" href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPbjNJZ3NrclhEc3BSdkphOERlRHItUjVueE90cC1sR1l3YlFVUXFpaFlKb1pmR2ZzdkZHbEZFX3Vma0NpU2EtdlVMU1gyeFJYYjVkb2JvWVFoUnlSSllhZTg2Wmk4Um44OFV5ckwtbVJFRTI4Z3FLOXp2dlVaTDBxVFRaTzBmMUZza09lVUlZSzg5d2EwOUtLQkg2VFFHdHpINE9NSVByWnAzSGU3UHFaNnJKSQ?oc=5">
+        <span>INDIA</span>
+        <strong>RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking...</strong>
+        <small>News On AIR / 04 Jul, 06:47 IST</small>
+      </a>
+    
+
+      <a class="rail-item" href="https://www.thehindu.com/news/international/russia-ukraine-exchange-deadly-strikes-after-massive-kyiv-attack/article71179819.ece">
+        <span>GLOBAL</span>
+        <strong>Russia, Ukraine exchange deadly strikes after massive Kyiv attack</strong>
+        <small>The Hindu World / 03 Jul, 21:34 IST</small>
+      </a>
+    
+
+      <a class="rail-item" href="https://www.bbc.co.uk/news/articles/cj0gp88q4l4o?at_medium=RSS&amp;at_campaign=rss">
+        <span>GLOBAL</span>
+        <strong>Polish PM warns critical months ahead in face of Russian threat</strong>
+        <small>BBC World / 03 Jul, 22:11 IST</small>
+      </a>
+    
+
+      <a class="rail-item" href="https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece">
+        <span>INDIA</span>
+        <strong>Heavy rain continues in Mumbai, Thane; red alert remains for July...</strong>
         <small>The Hindu India / 04 Jul, 11:49 IST</small>
       </a>
     
 
-      <a class="breaking-item" href="https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece">
-        <span>High impact</span>
-        <strong>India investigating Tata data leak that exposed Apple iPhone secrets</strong>
-        <small>The Hindu Technology / 04 Jul, 10:29 IST</small>
+      <a class="rail-item" href="https://timesofindia.indiatimes.com/india/pm-modi-launches-indias-first-greenfield-refinery-unveils-rs-1-06-lakh-crore-projects-in-rajasthan/articleshow/132177851.cms">
+        <span>INDIA</span>
+        <strong>PM Modi unveils India&#x27;s 1st greenfield refinery, Rs 1.06L cr projects...</strong>
+        <small>Times of India Top Stories / 04 Jul, 14:21 IST</small>
+      </a>
+    
+        </aside>
+        
+      <article class="hero-story">
+        <a href="https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece">
+          <div class="hero-media">
+            <span>TECH</span>
+            <img src="https://th-i.thgim.com/public/incoming/2eahkb/article71181703.ece/alternates/LANDSCAPE_1200/2026-07-03T091910Z_1338878682_RC2J3MAT0C06_RTRMADP_3_TATA-ELECTRONICS-CYBERATTACK-APPLE.JPG" alt="" loading="eager" onerror="this.remove(); this.parentElement.classList.add('fallback');">
+          </div>
+          <div class="hero-copy">
+            <div class="hero-kicker"><span>TECH</span><small>The Hindu Technology / 04 Jul, 10:29 IST</small></div>
+            <h2>India investigating Tata data leak that exposed Apple iPhone secrets</h2>
+            <p>Tata has hired a global consultant to conduct a forensic audit after the leak also saw Tesla, Qualcomm and TSMC documents posted on the dark web.</p>
+          </div>
+        </a>
+      </article>
+    
+        <aside class="popular-rail" aria-label="Popular">
+          <div class="rail-head compact-head">
+            <h2>Popular</h2>
+          </div>
+          
+      <a class="popular-item" href="https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece">
+        <div class="popular-thumb"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/mx6wlz/article71181792.ece/alternates/LANDSCAPE_1200/PTI07_03_2026_000201A.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+        <div>
+          <span>INDIA</span>
+          <strong>Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6</strong>
+          <small>The Hindu India / 04 Jul, 11:49 IST</small>
+        </div>
       </a>
     
 
-      <a class="breaking-item" href="https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms">
-        <span>High impact</span>
-        <strong>Mumbai schools, colleges closed today as IMD issues red alert for heavy...</strong>
-        <small>Times of India Top Stories / 04 Jul, 13:44 IST</small>
+      <a class="popular-item" href="https://www.thehindu.com/sci-tech/technology/microsoft-launches-firm-to-help-companies-adopt-ai-with-25-billion/article71177209.ece">
+        <div class="popular-thumb"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/pgkmmx/article71177215.ece/alternates/LANDSCAPE_1200/2026-07-02T130029Z_1837521868_RC2P56AW0P5D_RTRMADP_3_MICROSOFT-AI.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+        <div>
+          <span>TECH</span>
+          <strong>Microsoft launches firm to help companies adopt AI with $2.5 billion</strong>
+          <small>The Hindu Technology / 03 Jul, 11:48 IST</small>
+        </div>
       </a>
     
 
-      <a class="breaking-item" href="https://www.thehindu.com/news/national/west-bengal/west-bengal-imd-issues-red-alert-for-heavy-rains-as-low-pressure-develops-over-bay-of-bengal/article71182234.ece">
-        <span>High impact</span>
-        <strong>West Bengal: IMD issues red alert for heavy rains as low pressure...</strong>
-        <small>The Hindu India / 04 Jul, 14:26 IST</small>
+      <a class="popular-item" href="https://timesofindia.indiatimes.com/india/pm-modi-launches-indias-first-greenfield-refinery-unveils-rs-1-06-lakh-crore-projects-in-rajasthan/articleshow/132177851.cms">
+        <div class="popular-thumb"><span>INDIA</span><img src="https://static.toiimg.com/photo/msid-132178049,imgsize-681551.cms" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+        <div>
+          <span>INDIA</span>
+          <strong>PM Modi unveils India&#x27;s 1st greenfield refinery, Rs 1.06L cr projects in...</strong>
+          <small>Times of India Top Stories / 04 Jul, 14:21 IST</small>
+        </div>
       </a>
+    
+
+      <a class="popular-item" href="https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms">
+        <div class="popular-thumb"><span>INDIA</span><img src="https://static.toiimg.com/photo/msid-132177570,imgsize-319700.cms" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+        <div>
+          <span>INDIA</span>
+          <strong>Mumbai schools, colleges closed today as IMD issues red alert for heavy...</strong>
+          <small>Times of India Top Stories / 04 Jul, 13:44 IST</small>
+        </div>
+      </a>
+    
+
+      <a class="popular-item" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63080">
+        <div class="popular-thumb fallback"><span>INDIA</span></div>
+        <div>
+          <span>INDIA</span>
+          <strong>Directions under Section 35A read with Section 56 of the Banking Regulation...</strong>
+          <small>RBI Press Releases / 03 Jul, 16:00 IST</small>
+        </div>
+      </a>
+    
+        </aside>
+      </div>
+    </section>
+    
+        <section id="breaking" class="breaking-gallery" aria-label="Breaking watch">
+          <div class="module-head social-head">
+            <span>Breaking</span>
+            <strong>Critical signals since the morning edition</strong>
+          </div>
+          <div class="breaking-grid">
+      <article class="breaking-card">
+        <a href="https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece">
+          <div class="breaking-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/mx6wlz/article71181792.ece/alternates/LANDSCAPE_1200/PTI07_03_2026_000201A.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="breaking-copy">
+            <span>High impact</span>
+            <strong>Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6</strong>
+            <small>The Hindu India / 04 Jul, 11:49 IST</small>
+          </div>
+        </a>
+      </article>
+    
+
+      <article class="breaking-card">
+        <a href="https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece">
+          <div class="breaking-media"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/2eahkb/article71181703.ece/alternates/LANDSCAPE_1200/2026-07-03T091910Z_1338878682_RC2J3MAT0C06_RTRMADP_3_TATA-ELECTRONICS-CYBERATTACK-APPLE.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="breaking-copy">
+            <span>High impact</span>
+            <strong>India investigating Tata data leak that exposed Apple iPhone secrets</strong>
+            <small>The Hindu Technology / 04 Jul, 10:29 IST</small>
+          </div>
+        </a>
+      </article>
+    
+
+      <article class="breaking-card">
+        <a href="https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms">
+          <div class="breaking-media"><span>INDIA</span><img src="https://static.toiimg.com/photo/msid-132177570,imgsize-319700.cms" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="breaking-copy">
+            <span>High impact</span>
+            <strong>Mumbai schools, colleges closed today as IMD issues red alert for heavy...</strong>
+            <small>Times of India Top Stories / 04 Jul, 13:44 IST</small>
+          </div>
+        </a>
+      </article>
+    
+
+      <article class="breaking-card">
+        <a href="https://www.thehindu.com/news/national/west-bengal/west-bengal-imd-issues-red-alert-for-heavy-rains-as-low-pressure-develops-over-bay-of-bengal/article71182234.ece">
+          <div class="breaking-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/romjgh/article71182245.ece/alternates/LANDSCAPE_1200/20260702128L.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="breaking-copy">
+            <span>High impact</span>
+            <strong>West Bengal: IMD issues red alert for heavy rains as low pressure...</strong>
+            <small>The Hindu India / 04 Jul, 14:26 IST</small>
+          </div>
+        </a>
+      </article>
     </div>
         </section>
         
-    <section class="front-page" aria-label="Top stories">
-      <div class="front-head">
-        <p class="eyebrow">TODAY'S TOP 5</p>
-        <h2>What Changes The Day</h2>
-      </div>
-      <div class="top-grid">
-      <article class="top-item lead-top">
-        <a href="https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece">
-          <div class="top-media"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/2eahkb/article71181703.ece/alternates/LANDSCAPE_1200/2026-07-03T091910Z_1338878682_RC2J3MAT0C06_RTRMADP_3_TATA-ELECTRONICS-CYBERATTACK-APPLE.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="top-rule"><span>01</span><span>High impact</span></div>
-          <h3>India investigating Tata data leak that exposed Apple iPhone secrets</h3>
-          <p>Tata has hired a global consultant to conduct a forensic audit after the leak also saw Tesla, Qualcomm and TSMC documents posted on the dark web.</p>
-          <div class="rubric"><span>Impact</span><span>Novelty</span><span>Consequence</span><span>Local Relevance</span></div>
-          <div class="story-meta"><span>The Hindu Technology</span><span>04 Jul, 10:29 IST</span></div>
-        </a>
-      </article>
-    
-
-      <article class="top-item">
-        <a href="https://www.thehindu.com/sci-tech/technology/microsoft-launches-firm-to-help-companies-adopt-ai-with-25-billion/article71177209.ece">
-          <div class="top-media"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/pgkmmx/article71177215.ece/alternates/LANDSCAPE_1200/2026-07-02T130029Z_1837521868_RC2P56AW0P5D_RTRMADP_3_MICROSOFT-AI.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="top-rule"><span>02</span><span>High impact</span></div>
-          <h3>Microsoft launches firm to help companies adopt AI with $2.5 billion</h3>
-          <p>Microsoft Frontier Company, as the new operating entity is called, will kick off with $2.5 billion in funding.</p>
-          <div class="rubric"><span>Impact</span><span>Novelty</span><span>Professional Signal</span></div>
-          <div class="story-meta"><span>The Hindu Technology</span><span>03 Jul, 11:48 IST</span></div>
-        </a>
-      </article>
-    
-
-      <article class="top-item">
-        <a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPbjNJZ3NrclhEc3BSdkphOERlRHItUjVueE90cC1sR1l3YlFVUXFpaFlKb1pmR2ZzdkZHbEZFX3Vma0NpU2EtdlVMU1gyeFJYYjVkb2JvWVFoUnlSSllhZTg2Wmk4Um44OFV5ckwtbVJFRTI4Z3FLOXp2dlVaTDBxVFRaTzBmMUZza09lVUlZSzg5d2EwOUtLQkg2VFFHdHpINE9NSVByWnAzSGU3UHFaNnJKSQ?oc=5">
-          <div class="top-media fallback"><span>INDIA</span></div>
-          <div class="top-rule"><span>03</span><span>High impact</span></div>
-          <h3>RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector</h3>
-          <p>RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector News On AIR.</p>
-          <div class="rubric"><span>Novelty</span><span>Source Authority</span><span>Fresh Change</span></div>
-          <div class="story-meta"><span>News On AIR</span><span>04 Jul, 06:47 IST</span></div>
-        </a>
-      </article>
-    
-
-      <article class="top-item">
-        <a href="https://www.thehindu.com/news/international/russia-ukraine-exchange-deadly-strikes-after-massive-kyiv-attack/article71179819.ece">
-          <div class="top-media"><span>GLOBAL</span><img src="https://th-i.thgim.com/public/incoming/d8sqhz/article71179905.ece/alternates/LANDSCAPE_1200/2026-07-03T152959Z_1608397122_RC2F6MA3MROQ_RTRMADP_3_UKRAINE-CRISIS.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="top-rule"><span>04</span><span>High impact</span></div>
-          <h3>Russia, Ukraine exchange deadly strikes after massive Kyiv attack</h3>
-          <p>Kyiv&#x27;s air force said on Friday that Russia launched two missiles and 105 drones at Ukraine overnight.</p>
-          <div class="rubric"><span>Impact</span><span>Novelty</span><span>Consequence</span></div>
-          <div class="story-meta"><span>The Hindu World</span><span>03 Jul, 21:34 IST</span></div>
-        </a>
-      </article>
-    
-
-      <article class="top-item">
-        <a href="https://www.bbc.co.uk/news/articles/cj0gp88q4l4o?at_medium=RSS&amp;at_campaign=rss">
-          <div class="top-media"><span>GLOBAL</span><img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/95a8/live/639effc0-76ec-11f1-b976-0b9c15b0ccfc.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="top-rule"><span>05</span><span>Material</span></div>
-          <h3>Polish PM warns critical months ahead in face of Russian threat</h3>
-          <p>Tusk says Poland is preparing for &quot;various&quot; scenarios after media reports of a planned Russian attack.</p>
-          <div class="rubric"><span>Impact</span></div>
-          <div class="story-meta"><span>BBC World</span><span>03 Jul, 22:11 IST</span></div>
-        </a>
-      </article>
-    </div>
-    </section>
     
             <section id="global" class="news-section">
               <div class="section-head">
@@ -1014,6 +1547,18 @@
     
 
       <article class="story high-impact">
+        <a class="story-link" href="https://news.google.com/rss/articles/CBMi4wFBVV95cUxPaXJNNERzdHdBR1hFeWVqd1R1Y1NHaXpfVm9OZzFHNkNLTktyZVE0MDlwdU9Kd3hvQWhBSzNKTU8wb1paNWRGa19LYWpINlNtbHk4RXJIRi0wLWRoR3BENU5yd0dPTlp5am9oN1d1TjJvNWMtdlZKTzd1bl9LUGpBcVBPVTF3NWxiQm52eFVoNlRNQU5jQ05sejE4ZWJWX1VrX1d0Nno4blpoWmVlWm5WaUZhQmtEMkliRG5rcEFnYTdKOXpuLVFoZ2ZRZm5IQVVyNFNDc2IxR3JJVVVGZ3Y5SE11MNIB6AFBVV95cUxOX0I5bnMxczYzWWRmdDlBWlBnTnFzRFlQaFE5U19HaHQyOHk0RVFDSDRJTEhseEZfYkc5c2dla3ZCbWpZZHJnd1JaTlRXWFYwSUlkd2JuOHI4MUxYWUduZXl6akJqTjRMdGNBNXVuRk1pdFU5T2pITTk2SnFkUUFvem9IRXh2ZVJvRVdDOU12LWJfd1N3ekxpcHppR3I5U09aLWIxaHBUZ09RLWhPZ0FsSGhlcWNMZ1ZtQzdBQWdOcFVjaE03UU9OaTZaeDRJYzZzYVdZbnFSM0JCakVPN2I5RnJwZUxzVlk1?oc=5">
+          <div class="story-media fallback"><span>TECH</span></div>
+          <div class="story-kicker"><span>Business Today</span><span>03 Jul, 11:32 IST</span></div>
+          <h3>Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers</h3>
+          <p>Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers Business Today.</p>
+          <div class="rubric"><span>Impact</span><span>Novelty</span><span>Professional Signal</span></div>
+          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
+        </a>
+      </article>
+    
+
+      <article class="story high-impact">
         <a class="story-link" href="https://indianexpress.com/article/technology/tech-news-technology/openai-may-cut-ai-subscription-prices-as-anthropic-rivalry-intensifies-report-10771134/">
           <div class="story-media"><span>TECH</span><img src="https://images.indianexpress.com/2026/04/open-AI.png" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
           <div class="story-kicker"><span>Indian Express Technology</span><span>04 Jul, 13:37 IST</span></div>
@@ -1032,18 +1577,6 @@
           <h3>Battery apps taken down in India after stalled e-rickshaw rides</h3>
           <p>Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral.</p>
           <div class="rubric"><span>Consequence</span><span>Local Relevance</span><span>Fresh Change</span></div>
-          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
-        </a>
-      </article>
-    
-
-      <article class="story high-impact">
-        <a class="story-link" href="https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece">
-          <div class="story-media"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/2qjwa5/article71177218.ece/alternates/LANDSCAPE_1200/2026-06-25T211434Z_1801004754_RC2URLAX8T4E_RTRMADP_3_USA-OPENAI.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="story-kicker"><span>The Hindu Technology</span><span>03 Jul, 13:54 IST</span></div>
-          <h3>OpenAI discusses giving U.S. government 5% stake: Report</h3>
-          <p>Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to address public.</p>
-          <div class="rubric"><span>Source Authority</span><span>Professional Signal</span></div>
           <div class="story-meta"><span>High impact</span><span>Open source</span></div>
         </a>
       </article>

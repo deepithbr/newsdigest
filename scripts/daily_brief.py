@@ -1440,6 +1440,101 @@ def html_breaking_item(story: Story, tz: ZoneInfo) -> str:
     """
 
 
+def html_rail_item(story: Story, tz: ZoneInfo, label: str | None = None) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 11))
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    kicker = html.escape(label or section_short_label(story.bucket))
+    return f"""
+      <a class="rail-item" href="{url}">
+        <span>{kicker}</span>
+        <strong>{title}</strong>
+        <small>{source} / {timestamp}</small>
+      </a>
+    """
+
+
+def html_hero_story(story: Story, tz: ZoneInfo) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 15))
+    summary = html.escape(sentence(story.summary, 28) or "Open the source for the full update.")
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    image_url = html.escape(story.image_url, quote=True)
+    fallback_label = html.escape(section_short_label(story.bucket))
+    image_html = (
+        f'<img src="{image_url}" alt="" loading="eager" onerror="this.remove(); this.parentElement.classList.add(\'fallback\');">'
+        if image_url
+        else ""
+    )
+    return f"""
+      <article class="hero-story">
+        <a href="{url}">
+          <div class="hero-media">
+            <span>{fallback_label}</span>
+            {image_html}
+          </div>
+          <div class="hero-copy">
+            <div class="hero-kicker"><span>{html.escape(section_short_label(story.bucket))}</span><small>{source} / {timestamp}</small></div>
+            <h2>{title}</h2>
+            <p>{summary}</p>
+          </div>
+        </a>
+      </article>
+    """
+
+
+def html_popular_item(story: Story, tz: ZoneInfo) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 12))
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    image_url = html.escape(story.image_url, quote=True)
+    fallback_label = html.escape(section_short_label(story.bucket))
+    image_html = (
+        f'<div class="popular-thumb"><span>{fallback_label}</span><img src="{image_url}" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add(\'fallback\');"></div>'
+        if image_url
+        else f'<div class="popular-thumb fallback"><span>{fallback_label}</span></div>'
+    )
+    return f"""
+      <a class="popular-item" href="{url}">
+        {image_html}
+        <div>
+          <span>{html.escape(section_short_label(story.bucket))}</span>
+          <strong>{title}</strong>
+          <small>{source} / {timestamp}</small>
+        </div>
+      </a>
+    """
+
+
+def html_breaking_card(story: Story, tz: ZoneInfo) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 12))
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    image_url = html.escape(story.image_url, quote=True)
+    fallback_label = html.escape(section_short_label(story.bucket))
+    image_html = (
+        f'<div class="breaking-media"><span>{fallback_label}</span><img src="{image_url}" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add(\'fallback\');"></div>'
+        if image_url
+        else f'<div class="breaking-media fallback"><span>{fallback_label}</span></div>'
+    )
+    return f"""
+      <article class="breaking-card">
+        <a href="{url}">
+          {image_html}
+          <div class="breaking-copy">
+            <span>{html.escape(impact_tier(story))}</span>
+            <strong>{title}</strong>
+            <small>{source} / {timestamp}</small>
+          </div>
+        </a>
+      </article>
+    """
+
+
 def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
     labels = settings["section_labels"]
@@ -1451,15 +1546,25 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         f'<div><strong>{len(sections[bucket])}</strong><span>{html.escape(labels[bucket].title())}</span></div>'
         for bucket in ("global", "india", "tech", "local")
     )
-    breaking_cards = "\n".join(html_breaking_item(story, tz) for story in sections.get("breaking", []))
+    lead_story = sections["top"][0] if sections["top"] else strongest
+    fresh_pool = [story for story in sections["top"][1:] + sections["india"] + sections["global"] if story is not lead_story]
+    popular_pool = [
+        story
+        for story in sorted(selected_without_top, key=lambda item: item.score, reverse=True)
+        if story is not lead_story
+    ]
+    fresh_rail = "\n".join(html_rail_item(story, tz) for story in fresh_pool[:6])
+    popular_rail = "\n".join(html_popular_item(story, tz) for story in popular_pool[:5])
+    hero_html = html_hero_story(lead_story, tz) if lead_story else '<p class="empty">No high-confidence lead story found.</p>'
+    breaking_cards = "\n".join(html_breaking_card(story, tz) for story in sections.get("breaking", []))
     breaking_html = (
         f"""
-        <section id="breaking" class="breaking-watch" aria-label="Breaking watch">
-          <div class="breaking-label">
-            <span>Breaking Watch</span>
-            <strong>{len(sections.get("breaking", []))}</strong>
+        <section id="breaking" class="breaking-gallery" aria-label="Breaking watch">
+          <div class="module-head social-head">
+            <span>Breaking</span>
+            <strong>Critical signals since the morning edition</strong>
           </div>
-          <div class="breaking-list">{breaking_cards}</div>
+          <div class="breaking-grid">{breaking_cards}</div>
         </section>
         """
         if breaking_cards
@@ -1534,6 +1639,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       font: 15px/1.55 Inter, "Segoe UI", system-ui, sans-serif;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }}
     a {{ color: inherit; text-decoration: none; }}
     a:focus-visible {{
@@ -2086,10 +2192,466 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       color: var(--muted);
       background: var(--surface);
     }}
+    .masthead {{
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--faint);
+    }}
+    .masthead::before {{
+      content: "MENU  Search";
+      justify-self: start;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }}
+    .masthead > div:first-child {{
+      grid-column: 2;
+      text-align: center;
+    }}
+    .brand {{
+      color: #e22c2f;
+      font-size: clamp(60px, 8.4vw, 112px);
+      font-style: italic;
+      line-height: 0.76;
+      margin: 0;
+    }}
+    .dateline {{
+      max-width: none;
+      margin-top: 10px;
+      font-size: 12px;
+    }}
+    .issue-box {{
+      justify-self: end;
+      min-width: 132px;
+      padding: 10px 12px;
+      border: 0;
+      background: transparent;
+      text-align: right;
+    }}
+    .issue-box strong {{
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .issue-box span {{
+      display: inline-block;
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: #e22c2f;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+    }}
+    .nav {{
+      justify-content: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--faint);
+    }}
+    .nav a {{
+      border: 0;
+      background: transparent;
+      padding: 6px 12px;
+      color: #191b18;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+    }}
+    .nav a:hover {{
+      background: transparent;
+      color: #e22c2f;
+    }}
+    .editorial-strip {{
+      margin-top: 14px;
+      border-color: var(--faint);
+      border-top: 1px solid var(--faint);
+      background: #fff;
+    }}
+    .front-page {{
+      margin: 26px 0 22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }}
+    .magazine-layout {{
+      display: grid;
+      grid-template-columns: minmax(190px, 0.74fr) minmax(360px, 1.55fr) minmax(220px, 0.9fr);
+      gap: 22px;
+      align-items: start;
+    }}
+    .rail-head {{
+      margin-bottom: 14px;
+    }}
+    .rail-head h2 {{
+      margin: 0;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: 0;
+    }}
+    .rail-head p {{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }}
+    .rail-item {{
+      display: block;
+      padding: 11px 0 12px;
+      border-bottom: 1px solid var(--faint);
+    }}
+    .rail-item span,
+    .popular-item span,
+    .breaking-copy span {{
+      display: inline-block;
+      color: #e22c2f;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
+    .rail-item strong {{
+      display: block;
+      margin-top: 6px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.05;
+    }}
+    .rail-item small,
+    .popular-item small,
+    .breaking-copy small {{
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }}
+    .hero-story {{
+      min-width: 0;
+      background: #111;
+    }}
+    .hero-story a {{
+      position: relative;
+      display: block;
+      min-height: 540px;
+      overflow: hidden;
+      color: #fff;
+    }}
+    .hero-media {{
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(226, 44, 47, 0.42), transparent 38%),
+        linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.88)),
+        #252525;
+    }}
+    .hero-media img {{
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.9;
+    }}
+    .hero-media span {{
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.24);
+      font-family: Newsreader, Georgia, serif;
+      font-size: 76px;
+      font-weight: 800;
+      z-index: 0;
+    }}
+    .hero-copy {{
+      position: absolute;
+      inset: auto 0 0;
+      padding: 28px 28px 30px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.68) 18%, rgba(0,0,0,0.92));
+    }}
+    .hero-kicker {{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+    }}
+    .hero-kicker span {{
+      background: #e22c2f;
+      padding: 5px 7px;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }}
+    .hero-kicker small {{
+      color: rgba(255,255,255,0.74);
+      font-size: 11px;
+      text-transform: uppercase;
+    }}
+    .hero-copy h2 {{
+      max-width: 720px;
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      font-size: clamp(34px, 4.8vw, 58px);
+      font-weight: 900;
+      line-height: 0.94;
+      letter-spacing: 0;
+    }}
+    .hero-copy p {{
+      max-width: 610px;
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      line-height: 1.42;
+    }}
+    .popular-rail {{
+      background: #fff;
+      padding: 18px 18px 8px;
+      box-shadow: 0 10px 30px rgba(15, 15, 15, 0.08);
+    }}
+    .compact-head h2 {{
+      font-size: 36px;
+    }}
+    .popular-item {{
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--faint);
+    }}
+    .popular-thumb {{
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #1f2522;
+    }}
+    .popular-thumb img {{
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }}
+    .popular-thumb span {{
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.72);
+      font-size: 10px;
+      font-weight: 900;
+      z-index: 0;
+    }}
+    .popular-item strong {{
+      display: block;
+      margin-top: 5px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.03;
+    }}
+    .breaking-gallery {{
+      margin: 28px 0 30px;
+      padding: 22px;
+      border-top: 1px solid var(--faint);
+      border-bottom: 1px solid var(--faint);
+      background: #fff;
+    }}
+    .module-head {{
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }}
+    .module-head span {{
+      display: inline-block;
+      background: #e22c2f;
+      color: #fff;
+      padding: 8px 12px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-style: italic;
+      font-weight: 800;
+      line-height: 1;
+    }}
+    .module-head strong {{
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      line-height: 1.1;
+      text-align: right;
+    }}
+    .breaking-grid {{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }}
+    .breaking-card {{
+      background: #111;
+      min-width: 0;
+    }}
+    .breaking-card a {{
+      display: grid;
+      min-height: 100%;
+      color: #fff;
+    }}
+    .breaking-media {{
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #202523;
+    }}
+    .breaking-media img {{
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.9;
+    }}
+    .breaking-media span {{
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.64);
+      font-weight: 900;
+      z-index: 0;
+    }}
+    .breaking-copy {{
+      padding: 12px 12px 14px;
+    }}
+    .breaking-copy span {{
+      background: #e22c2f;
+      color: #fff;
+      padding: 4px 6px;
+    }}
+    .breaking-copy strong {{
+      display: block;
+      margin-top: 8px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.02;
+    }}
     @media (max-width: 820px) {{
       .page {{ padding: 20px 14px 44px; }}
+      .page {{
+        width: 100%;
+        max-width: 100vw;
+        overflow: hidden;
+      }}
+      body {{
+        overflow-x: hidden;
+      }}
       .masthead, .section-head, .story-grid {{
         grid-template-columns: 1fr;
+      }}
+      .masthead {{
+        text-align: center;
+      }}
+      .masthead::before {{
+        justify-self: center;
+      }}
+      .masthead > div:first-child {{
+        grid-column: auto;
+        min-width: 0;
+      }}
+      .issue-box {{
+        justify-self: center;
+        text-align: center;
+      }}
+      .magazine-layout,
+      .breaking-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .magazine-layout {{
+        display: block;
+      }}
+      .fresh-rail,
+      .popular-rail,
+      .hero-story {{
+        width: calc(100vw - 28px);
+      }}
+      .brand {{
+        max-width: 100%;
+        font-size: 44px;
+        line-height: 0.82;
+        white-space: nowrap;
+      }}
+      .dateline {{
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+      }}
+      .nav {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0;
+        justify-content: stretch;
+        overflow: hidden;
+      }}
+      .nav a {{
+        padding: 7px 7px;
+        font-size: 10px;
+        text-align: center;
+      }}
+      .editorial-strip {{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }}
+      .editorial-strip div {{
+        min-width: 0;
+      }}
+      .rail-head p,
+      .rail-item strong,
+      .popular-item strong,
+      .breaking-copy strong,
+      .hero-copy h2 {{
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }}
+      .magazine-layout,
+      .fresh-rail,
+      .popular-rail,
+      .hero-story,
+      .rail-item,
+      .popular-item,
+      .breaking-card {{
+        min-width: 0;
+        max-width: 100%;
+      }}
+      .rail-head p {{
+        max-width: 100%;
+        font-size: 11px;
+      }}
+      .hero-story a {{
+        min-height: 500px;
+      }}
+      .popular-rail {{
+        padding: 16px;
+      }}
+      .breaking-gallery {{
+        padding: 16px;
+      }}
+      .module-head {{
+        display: block;
+      }}
+      .module-head strong {{
+        display: block;
+        margin-top: 12px;
+        text-align: left;
       }}
       .front-head {{
         display: block;
@@ -2135,7 +2697,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .breaking-list {{
         grid-template-columns: 1fr;
       }}
-      .brand {{ font-size: 64px; }}
+      .brand {{ font-size: 44px; }}
       .issue-box {{ text-align: left; }}
       .lead h3 {{ font-size: 28px; }}
       .story h3 {{ font-size: 21px; }}
@@ -2176,14 +2738,25 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       </div>
       {section_stats}
     </section>
-    {breaking_html}
     <section class="front-page" aria-label="Top stories">
-      <div class="front-head">
-        <p class="eyebrow">TODAY'S TOP 5</p>
-        <h2>What Changes The Day</h2>
+      <div class="magazine-layout">
+        <aside class="fresh-rail" aria-label="Fresh signals">
+          <div class="rail-head">
+            <h2>Fresh Signals</h2>
+            <p>Editor-picked updates worth knowing before the day moves.</p>
+          </div>
+          {fresh_rail or '<p class="empty">No additional fresh signals crossed the threshold.</p>'}
+        </aside>
+        {hero_html}
+        <aside class="popular-rail" aria-label="Popular">
+          <div class="rail-head compact-head">
+            <h2>Popular</h2>
+          </div>
+          {popular_rail or '<p class="empty">No popular items crossed the threshold.</p>'}
+        </aside>
       </div>
-      <div class="top-grid">{top_cards}</div>
     </section>
+    {breaking_html}
     {''.join(section_blocks)}
     <section id="watchlist" class="watchlist">
       <div class="section-head">
