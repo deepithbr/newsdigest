@@ -27,6 +27,7 @@
     "watch:",
     "video:",
     "explained:",
+    "explained |",
     "what is",
     "who is",
     "what the law says",
@@ -34,7 +35,10 @@
     "updates:",
     "war updates",
     "rails at",
-    "extols"
+    "extols",
+    "trending",
+    "web story",
+    "photo gallery"
   ],
   "outcome_terms": [
     "approves",
@@ -76,6 +80,16 @@
     "resumed",
     "deploys",
     "released",
-    "releases"
+    "releases",
+    "notifies",
+    "notified",
+    "issues",
+    "issued",
+    "settles",
+    "settled",
+    "penalises",
+    "penalised",
+    "penalizes",
+    "penalized"
   ]
 }

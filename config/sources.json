@@ -7,11 +7,19 @@
     "quality": 4
   },
   {
-    "name": "BBC Technology",
+    "name": "The Hindu World",
     "type": "rss",
-    "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
-    "bucket": "tech",
+    "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+    "bucket": "global",
     "quality": 4
+  },
+  {
+    "name": "Al Jazeera World",
+    "type": "rss",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "bucket": "global",
+    "quality": 4,
+    "exclude_terms": ["opinion", "analysis", "photos", "could ", "speech", "praises"]
   },
   {
     "name": "The Hindu India",
@@ -21,10 +29,64 @@
     "quality": 4
   },
   {
-    "name": "The Hindu World",
+    "name": "Indian Express India",
     "type": "rss",
-    "url": "https://www.thehindu.com/news/international/feeder/default.rss",
-    "bucket": "global",
+    "url": "https://indianexpress.com/section/india/feed/",
+    "bucket": "india",
+    "quality": 4,
+    "exclude_terms": ["opinion", "explained"]
+  },
+  {
+    "name": "RBI Press Releases",
+    "type": "rss",
+    "url": "https://www.rbi.org.in/pressreleases_rss.xml",
+    "bucket": "india",
+    "quality": 5,
+    "score_bonus": 3,
+    "exclude_terms": [
+      "auction",
+      "auction of state government securities",
+      "auction of government of india dated securities",
+      "government stock - auction results"
+    ]
+  },
+  {
+    "name": "SEBI RSS",
+    "type": "rss",
+    "url": "https://www.sebi.gov.in/sebirss.xml",
+    "bucket": "india",
+    "quality": 5,
+    "score_bonus": 3,
+    "require_any_terms": [
+      "order",
+      "orders",
+      "circular",
+      "regulation",
+      "settlement",
+      "exemption",
+      "adjudication",
+      "securities",
+      "investor",
+      "listed"
+    ],
+    "exclude_terms": [
+      "recovery proceedings certificate",
+      "public notice in respect of",
+      "corrigendum"
+    ]
+  },
+  {
+    "name": "Times of India Top Stories",
+    "type": "rss",
+    "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+    "bucket": "india",
+    "quality": 3
+  },
+  {
+    "name": "BBC Technology",
+    "type": "rss",
+    "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+    "bucket": "tech",
     "quality": 4
   },
   {
@@ -35,11 +97,78 @@
     "quality": 4
   },
   {
-    "name": "Times of India Top Stories",
+    "name": "Indian Express Technology",
     "type": "rss",
-    "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
-    "bucket": "india",
-    "quality": 3
+    "url": "https://indianexpress.com/section/technology/feed/",
+    "bucket": "tech",
+    "quality": 4,
+    "require_any_terms": [
+      "ai",
+      "artificial intelligence",
+      "cyber",
+      "security",
+      "chip",
+      "semiconductor",
+      "model",
+      "startup",
+      "funding",
+      "privacy",
+      "regulation"
+    ],
+    "exclude_terms": ["review", "deal", "discount", "price in india", "study finds", "linked to"]
+  },
+  {
+    "name": "OpenAI News",
+    "type": "rss",
+    "url": "https://openai.com/news/rss.xml",
+    "bucket": "tech",
+    "quality": 5,
+    "score_bonus": 2,
+    "require_any_terms": [
+      "ai",
+      "artificial intelligence",
+      "chatgpt",
+      "model",
+      "api",
+      "safety",
+      "research",
+      "government"
+    ]
+  },
+  {
+    "name": "Google Blog",
+    "type": "rss",
+    "url": "https://blog.google/rss/",
+    "bucket": "tech",
+    "quality": 4,
+    "score_bonus": 1,
+    "require_any_terms": [
+      "ai",
+      "artificial intelligence",
+      "gemini",
+      "search",
+      "security",
+      "cloud",
+      "android",
+      "privacy"
+    ]
+  },
+  {
+    "name": "Microsoft Blog",
+    "type": "rss",
+    "url": "https://blogs.microsoft.com/feed/",
+    "bucket": "tech",
+    "quality": 4,
+    "score_bonus": 1,
+    "require_any_terms": [
+      "ai",
+      "artificial intelligence",
+      "copilot",
+      "azure",
+      "security",
+      "cloud",
+      "windows"
+    ]
   },
   {
     "name": "Daijiworld Local",
@@ -63,6 +192,14 @@
     "quality": 3
   },
   {
+    "name": "Times of India Mangaluru",
+    "type": "rss",
+    "url": "https://timesofindia.indiatimes.com/city/mangaluru/rssfeeds/3942695.cms",
+    "bucket": "local",
+    "quality": 3,
+    "exclude_terms": ["entertainment", "lifestyle"]
+  },
+  {
     "name": "Google News Local Fallback",
     "type": "rss",
     "url": "https://news.google.com/rss/search?q=Mangaluru%20OR%20Mangalore%20OR%20%22Coastal%20Karnataka%22%20OR%20Udupi%20OR%20%22Dakshina%20Kannada%22&hl=en-IN&gl=IN&ceid=IN%3Aen",
@@ -73,23 +210,25 @@
     "name": "GDELT Global Signals",
     "type": "gdelt",
     "enabled": false,
-    "query": "(economy OR climate OR technology OR security OR regulation OR court OR policy)",
+    "query": "(economy OR climate OR technology OR security OR regulation OR court OR policy) sourcelang:english",
     "bucket": "global",
-    "quality": 3
+    "quality": 3,
+    "require_any_terms": ["approved", "ordered", "ruled", "blocked", "fined", "launched", "released", "billion", "regulation"]
   },
   {
     "name": "GDELT India Signals",
     "type": "gdelt",
     "enabled": false,
-    "query": "(India OR Indian) (policy OR economy OR court OR regulation OR infrastructure OR technology)",
+    "query": "(India OR Indian) (policy OR economy OR court OR regulation OR infrastructure OR technology) sourcelang:english",
     "bucket": "india",
-    "quality": 3
+    "quality": 3,
+    "require_any_terms": ["approved", "ordered", "ruled", "blocked", "fined", "launched", "released", "billion", "regulation"]
   },
   {
     "name": "GDELT Coastal Karnataka",
     "type": "gdelt",
     "enabled": false,
-    "query": "(Mangalore OR Mangaluru OR \"Coastal Karnataka\" OR Udupi OR Dakshina Kannada) (policy OR infrastructure OR rain OR port OR education OR environment)",
+    "query": "(Mangalore OR Mangaluru OR \"Coastal Karnataka\" OR Udupi OR Dakshina Kannada) (policy OR infrastructure OR rain OR port OR environment OR court OR police OR fraud) sourcelang:english",
     "bucket": "local",
     "quality": 3
   },
@@ -97,8 +236,9 @@
     "name": "GDELT Tech AI",
     "type": "gdelt",
     "enabled": false,
-    "query": "(AI OR \"artificial intelligence\" OR OpenAI OR Google OR Microsoft OR Nvidia OR cybersecurity OR semiconductor) (launches OR releases OR regulation OR funding OR chip OR model)",
+    "query": "(AI OR \"artificial intelligence\" OR OpenAI OR Google OR Microsoft OR Nvidia OR cybersecurity OR semiconductor) (launches OR releases OR regulation OR funding OR chip OR model OR security) sourcelang:english",
     "bucket": "tech",
-    "quality": 3
+    "quality": 3,
+    "require_any_terms": ["launches", "released", "regulation", "funding", "chip", "model", "security", "billion"]
   }
 ]

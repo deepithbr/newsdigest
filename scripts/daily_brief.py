@@ -249,10 +249,18 @@ def parse_datetime(value: str | None, fallback_tz: ZoneInfo) -> datetime | None:
     except (TypeError, ValueError):
         pass
 
-    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y%m%d%H%M%S", "%Y-%m-%d %H:%M:%S"):
+    for fmt in (
+        "%Y-%m-%dT%H:%M:%SZ",
+        "%Y%m%d%H%M%S",
+        "%Y-%m-%d %H:%M:%S",
+        "%d %b, %Y %z",
+        "%d %b %Y %z",
+    ):
         try:
             parsed = datetime.strptime(value, fmt)
-            return parsed.replace(tzinfo=timezone.utc).astimezone(fallback_tz)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed.astimezone(fallback_tz)
         except ValueError:
             continue
     return None
@@ -262,6 +270,14 @@ def text_from_child(node: ElementTree.Element, child_name: str) -> str:
     child = node.find(child_name)
     if child is not None and child.text:
         return clean_text(child.text)
+    return ""
+
+
+def text_from_local_child(node: ElementTree.Element, child_names: tuple[str, ...]) -> str:
+    wanted = {name.lower() for name in child_names}
+    for child in list(node):
+        if node_local_name(child) in wanted and child.text:
+            return clean_text(child.text)
     return ""
 
 
@@ -388,6 +404,37 @@ def canonical_link(link: str) -> str:
         return link.strip()
 
 
+def clean_link(link: str) -> str:
+    link = clean_text(link)
+    duplicate_prefixes = (
+        "https://www.sebi.gov.in/https://www.sebi.gov.in/",
+        "http://www.sebi.gov.in/http://www.sebi.gov.in/",
+    )
+    for prefix in duplicate_prefixes:
+        if link.startswith(prefix):
+            return link.replace(prefix, prefix.split("/", 3)[0] + "//" + prefix.split("/")[2] + "/", 1)
+    return link
+
+
+def source_allows_item(source: dict[str, Any], title: str, summary: str) -> bool:
+    haystack = f"{title} {summary}".lower()
+    required_terms = source.get("require_any_terms", [])
+    if required_terms and not any(keyword_matches(haystack, term) for term in required_terms):
+        return False
+    excluded_terms = source.get("exclude_terms", [])
+    if excluded_terms and any(keyword_matches(haystack, term) for term in excluded_terms):
+        return False
+    return True
+
+
+def apply_source_bonus(score: int, reason: str, source: dict[str, Any]) -> tuple[int, str]:
+    bonus = int(source.get("score_bonus", 0))
+    if not bonus:
+        return score, reason
+    sign = "+" if bonus > 0 else ""
+    return score + bonus, f"{reason}; source_bonus {sign}{bonus}"
+
+
 def sentence(value: str, max_words: int = 28) -> str:
     value = clean_text(value)
     if not value:
@@ -512,27 +559,33 @@ def collect_rss(source: dict[str, Any], settings: dict[str, Any], now: datetime,
         if not link:
             atom_link = item.find("{http://www.w3.org/2005/Atom}link")
             link = atom_link.attrib.get("href", "") if atom_link is not None else ""
+        link = clean_link(link)
         summary = (
             text_from_child(item, "description")
             or text_from_child(item, "summary")
             or text_from_child(item, "{http://www.w3.org/2005/Atom}summary")
+            or text_from_local_child(item, ("description", "summary", "content", "encoded"))
         )
         published = parse_datetime(
             text_from_child(item, "pubDate")
             or text_from_child(item, "published")
             or text_from_child(item, "{http://www.w3.org/2005/Atom}published")
             or text_from_child(item, "updated")
-            or text_from_child(item, "{http://www.w3.org/2005/Atom}updated"),
+            or text_from_child(item, "{http://www.w3.org/2005/Atom}updated")
+            or text_from_local_child(item, ("pubDate", "published", "updated", "date")),
             tz,
         )
         if not title or not link or published is None or published < since or published > now + timedelta(hours=1):
             continue
         if is_noise(title, summary, settings):
             continue
+        if not source_allows_item(source, title, summary):
+            continue
         if not has_bucket_relevance(title, summary, source["bucket"]):
             continue
         image_url = image_from_rss_item(item, summary)
         score, reason = score_item(title, summary, source["bucket"], int(source["quality"]), settings, now, published)
+        score, reason = apply_source_bonus(score, reason, source)
         editorial_class = classify_story(title, summary, source["bucket"])
         stories.append(
             Story(
@@ -572,11 +625,13 @@ def collect_daijiworld(source: dict[str, Any], settings: dict[str, Any], now: da
 
     for match in item_pattern.finditer(page):
         title = clean_text(match.group("title"))
-        link = clean_text(match.group("link"))
+        link = clean_link(match.group("link"))
         published = parse_daijiworld_datetime(match.group("date"), tz)
         if not title or not link or published is None or published < since or published > now + timedelta(hours=1):
             continue
         if is_noise(title, "", settings):
+            continue
+        if not source_allows_item(source, title, ""):
             continue
         if not has_bucket_relevance(title, "", source["bucket"]):
             continue
@@ -589,6 +644,7 @@ def collect_daijiworld(source: dict[str, Any], settings: dict[str, Any], now: da
             except Exception:
                 image_url = ""
         score, reason = score_item(title, "", source["bucket"], int(source["quality"]), settings, now, published)
+        score, reason = apply_source_bonus(score, reason, source)
         editorial_class = classify_story(title, "", source["bucket"])
         stories.append(
             Story(
@@ -632,18 +688,21 @@ def collect_gdelt(source: dict[str, Any], settings: dict[str, Any], now: datetim
     stories: list[Story] = []
     for article in data.get("articles", []):
         title = clean_text(article.get("title", ""))
-        link = clean_text(article.get("url", ""))
+        link = clean_link(article.get("url", ""))
         summary = clean_text(article.get("seendate", ""))
         published = parse_datetime(article.get("seendate"), tz)
         if not title or not link or published is None or published < since or published > now + timedelta(hours=1):
             continue
         if is_noise(title, summary, settings):
             continue
+        if not source_allows_item(source, title, summary):
+            continue
         if not has_bucket_relevance(title, summary, source["bucket"]):
             continue
         domain = article.get("domain") or urllib.parse.urlsplit(link).netloc
         source_name = f"{source['name']} / {domain}"
         score, reason = score_item(title, summary, source["bucket"], int(source["quality"]), settings, now, published)
+        score, reason = apply_source_bonus(score, reason, source)
         editorial_class = classify_story(title, summary, source["bucket"])
         stories.append(
             Story(

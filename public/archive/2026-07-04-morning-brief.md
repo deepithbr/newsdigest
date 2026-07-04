@@ -1,15 +1,18 @@
-Briefing generated: Saturday, 04 July 2026, 13:20 IST
+Briefing generated: Saturday, 04 July 2026, 13:29 IST
 
 TODAY'S TOP 5
 1. Microsoft launches firm to help companies adopt AI with $2.5 billion
 2. Assam district orders deportation of man declared foreigner
-3. OpenAI discusses giving U.S. government 5% stake: Report
-4. Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised...
-5. Google loses fight against record EUR4.1 billion EU antitrust fine
+3. Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6
+4. OpenAI discusses giving U.S. government 5% stake: Report
+5. Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised...
 
 ---
 
 GLOBAL SIGNALS
+
+**NASA launches robotic mission to save telescope falling back to Earth**
+A three-armed spacecraft blasts into orbit to rescue a NASA telescope in danger of crashing back to Earth. [Source: Al Jazeera World](https://www.aljazeera.com/news/2026/7/3/nasa-launches-robotic-mission-to-save-telescope-falling-back-to-earth?traffic_source=rss) `04 Jul, 02:35 IST; score 22; general`
 
 **Polish PM warns critical months ahead in face of Russian threat**
 Tusk says Poland is preparing for "various" scenarios after media reports of a planned Russian attack. [Source: BBC World](https://www.bbc.co.uk/news/articles/cj0gp88q4l4o?at_medium=RSS&at_campaign=rss) `03 Jul, 22:11 IST; score 22; high_impact`
@@ -32,15 +35,18 @@ This is the second time in roughly a month that China, which views democraticall
 **Relative of Pakistan Deputy PM Ishaq Dar arrested in alleged gangrape of two...**
 The suspects, identified as Muhammad Raza Dar, Hassan Raza, Sikandar Khan and Sajid Ali, were sent to five-day police remand by a Lahore court. [Source: The Hindu World](https://www.thehindu.com/news/international/relative-of-pakistan-deputy-pm-ishaq-dar-arrested-in-alleged-gangrape-of-two-foreigners/article71181849.ece) `04 Jul, 11:38 IST; score 19; civic_safety`
 
-**Iran prepares for weeklong funeral of late Supreme Leader Ayatollah Ali Khamenei, killed...**
-"We will continue our policy of pursuing independence, and decisions will be made inside the country, and the people will decide their own fate," he said. [Source: The Hindu World](https://www.thehindu.com/news/international/iran-prepares-for-weeklongfuneral-of-late-supreme-leader-ayatollah-ali-khamenei-killed-in-war/article71180029.ece) `03 Jul, 22:27 IST; score 19; civic_safety`
-
 ---
 
 INDIA
 
+**Directions under Section 35A read with Section 56 of the Banking Regulation Act...**
+The Reserve Bank of India issued Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949 to The Industrial Co-operative Bank Ltd., Guwahati vide. [Source: RBI Press Releases](https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63080) `03 Jul, 16:00 IST; score 26; general`
+
 **Assam district orders deportation of man declared foreigner**
 Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 25; civic_safety`
+
+**Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
+The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 25; civic_safety`
 
 **Kerala rains: Water from Idukki Pambla dam released; residents along Periyar advised caution**
 Idukki district administration permits opening of dam shutters as precautionary measure following heavy rainfall in catchment areas. [Source: The Hindu India](https://www.thehindu.com/news/national/kerala/kerala-rains-water-from-idukki-pambla-dam-released-residents-along-periyar-advised-caution/article71181863.ece) `04 Jul, 12:13 IST; score 23; civic_safety`
@@ -50,12 +56,6 @@ BKTC president Hemant Dwivedi said that if the allegations are proven true durin
 
 **Telangana Govt approves recruitment for 6,424 Police dept posts**
 Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:02 IST; score 22; general`
-
-**Mapping cancer, testing capacity**
-Telangana government's decision to make cancer a notifiable disease promises to reveal its true burden in the State. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/mapping-cancer-testing-capacity/article71174493.ece) `04 Jul, 10:42 IST; score 22; general`
-
-**Delhi CM Rekha Gupta orders rollback of work from home, staggered office timings**
-With the geopolitical situation normalising, Delhi Chief Minister Rekha Gupta has approved the withdrawal of work from home on Wednesday and Saturday. [Source: The Hindu India](https://www.thehindu.com/news/cities/Delhi/delhi-cm-rekha-gupta-orders-rollback-of-work-from-home-staggered-office-timings/article71181867.ece) `04 Jul, 12:37 IST; score 21; general`
 
 ---
 
@@ -95,27 +95,27 @@ Daijiworld local listing item; open the source for full context. [Source: Daijiw
 **Years of promises, no pipeline: Boloor residents await UGD connectivity**
 Mangaluru: Residents of Boloor, under the jurisdiction of the Mangaluru City Corporation (MCC), have once again appealed to the authorities to complete the long-pending underground drainage (UGD) project. [Source: Coastal Digest](https://coastaldigest.com/years-of-promises-no-pipeline-boloor-residents-await-ugd-connectivity/) `04 Jul, 12:09 IST; score 17; civic_safety`
 
-**Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case...**
-Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case booked Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi8wFBVV95cUxNVGNMaXJmcTluVFgyb1dEb2RtMmJ0Y2dfRzR2Z1VyZVdrOUd0VnpKY1Z0U3U0NmFId1NScXlOZmdObmpCbWsyMDBaNTZ4Z2JtOURRdUpHNVdvWkQ0cWRQVWc0N1VaR09Rcm1fUm5idUt0VVFIS0dlbTBwVm1DSGFCX2x1dTFheGxEcFlBSjlZNzJrcHRiNmlIelQyN0lYeUpKd0ZkQzMzVEw0X0tEVkh3akh2bEllYWR6azhxWlZmRnlSUGdBY1FnVkNWWDR0VmU4Wk9uMHBmZUZoN0ctV1dVbkRlSEY4RGo2ODg2UGZPV3RGaEU?oc=5) `04 Jul, 12:53 IST; score 15; civic_safety`
+**Goa mystery death case involving Udupi entrepreneur: Woman arrested in Bengaluru - Udayavani**
+Goa mystery death case involving Udupi entrepreneur: Woman arrested in Bengaluru Udayavani. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMixAFBVV95cUxORGFmMWpjaFJIUzdna0lORmh2ekNabFUza3Z6TVNWRHVYRDVSdlBHb1ZocXJVT1N0aGNjSDA3U2RLbDlsNmd3Z19kNmhaMWhxUC1NQXVpeDRRLW01cEdSNE9GNjNfMXg0eS1zektld0lhOUlWd1lUOVJDNFh3ZEVVdW9VdXhueXBhNjRWODlHYU13Rll5UjItZXVhdzBfOHg2V2VEM1VrWUgwS29selNydXBVS1VmekljZmlSSl9SUVNIR3hU?oc=5) `04 Jul, 13:20 IST; score 15; civic_safety`
 
 ---
 
 WATCHLIST
+
+**Absenteeism crackdown sparks calls for systemic reforms in T.N. public health sector**
+Government doctors say pay disparities, manpower shortage, extended duty hours, and workplace safety are some of the issues that need to be addressed. [Source: The Hindu India](https://www.thehindu.com/news/national/tamil-nadu/absenteeism-crackdown-sparks-calls-for-systemic-reforms-in-tn-public-health-sector/article71178691.ece) `04 Jul, 12:16 IST; score 22; general`
+
+**Mapping cancer, testing capacity**
+Telangana government's decision to make cancer a notifiable disease promises to reveal its true burden in the State. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/mapping-cancer-testing-capacity/article71174493.ece) `04 Jul, 10:42 IST; score 22; general`
+
+**Government fixing polls with EC's help: INDIA bloc to CJI**
+A united opposition has approached the Chief Justice of India, alleging that the current government is manipulating elections with a "biased" Election Commission. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/india/govt-fixing-polls-with-ecs-help-india-bloc-to-cji/articleshow/132172775.cms) `04 Jul, 04:12 IST; score 22; general`
+
+**Delhi CM Rekha Gupta orders rollback of work from home, staggered office timings**
+With the geopolitical situation normalising, Delhi Chief Minister Rekha Gupta has approved the withdrawal of work from home on Wednesday and Saturday. [Source: The Hindu India](https://www.thehindu.com/news/cities/Delhi/delhi-cm-rekha-gupta-orders-rollback-of-work-from-home-staggered-office-timings/article71181867.ece) `04 Jul, 12:37 IST; score 21; general`
 
 **India clears air defence systems: How MR-SAM, V-SHORADS and Akash Tarang will secure...**
 India is bolstering its air defence with the Defence Acquisition Council's approval for new weapon systems. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/defence/news/india-clears-three-new-air-defence-systems-how-mr-sam-v-shorads-and-akash-tarang-will-secure-the-skies/articleshow/132160810.cms) `04 Jul, 11:37 IST; score 21; high_impact`
 
 **High Court quashes externment order, comments on 'horse trading' in Maharashtra**
 The Bombay High Court Judge Justice Madhav Jamdar also made additional oral remarks on the tendency to curb protests, stating that citizens were being treated as slaves of. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/high-court-quashes-externment-order-comments-on-horse-trading-in-maharashtra/article71179161.ece) `04 Jul, 08:28 IST; score 20; civic_safety`
-
-**PM Modi inaugurates new Jodhpur airport terminal, launches Modified UDAN scheme**
-PM Modi arrived in Jodhpur and was received at the airport by Governor Haribhau Bagade, Union Minister and Jodhpur MP Gajendra Singh Shekhawat, and Chief Minister Bhajanlal Sharma. [Source: The Hindu India](https://www.thehindu.com/news/national/rajasthan/pm-modi-inaugurates-new-jodhpur-airport-terminal-launches-modified-udan-scheme/article71181992.ece) `04 Jul, 12:40 IST; score 19; general`
-
-**Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
-The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 19; civic_safety`
-
-**Officials not obliged to attend 'review' meetings with Governor, says T.N. Law Minister**
-His remarks followed reports that Tamil Nadu Governor Rajendra Vishwanath Arlekar had wanted to hold a 'review' meeting with officials at the Madurai Circuit House. [Source: The Hindu India](https://www.thehindu.com/news/national/tamil-nadu/officials-not-obliged-to-attend-review-meetings-with-governor-says-law-minister/article71179364.ece) `04 Jul, 08:05 IST; score 19; general`
-
-**Centre orders blocking of battery management apps used to turn off e-rickshaws**
-Action comes after e-rickshaws in various parts of the country were turned off via apps developed by Chinese firms to manage lithium ion battery packs; extortion incident reported. [Source: The Hindu India](https://www.thehindu.com/news/national/centre-orders-blocking-of-battery-management-apps-used-to-turn-off-e-rickshaws/article71179574.ece) `04 Jul, 07:17 IST; score 19; general`
