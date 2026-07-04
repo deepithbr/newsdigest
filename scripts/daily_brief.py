@@ -1238,13 +1238,21 @@ def html_top_story(story: Story, tz: ZoneInfo, rank: int, lead: bool = False) ->
     summary = html.escape(sentence(story.summary, 28 if lead else 18) or "Open the source for the full update.")
     source = html.escape(story.source)
     url = html.escape(story.link, quote=True)
+    image_url = html.escape(story.image_url, quote=True)
     tier = html.escape(impact_tier(story))
     rubric_labels = story_rubric_labels(story)
     rubric_html = "".join(f"<span>{html.escape(label.title())}</span>" for label in rubric_labels[:4])
     class_name = "top-item lead-top" if lead else "top-item"
+    fallback_label = html.escape(section_short_label(story.bucket))
+    image_html = (
+        f'<div class="top-media"><span>{fallback_label}</span><img src="{image_url}" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add(\'fallback\');"></div>'
+        if image_url
+        else f'<div class="top-media fallback"><span>{fallback_label}</span></div>'
+    )
     return f"""
       <article class="{class_name}">
         <a href="{url}">
+          {image_html}
           <div class="top-rule"><span>{rank:02d}</span><span>{tier}</span></div>
           <h3>{title}</h3>
           <p>{summary}</p>
@@ -1294,7 +1302,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
             """
         )
 
-    watchlist_cards = "\n".join(html_story_card(story, tz, compact=True) for story in sections["watchlist"])
+    watchlist_cards = "\n".join(html_story_card(story, tz) for story in sections["watchlist"])
     if not watchlist_cards:
         watchlist_cards = '<p class="empty">No additional watchlist items crossed the threshold.</p>'
 
@@ -1479,10 +1487,47 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       display: grid;
       align-content: start;
       min-height: 100%;
-      padding: 16px;
+      padding: 14px;
     }}
     .top-item:hover {{
       background: #fffaf1;
+    }}
+    .top-media {{
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      margin: -14px -14px 14px;
+      border-bottom: 1px solid var(--rule);
+      background:
+        linear-gradient(135deg, rgba(155, 21, 63, 0.18), transparent 48%),
+        linear-gradient(315deg, rgba(20, 92, 83, 0.24), transparent 48%),
+        #242721;
+    }}
+    .top-media span {{
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #f9f3e9;
+      font-family: Newsreader, Georgia, serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      z-index: 0;
+    }}
+    .top-media img {{
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(0.9) contrast(1.03);
+    }}
+    .top-media.fallback span {{
+      border-top: 1px solid rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.35);
+      padding: 8px 0;
     }}
     .top-rule {{
       display: flex;
@@ -1523,11 +1568,15 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       background: #fffdf7;
     }}
     .lead-top a {{
-      padding: 22px;
+      padding: 18px 22px 22px;
+    }}
+    .lead-top .top-media {{
+      aspect-ratio: 21 / 9;
+      margin: -18px -22px 18px;
     }}
     .lead-top h3 {{
-      font-size: clamp(40px, 4.8vw, 64px);
-      line-height: 0.94;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 0.96;
       max-width: 760px;
     }}
     .lead-top p {{
@@ -1767,6 +1816,9 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       border-color: #46504b;
       box-shadow: none;
     }}
+    .watchlist .story-media {{
+      border-color: #46504b;
+    }}
     .watchlist .story p {{
       color: #dce2de;
     }}
@@ -1809,7 +1861,10 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         grid-row: auto;
       }}
       .lead-top h3 {{
-        font-size: 36px;
+        font-size: 34px;
+      }}
+      .lead-top .top-media {{
+        aspect-ratio: 16 / 9;
       }}
       .editorial-strip {{
         grid-template-columns: repeat(2, minmax(0, 1fr));

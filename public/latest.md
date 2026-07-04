@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 14:17 IST
+Briefing generated: Saturday, 04 July 2026, 14:23 IST
 
 TODAY'S TOP 5
 1. India investigating Tata data leak that exposed Apple iPhone secrets
@@ -89,14 +89,14 @@ Daijiworld local listing item; open the source for full context. [Source: Daijiw
 **Bantwal: Illegal laterite stone, soil mining busted near Vittal; vehicles, machinery seized**
 Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319009) `04 Jul, 09:35 IST; score 33; civic_safety`
 
+**Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl**
+Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl Mangalore Today. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMixwFBVV95cUxOWUtjM0k5NURWNzRtS2JBdFJSYWN0RDUwMS1scFJXb2dmTFcxVmNQZGxmczV2NU8tUEh2d3FVLWZWME96aW5XaTlKOWZ5dWhoc2FHVVRnek4wRndTOEc5Y29mVTU3YjJwWDNWcjBnaFdwMVo3TWJDdVYwUzZyb0dMSVlyTFpYb19LM0ZpRmFNSUJCU1l5QnZrRjZ4MzlsR3Frb18ydkFRdjBQOGZDWkFXS0x0ajZtUklSMzN3dW92Vi00X0JuZkhB?oc=5) `03 Jul, 17:51 IST; score 33; civic_safety`
+
 **Dakshina Kannada: Man arrested for facilitating cyber fraud by providing bank accounts -...**
 Dakshina Kannada: Man arrested for facilitating cyber fraud by providing bank accounts Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi1AFBVV95cUxNbS1tR1R6Mkd4U1dNS2dGNWNLX3Z3MHNNZUVJSUlaNWNCY20xQkpGQ2ltaC1xeWZVLWRELTJ6VjNCOFdzTkR2T2diYUhMQ3FYb0FZOE9tQWw5TWZiU0xDMkdhZWNnc3VZWGR0RG9IT2J5MGJmVWtrWF9KdkpUZElxaENPS3k5aWVuVWFRTW1LZjdIX3JIVm1QR25WeW1YZmhzdUdIZzRGTEJsNnBlU2FpWHN3dldKYmZ5S2xaT3ozSEQ2WWMwRkJTb3ZnZ1RwOXc1SDlrVQ?oc=5) `04 Jul, 12:51 IST; score 30; civic_safety`
 
 **Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case...**
 Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case booked Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi8wFBVV95cUxNVGNMaXJmcTluVFgyb1dEb2RtMmJ0Y2dfRzR2Z1VyZVdrOUd0VnpKY1Z0U3U0NmFId1NScXlOZmdObmpCbWsyMDBaNTZ4Z2JtOURRdUpHNVdvWkQ0cWRQVWc0N1VaR09Rcm1fUm5idUt0VVFIS0dlbTBwVm1DSGFCX2x1dTFheGxEcFlBSjlZNzJrcHRiNmlIelQyN0lYeUpKd0ZkQzMzVEw0X0tEVkh3akh2bEllYWR6azhxWlZmRnlSUGdBY1FnVkNWWDR0VmU4Wk9uMHBmZUZoN0ctV1dVbkRlSEY4RGo2ODg2UGZPV3RGaEU?oc=5) `04 Jul, 12:53 IST; score 29; civic_safety`
-
-**Years of promises, no pipeline: Boloor residents await UGD connectivity**
-Mangaluru: Residents of Boloor, under the jurisdiction of the Mangaluru City Corporation (MCC), have once again appealed to the authorities to complete the long-pending underground drainage (UGD) project. [Source: Coastal Digest](https://coastaldigest.com/years-of-promises-no-pipeline-boloor-residents-await-ugd-connectivity/) `04 Jul, 12:09 IST; score 27; civic_safety`
 
 ---
 
