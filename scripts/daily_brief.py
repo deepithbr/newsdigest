@@ -184,6 +184,36 @@ SECTION_MIN_SCORE = {
 TOP_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 WATCHLIST_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 
+BREAKING_TERMS = [
+    "red alert",
+    "earthquake",
+    "cyclone",
+    "flood",
+    "landslide",
+    "missile",
+    "drone",
+    "drones",
+    "attack",
+    "war",
+    "sanctions",
+    "market crash",
+    "crash",
+    "data leak",
+    "breach",
+    "cyberattack",
+    "emergency",
+    "evacuation",
+    "ordered",
+    "blocked",
+    "banned",
+    "fined",
+    "suspended",
+    "court rules",
+    "court ordered",
+    "supreme court",
+    "red warning",
+]
+
 EDITORIAL_RUBRIC = {
     "impact": [
         "billion",
@@ -691,6 +721,20 @@ def impact_tier(story: Story) -> str:
     return "Context"
 
 
+def is_breaking_candidate(story: Story, now: datetime) -> bool:
+    haystack = f"{story.title} {story.summary}".lower()
+    age_hours = max(0.0, (now - story.published).total_seconds() / 3600)
+    if age_hours > 18:
+        return False
+    if story.editorial_class in TOP_EXCLUDED_CLASSES:
+        return False
+    if not any(keyword_matches(haystack, term) for term in BREAKING_TERMS):
+        return False
+    if story.score < 26 and story.editorial_class != "high_impact":
+        return False
+    return True
+
+
 def sentence(value: str, max_words: int = 28) -> str:
     value = clean_text(value)
     if not value:
@@ -1044,7 +1088,15 @@ def collect(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int)
 
 def select_sections(stories: list[Story], settings: dict[str, Any]) -> dict[str, list[Story]]:
     max_items = settings["max_items"]
+    tz = ZoneInfo(settings["timezone"])
+    now = datetime.now(tz)
     sections: dict[str, list[Story]] = {}
+    sections["breaking"] = [
+        story
+        for story in stories
+        if is_breaking_candidate(story, now)
+    ][: int(max_items.get("breaking", 4))]
+
     for bucket in ("global", "india", "tech", "local"):
         min_score = SECTION_MIN_SCORE[bucket]
         bucket_stories = [
@@ -1139,6 +1191,18 @@ def render_markdown(sections: dict[str, list[Story]], settings: dict[str, Any], 
     else:
         lines.append("No high-confidence top stories found in the configured window.")
     lines.append("")
+    lines.append("---")
+
+    lines.append("")
+    lines.append("BREAKING WATCH")
+    lines.append("")
+    if sections.get("breaking"):
+        for story in sections["breaking"]:
+            lines.append(story_line(story, generated_at.tzinfo or ZoneInfo(settings["timezone"])))
+            lines.append("")
+    else:
+        lines.append("No critical breaking-watch items crossed the threshold.")
+        lines.append("")
     lines.append("---")
 
     for bucket in ("global", "india", "tech", "local"):
@@ -1362,6 +1426,20 @@ def html_top_story(story: Story, tz: ZoneInfo, rank: int, lead: bool = False) ->
     """
 
 
+def html_breaking_item(story: Story, tz: ZoneInfo) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 12))
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    return f"""
+      <a class="breaking-item" href="{url}">
+        <span>{html.escape(impact_tier(story))}</span>
+        <strong>{title}</strong>
+        <small>{source} / {timestamp}</small>
+      </a>
+    """
+
+
 def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
     labels = settings["section_labels"]
@@ -1372,6 +1450,20 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     section_stats = "".join(
         f'<div><strong>{len(sections[bucket])}</strong><span>{html.escape(labels[bucket].title())}</span></div>'
         for bucket in ("global", "india", "tech", "local")
+    )
+    breaking_cards = "\n".join(html_breaking_item(story, tz) for story in sections.get("breaking", []))
+    breaking_html = (
+        f"""
+        <section id="breaking" class="breaking-watch" aria-label="Breaking watch">
+          <div class="breaking-label">
+            <span>Breaking Watch</span>
+            <strong>{len(sections.get("breaking", []))}</strong>
+          </div>
+          <div class="breaking-list">{breaking_cards}</div>
+        </section>
+        """
+        if breaking_cards
+        else ""
     )
 
     top_cards = "\n".join(
@@ -1542,6 +1634,64 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       line-height: 1;
     }}
     .editorial-strip span {{
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }}
+    .breaking-watch {{
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      margin: 16px 0 28px;
+      border: 1px solid var(--accent);
+      background: #fff8f4;
+    }}
+    .breaking-label {{
+      padding: 14px 16px;
+      border-right: 1px solid rgba(155, 21, 63, 0.28);
+      color: var(--accent);
+      display: grid;
+      align-content: space-between;
+      min-height: 104px;
+    }}
+    .breaking-label span {{
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .breaking-label strong {{
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 36px;
+      line-height: 1;
+    }}
+    .breaking-list {{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }}
+    .breaking-item {{
+      display: grid;
+      gap: 7px;
+      padding: 14px 16px;
+      border-right: 1px solid rgba(155, 21, 63, 0.18);
+      border-bottom: 1px solid rgba(155, 21, 63, 0.18);
+    }}
+    .breaking-item:hover {{
+      background: #ffffff;
+    }}
+    .breaking-item span {{
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .breaking-item strong {{
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      line-height: 1.04;
+    }}
+    .breaking-item small {{
       color: var(--muted);
       font-size: 11px;
       text-transform: uppercase;
@@ -1974,6 +2124,17 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .editorial-strip div:nth-child(2n) {{
         border-right: 0;
       }}
+      .breaking-watch {{
+        grid-template-columns: 1fr;
+      }}
+      .breaking-label {{
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid rgba(155, 21, 63, 0.28);
+      }}
+      .breaking-list {{
+        grid-template-columns: 1fr;
+      }}
       .brand {{ font-size: 64px; }}
       .issue-box {{ text-align: left; }}
       .lead h3 {{ font-size: 28px; }}
@@ -2005,6 +2166,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       <a href="#india">India</a>
       <a href="#tech">Tech / AI</a>
       <a href="#local">Coastal</a>
+      <a href="#breaking">Breaking</a>
       <a href="#watchlist">Watchlist</a>
     </nav>
     <section class="editorial-strip" aria-label="Editorial summary">
@@ -2014,6 +2176,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       </div>
       {section_stats}
     </section>
+    {breaking_html}
     <section class="front-page" aria-label="Top stories">
       <div class="front-head">
         <p class="eyebrow">TODAY'S TOP 5</p>

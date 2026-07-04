@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 14:34 IST
+Briefing generated: Saturday, 04 July 2026, 14:46 IST
 
 TODAY'S TOP 5
 1. India investigating Tata data leak that exposed Apple iPhone secrets
@@ -6,6 +6,22 @@ TODAY'S TOP 5
 3. RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector
 4. Russia, Ukraine exchange deadly strikes after massive Kyiv attack
 5. Polish PM warns critical months ahead in face of Russian threat
+
+---
+
+BREAKING WATCH
+
+**Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
+The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 40; civic_safety`
+
+**India investigating Tata data leak that exposed Apple iPhone secrets**
+Tata has hired a global consultant to conduct a forensic audit after the leak also saw Tesla, Qualcomm and TSMC documents posted on the dark web. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece) `04 Jul, 10:29 IST; score 40; high_impact`
+
+**Mumbai schools, colleges closed today as IMD issues red alert for heavy rain**
+Mumbai faces a red alert with extremely heavy rainfall expected Saturday, July 4. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms) `04 Jul, 13:44 IST; score 37; civic_safety`
+
+**West Bengal: IMD issues red alert for heavy rains as low pressure develops...**
+As the weather system moved closer to the West Bengal-Odisha coast, the India Meteorological Department issued a red warning - the highest level of colour-coded warning - for. [Source: The Hindu India](https://www.thehindu.com/news/national/west-bengal/west-bengal-imd-issues-red-alert-for-heavy-rains-as-low-pressure-develops-over-bay-of-bengal/article71182234.ece) `04 Jul, 14:26 IST; score 35; general`
 
 ---
 
@@ -42,6 +58,12 @@ INDIA
 **Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
 The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 40; civic_safety`
 
+**PM Modi unveils India's 1st greenfield refinery, Rs 1.06L cr projects in Rajasthan**
+Prime Minister Narendra Modi inaugurated a new terminal at Jodhpur Airport and launched the Modified UDAN scheme. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/india/pm-modi-launches-indias-first-greenfield-refinery-unveils-rs-1-06-lakh-crore-projects-in-rajasthan/articleshow/132177851.cms) `04 Jul, 14:21 IST; score 37; general`
+
+**Mumbai schools, colleges closed today as IMD issues red alert for heavy rain**
+Mumbai faces a red alert with extremely heavy rainfall expected Saturday, July 4. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms) `04 Jul, 13:44 IST; score 37; civic_safety`
+
 **Directions under Section 35A read with Section 56 of the Banking Regulation Act...**
 The Reserve Bank of India issued Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949 to The Industrial Co-operative Bank Ltd., Guwahati vide. [Source: RBI Press Releases](https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63080) `03 Jul, 16:00 IST; score 37; general`
 
@@ -50,12 +72,6 @@ Idukki district administration permits opening of dam shutters as precautionary 
 
 **West Bengal: IMD issues red alert for heavy rains as low pressure develops...**
 As the weather system moved closer to the West Bengal-Odisha coast, the India Meteorological Department issued a red warning - the highest level of colour-coded warning - for. [Source: The Hindu India](https://www.thehindu.com/news/national/west-bengal/west-bengal-imd-issues-red-alert-for-heavy-rains-as-low-pressure-develops-over-bay-of-bengal/article71182234.ece) `04 Jul, 14:26 IST; score 35; general`
-
-**Telangana Govt approves recruitment for 6,424 Police dept posts**
-Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:02 IST; score 35; general`
-
-**RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector**
-RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector News On AIR. [Source: News On AIR](https://news.google.com/rss/articles/CBMiswFBVV95cUxPbjNJZ3NrclhEc3BSdkphOERlRHItUjVueE90cC1sR1l3YlFVUXFpaFlKb1pmR2ZzdkZHbEZFX3Vma0NpU2EtdlVMU1gyeFJYYjVkb2JvWVFoUnlSSllhZTg2Wmk4Um44OFV5ckwtbVJFRTI4Z3FLOXp2dlVaTDBxVFRaTzBmMUZza09lVUlZSzg5d2EwOUtLQkg2VFFHdHpINE9NSVByWnAzSGU3UHFaNnJKSQ?oc=5) `04 Jul, 06:47 IST; score 35; high_impact`
 
 ---
 
@@ -70,14 +86,14 @@ Microsoft Frontier Company, as the new operating entity is called, will kick off
 **Google loses fight against record EUR4.1 billion EU antitrust fine**
 The European Commission had originally handed out a EUR4.34 billion fine to Google in 2018 for its agreements which forced phone manufacturers to pre-install Google offerings. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/google-loses-fight-against-record-41-billion-eu-antitrust-fine/article71181704.ece) `04 Jul, 12:59 IST; score 37; high_impact`
 
-**Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers**
-Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers Business Today. [Source: Business Today](https://news.google.com/rss/articles/CBMi4wFBVV95cUxPaXJNNERzdHdBR1hFeWVqd1R1Y1NHaXpfVm9OZzFHNkNLTktyZVE0MDlwdU9Kd3hvQWhBSzNKTU8wb1paNWRGa19LYWpINlNtbHk4RXJIRi0wLWRoR3BENU5yd0dPTlp5am9oN1d1TjJvNWMtdlZKTzd1bl9LUGpBcVBPVTF3NWxiQm52eFVoNlRNQU5jQ05sejE4ZWJWX1VrX1d0Nno4blpoWmVlWm5WaUZhQmtEMkliRG5rcEFnYTdKOXpuLVFoZ2ZRZm5IQVVyNFNDc2IxR3JJVVVGZ3Y5SE11MNIB6AFBVV95cUxOX0I5bnMxczYzWWRmdDlBWlBnTnFzRFlQaFE5U19HaHQyOHk0RVFDSDRJTEhseEZfYkc5c2dla3ZCbWpZZHJnd1JaTlRXWFYwSUlkd2JuOHI4MUxYWUduZXl6akJqTjRMdGNBNXVuRk1pdFU5T2pITTk2SnFkUUFvem9IRXh2ZVJvRVdDOU12LWJfd1N3ekxpcHppR3I5U09aLWIxaHBUZ09RLWhPZ0FsSGhlcWNMZ1ZtQzdBQWdOcFVjaE03UU9OaTZaeDRJYzZzYVdZbnFSM0JCakVPN2I5RnJwZUxzVlk1?oc=5) `03 Jul, 11:32 IST; score 34; high_impact`
-
 **OpenAI may cut AI subscription prices as Anthropic rivalry intensifies: Report**
 Open the source for the full update. [Source: Indian Express Technology](https://indianexpress.com/article/technology/tech-news-technology/openai-may-cut-ai-subscription-prices-as-anthropic-rivalry-intensifies-report-10771134/) `04 Jul, 13:37 IST; score 32; general`
 
 **Battery apps taken down in India after stalled e-rickshaw rides**
 Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/india-takes-down-battery-apps-after-stalled-e-rickshaw-rides/article71181698.ece) `04 Jul, 12:18 IST; score 29; general`
+
+**OpenAI discusses giving U.S. government 5% stake: Report**
+Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece) `03 Jul, 13:54 IST; score 28; high_impact`
 
 ---
 
@@ -102,6 +118,9 @@ Police raid illegal laterite stone extraction site in Dakshina Kannada; machines
 
 WATCHLIST
 
+**Telangana Govt approves recruitment for 6,424 Police dept posts**
+Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:02 IST; score 35; general`
+
 **Assam district orders deportation of man declared foreigner**
 Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 33; civic_safety`
 
@@ -116,6 +135,3 @@ Telangana government's decision to make cancer a notifiable disease promises to 
 
 **Mumbai-Ahmedabad bullet train to get operational by 2027; check features, time & more**
 India's first bullet train is set to begin its journey by 2027, with the Surat to Bilimora section slated for inauguration. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/business/india-business/mumbai-ahmedabad-bullet-train-india-to-get-its-1st-high-speed-rail-service-by-2027-check-key-features-travel-time-more/articleshow/132177187.cms) `04 Jul, 13:37 IST; score 29; general`
-
-**Adani-MSC Vizhinjam port stake transfer: Pinarayi Vijayan says Opposition to challenge legally and...**
-Opposition Leader asks Kerala government to 'stop acting as a spokesperson' for Adani Group and instead take immediate steps to safeguard the State's interests. [Source: The Hindu India](https://www.thehindu.com/news/national/kerala/adani-msc-vizhinjam-port-stake-transfer-pinarayi-vijayan-says-opposition-to-challenge-legally-and-politically/article71182240.ece) `04 Jul, 14:30 IST; score 28; civic_safety`

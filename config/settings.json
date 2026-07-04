@@ -4,6 +4,7 @@
   "default_hours": 36,
   "max_items": {
     "top": 5,
+    "breaking": 4,
     "global": 8,
     "india": 6,
     "tech": 6,

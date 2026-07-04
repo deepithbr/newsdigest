@@ -140,6 +140,64 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
+    .breaking-watch {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      margin: 16px 0 28px;
+      border: 1px solid var(--accent);
+      background: #fff8f4;
+    }
+    .breaking-label {
+      padding: 14px 16px;
+      border-right: 1px solid rgba(155, 21, 63, 0.28);
+      color: var(--accent);
+      display: grid;
+      align-content: space-between;
+      min-height: 104px;
+    }
+    .breaking-label span {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .breaking-label strong {
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 36px;
+      line-height: 1;
+    }
+    .breaking-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .breaking-item {
+      display: grid;
+      gap: 7px;
+      padding: 14px 16px;
+      border-right: 1px solid rgba(155, 21, 63, 0.18);
+      border-bottom: 1px solid rgba(155, 21, 63, 0.18);
+    }
+    .breaking-item:hover {
+      background: #ffffff;
+    }
+    .breaking-item span {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .breaking-item strong {
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      line-height: 1.04;
+    }
+    .breaking-item small {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
     .front-page {
       margin: 28px 0 34px;
       border-top: 3px solid var(--ink);
@@ -567,6 +625,17 @@
       .editorial-strip div:nth-child(2n) {
         border-right: 0;
       }
+      .breaking-watch {
+        grid-template-columns: 1fr;
+      }
+      .breaking-label {
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid rgba(155, 21, 63, 0.28);
+      }
+      .breaking-list {
+        grid-template-columns: 1fr;
+      }
       .brand { font-size: 64px; }
       .issue-box { text-align: left; }
       .lead h3 { font-size: 28px; }
@@ -586,7 +655,7 @@
     <header class="masthead">
       <div>
         <h1 class="brand">News Brief</h1>
-        <p class="dateline">Generated Saturday, 04 July 2026, 14:34 IST. A compact scan of global, India, technology, and coastal Karnataka signals.</p>
+        <p class="dateline">Generated Saturday, 04 July 2026, 14:46 IST. A compact scan of global, India, technology, and coastal Karnataka signals.</p>
       </div>
       <div class="issue-box">
         <strong>31</strong>
@@ -598,6 +667,7 @@
       <a href="#india">India</a>
       <a href="#tech">Tech / AI</a>
       <a href="#local">Coastal</a>
+      <a href="#breaking">Breaking</a>
       <a href="#watchlist">Watchlist</a>
     </nav>
     <section class="editorial-strip" aria-label="Editorial summary">
@@ -607,6 +677,42 @@
       </div>
       <div><strong>8</strong><span>Global Signals</span></div><div><strong>6</strong><span>India</span></div><div><strong>6</strong><span>Tech / Ai</span></div><div><strong>5</strong><span>Mangalore / Coastal Karnataka</span></div>
     </section>
+    
+        <section id="breaking" class="breaking-watch" aria-label="Breaking watch">
+          <div class="breaking-label">
+            <span>Breaking Watch</span>
+            <strong>4</strong>
+          </div>
+          <div class="breaking-list">
+      <a class="breaking-item" href="https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece">
+        <span>High impact</span>
+        <strong>Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6</strong>
+        <small>The Hindu India / 04 Jul, 11:49 IST</small>
+      </a>
+    
+
+      <a class="breaking-item" href="https://www.thehindu.com/sci-tech/technology/india-investigating-tata-data-leak-that-exposed-apple-iphone-secrets/article71181699.ece">
+        <span>High impact</span>
+        <strong>India investigating Tata data leak that exposed Apple iPhone secrets</strong>
+        <small>The Hindu Technology / 04 Jul, 10:29 IST</small>
+      </a>
+    
+
+      <a class="breaking-item" href="https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms">
+        <span>High impact</span>
+        <strong>Mumbai schools, colleges closed today as IMD issues red alert for heavy...</strong>
+        <small>Times of India Top Stories / 04 Jul, 13:44 IST</small>
+      </a>
+    
+
+      <a class="breaking-item" href="https://www.thehindu.com/news/national/west-bengal/west-bengal-imd-issues-red-alert-for-heavy-rains-as-low-pressure-develops-over-bay-of-bengal/article71182234.ece">
+        <span>High impact</span>
+        <strong>West Bengal: IMD issues red alert for heavy rains as low pressure...</strong>
+        <small>The Hindu India / 04 Jul, 14:26 IST</small>
+      </a>
+    </div>
+        </section>
+        
     <section class="front-page" aria-label="Top stories">
       <div class="front-head">
         <p class="eyebrow">TODAY'S TOP 5</p>
@@ -802,6 +908,30 @@
     
 
       <article class="story high-impact">
+        <a class="story-link" href="https://timesofindia.indiatimes.com/india/pm-modi-launches-indias-first-greenfield-refinery-unveils-rs-1-06-lakh-crore-projects-in-rajasthan/articleshow/132177851.cms">
+          <div class="story-media"><span>INDIA</span><img src="https://static.toiimg.com/photo/msid-132178049,imgsize-681551.cms" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="story-kicker"><span>Times of India Top Stories</span><span>04 Jul, 14:21 IST</span></div>
+          <h3>PM Modi unveils India&#x27;s 1st greenfield refinery, Rs 1.06L cr projects in Rajasthan</h3>
+          <p>Prime Minister Narendra Modi inaugurated a new terminal at Jodhpur Airport and launched the Modified UDAN scheme.</p>
+          <div class="rubric"><span>Novelty</span><span>Consequence</span><span>Source Authority</span><span>Local Relevance</span></div>
+          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
+        </a>
+      </article>
+    
+
+      <article class="story high-impact">
+        <a class="story-link" href="https://timesofindia.indiatimes.com/education/news/mumbai-schools-colleges-closed-for-afternoon-session-today-as-imd-issues-red-alert-for-heavy-rain/articleshow/132177581.cms">
+          <div class="story-media"><span>INDIA</span><img src="https://static.toiimg.com/photo/msid-132177570,imgsize-319700.cms" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="story-kicker"><span>Times of India Top Stories</span><span>04 Jul, 13:44 IST</span></div>
+          <h3>Mumbai schools, colleges closed today as IMD issues red alert for heavy rain</h3>
+          <p>Mumbai faces a red alert with extremely heavy rainfall expected Saturday, July 4.</p>
+          <div class="rubric"><span>Impact</span><span>Decision Relevance</span><span>Consequence</span><span>Fresh Change</span></div>
+          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
+        </a>
+      </article>
+    
+
+      <article class="story high-impact">
         <a class="story-link" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63080">
           <div class="story-media fallback"><span>INDIA</span></div>
           <div class="story-kicker"><span>RBI Press Releases</span><span>03 Jul, 16:00 IST</span></div>
@@ -832,30 +962,6 @@
           <h3>West Bengal: IMD issues red alert for heavy rains as low pressure develops over Bay of Bengal</h3>
           <p>As the weather system moved closer to the West Bengal-Odisha coast, the India Meteorological Department issued a red warning - the highest level of colour-coded warning - for South 24.</p>
           <div class="rubric"><span>Impact</span><span>Consequence</span><span>Local Relevance</span><span>Fresh Change</span></div>
-          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
-        </a>
-      </article>
-    
-
-      <article class="story high-impact">
-        <a class="story-link" href="https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece">
-          <div class="story-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/ejmrst/article71182082.ece/alternates/LANDSCAPE_1200/17102024_%20Police%20Duty%20Meet%2003.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="story-kicker"><span>The Hindu India</span><span>04 Jul, 13:02 IST</span></div>
-          <h3>Telangana Govt approves recruitment for 6,424 Police dept posts</h3>
-          <p>Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay.</p>
-          <div class="rubric"><span>Decision Relevance</span><span>Novelty</span><span>Source Authority</span><span>Fresh Change</span></div>
-          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
-        </a>
-      </article>
-    
-
-      <article class="story high-impact">
-        <a class="story-link" href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPbjNJZ3NrclhEc3BSdkphOERlRHItUjVueE90cC1sR1l3YlFVUXFpaFlKb1pmR2ZzdkZHbEZFX3Vma0NpU2EtdlVMU1gyeFJYYjVkb2JvWVFoUnlSSllhZTg2Wmk4Um44OFV5ckwtbVJFRTI4Z3FLOXp2dlVaTDBxVFRaTzBmMUZza09lVUlZSzg5d2EwOUtLQkg2VFFHdHpINE9NSVByWnAzSGU3UHFaNnJKSQ?oc=5">
-          <div class="story-media fallback"><span>INDIA</span></div>
-          <div class="story-kicker"><span>News On AIR</span><span>04 Jul, 06:47 IST</span></div>
-          <h3>RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector</h3>
-          <p>RBI launches Mission SAKSHAM for capacity building of Urban Co-operative Banking sector News On AIR.</p>
-          <div class="rubric"><span>Novelty</span><span>Source Authority</span><span>Fresh Change</span></div>
           <div class="story-meta"><span>High impact</span><span>Open source</span></div>
         </a>
       </article>
@@ -908,18 +1014,6 @@
     
 
       <article class="story high-impact">
-        <a class="story-link" href="https://news.google.com/rss/articles/CBMi4wFBVV95cUxPaXJNNERzdHdBR1hFeWVqd1R1Y1NHaXpfVm9OZzFHNkNLTktyZVE0MDlwdU9Kd3hvQWhBSzNKTU8wb1paNWRGa19LYWpINlNtbHk4RXJIRi0wLWRoR3BENU5yd0dPTlp5am9oN1d1TjJvNWMtdlZKTzd1bl9LUGpBcVBPVTF3NWxiQm52eFVoNlRNQU5jQ05sejE4ZWJWX1VrX1d0Nno4blpoWmVlWm5WaUZhQmtEMkliRG5rcEFnYTdKOXpuLVFoZ2ZRZm5IQVVyNFNDc2IxR3JJVVVGZ3Y5SE11MNIB6AFBVV95cUxOX0I5bnMxczYzWWRmdDlBWlBnTnFzRFlQaFE5U19HaHQyOHk0RVFDSDRJTEhseEZfYkc5c2dla3ZCbWpZZHJnd1JaTlRXWFYwSUlkd2JuOHI4MUxYWUduZXl6akJqTjRMdGNBNXVuRk1pdFU5T2pITTk2SnFkUUFvem9IRXh2ZVJvRVdDOU12LWJfd1N3ekxpcHppR3I5U09aLWIxaHBUZ09RLWhPZ0FsSGhlcWNMZ1ZtQzdBQWdOcFVjaE03UU9OaTZaeDRJYzZzYVdZbnFSM0JCakVPN2I5RnJwZUxzVlk1?oc=5">
-          <div class="story-media fallback"><span>TECH</span></div>
-          <div class="story-kicker"><span>Business Today</span><span>03 Jul, 11:32 IST</span></div>
-          <h3>Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers</h3>
-          <p>Microsoft launches a $2 billion AI Unit, employs 6,000 forward-deployment engineers Business Today.</p>
-          <div class="rubric"><span>Impact</span><span>Novelty</span><span>Professional Signal</span></div>
-          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
-        </a>
-      </article>
-    
-
-      <article class="story high-impact">
         <a class="story-link" href="https://indianexpress.com/article/technology/tech-news-technology/openai-may-cut-ai-subscription-prices-as-anthropic-rivalry-intensifies-report-10771134/">
           <div class="story-media"><span>TECH</span><img src="https://images.indianexpress.com/2026/04/open-AI.png" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
           <div class="story-kicker"><span>Indian Express Technology</span><span>04 Jul, 13:37 IST</span></div>
@@ -938,6 +1032,18 @@
           <h3>Battery apps taken down in India after stalled e-rickshaw rides</h3>
           <p>Over the last few days, videos of people using Chinese battery management apps to remotely cut power to e-rickshaws mid-ride have gone viral.</p>
           <div class="rubric"><span>Consequence</span><span>Local Relevance</span><span>Fresh Change</span></div>
+          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
+        </a>
+      </article>
+    
+
+      <article class="story high-impact">
+        <a class="story-link" href="https://www.thehindu.com/sci-tech/technology/openai-discusses-giving-us-government-5-stake-report/article71177217.ece">
+          <div class="story-media"><span>TECH</span><img src="https://th-i.thgim.com/public/incoming/2qjwa5/article71177218.ece/alternates/LANDSCAPE_1200/2026-06-25T211434Z_1801004754_RC2URLAX8T4E_RTRMADP_3_USA-OPENAI.JPG" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="story-kicker"><span>The Hindu Technology</span><span>03 Jul, 13:54 IST</span></div>
+          <h3>OpenAI discusses giving U.S. government 5% stake: Report</h3>
+          <p>Trump said on June 2 that he intended to meet top artificial intelligence firms to discuss the possibility of the government taking a stake in their companies to address public.</p>
+          <div class="rubric"><span>Source Authority</span><span>Professional Signal</span></div>
           <div class="story-meta"><span>High impact</span><span>Open source</span></div>
         </a>
       </article>
@@ -1024,6 +1130,18 @@
       </div>
       <div class="story-grid">
       <article class="story high-impact">
+        <a class="story-link" href="https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece">
+          <div class="story-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/ejmrst/article71182082.ece/alternates/LANDSCAPE_1200/17102024_%20Police%20Duty%20Meet%2003.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
+          <div class="story-kicker"><span>The Hindu India</span><span>04 Jul, 13:02 IST</span></div>
+          <h3>Telangana Govt approves recruitment for 6,424 Police dept posts</h3>
+          <p>Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay.</p>
+          <div class="rubric"><span>Decision Relevance</span><span>Novelty</span><span>Source Authority</span><span>Fresh Change</span></div>
+          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
+        </a>
+      </article>
+    
+
+      <article class="story high-impact">
         <a class="story-link" href="https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece">
           <div class="story-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/uabldm/article71181964.ece/alternates/LANDSCAPE_1200/iStock-1172438587.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
           <div class="story-kicker"><span>The Hindu India</span><span>04 Jul, 12:37 IST</span></div>
@@ -1078,18 +1196,6 @@
           <h3>Mumbai-Ahmedabad bullet train to get operational by 2027; check features, time &amp; more</h3>
           <p>India&#x27;s first bullet train is set to begin its journey by 2027, with the Surat to Bilimora section slated for inauguration.</p>
           <div class="rubric"><span>Novelty</span><span>Local Relevance</span><span>Fresh Change</span></div>
-          <div class="story-meta"><span>High impact</span><span>Open source</span></div>
-        </a>
-      </article>
-    
-
-      <article class="story high-impact">
-        <a class="story-link" href="https://www.thehindu.com/news/national/kerala/adani-msc-vizhinjam-port-stake-transfer-pinarayi-vijayan-says-opposition-to-challenge-legally-and-politically/article71182240.ece">
-          <div class="story-media"><span>INDIA</span><img src="https://th-i.thgim.com/public/incoming/3ahuoj/article71182250.ece/alternates/LANDSCAPE_1200/PTI07_02_2026_000306B.jpg" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add('fallback');"></div>
-          <div class="story-kicker"><span>The Hindu India</span><span>04 Jul, 14:30 IST</span></div>
-          <h3>Adani-MSC Vizhinjam port stake transfer: Pinarayi Vijayan says Opposition to challenge legally and politically</h3>
-          <p>Opposition Leader asks Kerala government to &#x27;stop acting as a spokesperson&#x27; for Adani Group and instead take immediate steps to safeguard the State&#x27;s interests.</p>
-          <div class="rubric"><span>Decision Relevance</span><span>Source Authority</span></div>
           <div class="story-meta"><span>High impact</span><span>Open source</span></div>
         </a>
       </article>
