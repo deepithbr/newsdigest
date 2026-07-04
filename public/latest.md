@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 14:05 IST
+Briefing generated: Saturday, 04 July 2026, 14:17 IST
 
 TODAY'S TOP 5
 1. India investigating Tata data leak that exposed Apple iPhone secrets
@@ -39,6 +39,9 @@ More than 165 million people are enduring dangerous heat and humidity, with temp
 
 INDIA
 
+**Chinese billionaire who visited Trump's Mar-a-Lago sentenced to 30 years in US crypto...**
+A Chinese businessman, Guo Wengui, once a member of Donald Trump's Mar-a-Lago club, has received a 30-year prison sentence in the US. [Source: Times of India Top Stories](https://timesofindia.indiatimes.com/technology/tech-news/chinese-billionaire-who-went-to-president-donald-trumps-mar-a-lago-florida-golf-club-sentenced-to-30-years-in-us-jail-for-a-massive-/articleshow/132177692.cms) `04 Jul, 13:52 IST; score 40; civic_safety`
+
 **Heavy rain continues in Mumbai, Thane; red alert remains for July 4-6**
 The RMD, Mumbai, has issued a Red Alert for July 4 for Mumbai, Thane, Palghar, Raigad, Ratnagiri, and Sindhudurg districts. [Source: The Hindu India](https://www.thehindu.com/news/national/maharashtra/heavy-rain-continues-in-mumbai-thane-red-alert-remains-for-july-4-6/article71181629.ece) `04 Jul, 11:49 IST; score 40; civic_safety`
 
@@ -53,9 +56,6 @@ Idukki district administration permits opening of dam shutters as precautionary 
 
 **Telangana Govt approves recruitment for 6,424 Police dept posts**
 Telangana Government issued two orders to fill the posts, directs TPRB to issue recruitment notifications and schedules without delay. [Source: The Hindu India](https://www.thehindu.com/news/national/telangana/telangana-govt-approves-recruitment-for-6424-police-dept-posts/article71182056.ece) `04 Jul, 13:02 IST; score 35; general`
-
-**Assam district orders deportation of man declared foreigner**
-Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 33; civic_safety`
 
 ---
 
@@ -89,18 +89,21 @@ Daijiworld local listing item; open the source for full context. [Source: Daijiw
 **Bantwal: Illegal laterite stone, soil mining busted near Vittal; vehicles, machinery seized**
 Daijiworld local listing item; open the source for full context. [Source: Daijiworld Local](https://www.daijiworld.com/news/newsDisplay?newsID=1319009) `04 Jul, 09:35 IST; score 33; civic_safety`
 
-**Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl**
-Kasaragod: Probe launched against five in sexual assault of differently-abled minor girl Mangalore Today. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMixwFBVV95cUxOWUtjM0k5NURWNzRtS2JBdFJSYWN0RDUwMS1scFJXb2dmTFcxVmNQZGxmczV2NU8tUEh2d3FVLWZWME96aW5XaTlKOWZ5dWhoc2FHVVRnek4wRndTOEc5Y29mVTU3YjJwWDNWcjBnaFdwMVo3TWJDdVYwUzZyb0dMSVlyTFpYb19LM0ZpRmFNSUJCU1l5QnZrRjZ4MzlsR3Frb18ydkFRdjBQOGZDWkFXS0x0ajZtUklSMzN3dW92Vi00X0JuZkhB?oc=5) `03 Jul, 17:51 IST; score 33; civic_safety`
-
 **Dakshina Kannada: Man arrested for facilitating cyber fraud by providing bank accounts -...**
 Dakshina Kannada: Man arrested for facilitating cyber fraud by providing bank accounts Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi1AFBVV95cUxNbS1tR1R6Mkd4U1dNS2dGNWNLX3Z3MHNNZUVJSUlaNWNCY20xQkpGQ2ltaC1xeWZVLWRELTJ6VjNCOFdzTkR2T2diYUhMQ3FYb0FZOE9tQWw5TWZiU0xDMkdhZWNnc3VZWGR0RG9IT2J5MGJmVWtrWF9KdkpUZElxaENPS3k5aWVuVWFRTW1LZjdIX3JIVm1QR25WeW1YZmhzdUdIZzRGTEJsNnBlU2FpWHN3dldKYmZ5S2xaT3ozSEQ2WWMwRkJTb3ZnZ1RwOXc1SDlrVQ?oc=5) `04 Jul, 12:51 IST; score 30; civic_safety`
 
 **Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case...**
 Police raid illegal laterite stone extraction site in Dakshina Kannada; machines seized, case booked Deccan Herald. [Source: Google News Local Fallback](https://news.google.com/rss/articles/CBMi8wFBVV95cUxNVGNMaXJmcTluVFgyb1dEb2RtMmJ0Y2dfRzR2Z1VyZVdrOUd0VnpKY1Z0U3U0NmFId1NScXlOZmdObmpCbWsyMDBaNTZ4Z2JtOURRdUpHNVdvWkQ0cWRQVWc0N1VaR09Rcm1fUm5idUt0VVFIS0dlbTBwVm1DSGFCX2x1dTFheGxEcFlBSjlZNzJrcHRiNmlIelQyN0lYeUpKd0ZkQzMzVEw0X0tEVkh3akh2bEllYWR6azhxWlZmRnlSUGdBY1FnVkNWWDR0VmU4Wk9uMHBmZUZoN0ctV1dVbkRlSEY4RGo2ODg2UGZPV3RGaEU?oc=5) `04 Jul, 12:53 IST; score 29; civic_safety`
 
+**Years of promises, no pipeline: Boloor residents await UGD connectivity**
+Mangaluru: Residents of Boloor, under the jurisdiction of the Mangaluru City Corporation (MCC), have once again appealed to the authorities to complete the long-pending underground drainage (UGD) project. [Source: Coastal Digest](https://coastaldigest.com/years-of-promises-no-pipeline-boloor-residents-await-ugd-connectivity/) `04 Jul, 12:09 IST; score 27; civic_safety`
+
 ---
 
 WATCHLIST
+
+**Assam district orders deportation of man declared foreigner**
+Adjudged a non-citizen by a Foreigners' Tribunal, Kayam Ansari has been asked to exit India under the provisions of the Immigrants (Expulsion from Assam) Act, 1950. [Source: The Hindu India](https://www.thehindu.com/news/national/assam/assam-district-orders-deportation-of-man-declared-foreigner/article71181911.ece) `04 Jul, 12:37 IST; score 33; civic_safety`
 
 **After Ayodhya, Badrinath Dham hit by donation theft claims; inquiry ordered**
 BKTC president Hemant Dwivedi said that if the allegations are proven true during the investigation, no guilty party will be spared, and strict action will be taken. [Source: The Hindu India](https://www.thehindu.com/news/national/after-ayodhya-badrinath-dham-hit-by-donation-theft-claims-inquiry-ordered/article71181662.ece) `04 Jul, 10:03 IST; score 33; civic_safety`
@@ -116,6 +119,3 @@ India's first bullet train is set to begin its journey by 2027, with the Surat t
 
 **I&B Ministry issues fresh notice to Telegram on pirated content**
 The Ministry asked the platform to submit an Action Taken Report within 15 days, stating that as an intermediary, Telegram must abide by IT Act and IT Rules. [Source: The Hindu Technology](https://www.thehindu.com/sci-tech/technology/ib-ministry-issues-fresh-notice-to-telegram-on-pirated-content/article71182104.ece) `04 Jul, 13:49 IST; score 27; general`
-
-**Years of promises, no pipeline: Boloor residents await UGD connectivity**
-Mangaluru: Residents of Boloor, under the jurisdiction of the Mangaluru City Corporation (MCC), have once again appealed to the authorities to complete the long-pending underground drainage (UGD) project. [Source: Coastal Digest](https://coastaldigest.com/years-of-promises-no-pipeline-boloor-residents-await-ugd-connectivity/) `04 Jul, 12:09 IST; score 27; civic_safety`

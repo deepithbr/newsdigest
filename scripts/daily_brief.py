@@ -1232,11 +1232,32 @@ def html_story_card(
     """
 
 
+def html_top_story(story: Story, tz: ZoneInfo, rank: int, lead: bool = False) -> str:
+    timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
+    title = html.escape(headline(story.title, 16 if lead else 13))
+    summary = html.escape(sentence(story.summary, 28 if lead else 18) or "Open the source for the full update.")
+    source = html.escape(story.source)
+    url = html.escape(story.link, quote=True)
+    tier = html.escape(impact_tier(story))
+    rubric_labels = story_rubric_labels(story)
+    rubric_html = "".join(f"<span>{html.escape(label.title())}</span>" for label in rubric_labels[:4])
+    class_name = "top-item lead-top" if lead else "top-item"
+    return f"""
+      <article class="{class_name}">
+        <a href="{url}">
+          <div class="top-rule"><span>{rank:02d}</span><span>{tier}</span></div>
+          <h3>{title}</h3>
+          <p>{summary}</p>
+          <div class="rubric">{rubric_html}</div>
+          <div class="story-meta"><span>{source}</span><span>{timestamp}</span></div>
+        </a>
+      </article>
+    """
+
+
 def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
     labels = settings["section_labels"]
-    lead = sections["top"][0] if sections["top"] else None
-    top_rest = sections["top"][1:]
     selected_without_top = [story for bucket in ("global", "india", "tech", "local", "watchlist") for story in sections[bucket]]
     total_count = len(selected_without_top)
     strongest = max(selected_without_top or sections["top"], key=lambda story: story.score, default=None)
@@ -1247,9 +1268,11 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     )
 
     top_cards = "\n".join(
-        html_story_card(story, tz, index, compact=True)
-        for index, story in enumerate(top_rest, start=2)
+        html_top_story(story, tz, index, lead=(index == 1))
+        for index, story in enumerate(sections["top"], start=1)
     )
+    if not top_cards:
+        top_cards = '<p class="empty">No high-confidence top stories found in the configured window.</p>'
     section_blocks: list[str] = []
     for bucket in ("global", "india", "tech", "local"):
         stories = sections[bucket]
@@ -1274,12 +1297,6 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     watchlist_cards = "\n".join(html_story_card(story, tz, compact=True) for story in sections["watchlist"])
     if not watchlist_cards:
         watchlist_cards = '<p class="empty">No additional watchlist items crossed the threshold.</p>'
-
-    lead_html = (
-        html_story_card(lead, tz, 1, lead=True)
-        if lead
-        else '<p class="empty">No high-confidence top story found in the configured window.</p>'
-    )
 
     return f"""<!doctype html>
 <html lang="en">
@@ -1423,21 +1440,104 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }}
-    .lead-layout {{
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
-      gap: 18px;
-      align-items: start;
-      margin: 24px 0 30px;
+    .front-page {{
+      margin: 28px 0 34px;
+      border-top: 3px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: rgba(255, 255, 255, 0.38);
     }}
-    .top-stack {{
+    .front-head {{
+      display: flex;
+      gap: 18px;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 16px 0 12px;
+      border-bottom: 1px solid var(--ink);
+    }}
+    .front-head h2 {{
+      margin: 0;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 4vw, 54px);
+      font-weight: 800;
+      line-height: 0.98;
+      letter-spacing: 0;
+      text-align: right;
+    }}
+    .top-grid {{
       display: grid;
-      gap: 12px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch;
+      border-left: 1px solid var(--rule);
+    }}
+    .top-item {{
+      min-height: 100%;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: rgba(255, 255, 255, 0.58);
+    }}
+    .top-item a {{
+      display: grid;
+      align-content: start;
+      min-height: 100%;
+      padding: 16px;
+    }}
+    .top-item:hover {{
+      background: #fffaf1;
+    }}
+    .top-rule {{
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      color: var(--accent);
+      border-bottom: 1px solid var(--faint);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .top-item h3 {{
+      margin: 0 0 10px;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.03;
+      letter-spacing: 0;
+    }}
+    .top-item p {{
+      margin: 0 0 14px;
+      color: #303733;
+    }}
+    .top-item .rubric {{
+      margin: 0 0 16px;
+    }}
+    .top-item .story-meta {{
+      margin-top: auto;
+      padding: 12px 0 0;
+      border-top: 1px solid var(--faint);
+    }}
+    .lead-top {{
+      grid-column: span 2;
+      grid-row: span 2;
+      background: #fffdf7;
+    }}
+    .lead-top a {{
+      padding: 22px;
+    }}
+    .lead-top h3 {{
+      font-size: clamp(40px, 4.8vw, 64px);
+      line-height: 0.94;
+      max-width: 760px;
+    }}
+    .lead-top p {{
+      max-width: 720px;
+      font-size: 17px;
     }}
     .story {{
       background: var(--surface);
       border: 1px solid var(--rule);
-      box-shadow: var(--shadow);
+      box-shadow: 0 10px 28px rgba(27, 22, 16, 0.05);
       overflow: hidden;
       transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }}
@@ -1447,7 +1547,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     }}
     .story:hover {{
       border-color: var(--accent);
-      box-shadow: 0 22px 52px rgba(27, 22, 16, 0.11);
+      box-shadow: 0 16px 38px rgba(27, 22, 16, 0.08);
     }}
     .story-kicker, .story-meta {{
       display: flex;
@@ -1612,7 +1712,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       padding-right: 14px;
     }}
     .news-section {{
-      margin-top: 36px;
+      margin-top: 42px;
       border-top: 2px solid var(--ink);
       padding-top: 18px;
     }}
@@ -1644,8 +1744,8 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     }}
     .story-grid {{
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }}
     .watchlist {{
       margin-top: 38px;
@@ -1687,8 +1787,29 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     }}
     @media (max-width: 820px) {{
       .page {{ padding: 20px 14px 44px; }}
-      .masthead, .lead-layout, .section-head, .story-grid {{
+      .masthead, .section-head, .story-grid {{
         grid-template-columns: 1fr;
+      }}
+      .front-head {{
+        display: block;
+      }}
+      .front-head h2 {{
+        text-align: left;
+        margin-top: 20px;
+      }}
+      .top-grid {{
+        grid-template-columns: 1fr;
+        border-left: 0;
+      }}
+      .top-item {{
+        border-left: 1px solid var(--rule);
+      }}
+      .lead-top {{
+        grid-column: auto;
+        grid-row: auto;
+      }}
+      .lead-top h3 {{
+        font-size: 36px;
       }}
       .editorial-strip {{
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1739,9 +1860,12 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       </div>
       {section_stats}
     </section>
-    <section class="lead-layout" aria-label="Top stories">
-      {lead_html}
-      <div class="top-stack">{top_cards}</div>
+    <section class="front-page" aria-label="Top stories">
+      <div class="front-head">
+        <p class="eyebrow">TODAY'S TOP 5</p>
+        <h2>What Changes The Day</h2>
+      </div>
+      <div class="top-grid">{top_cards}</div>
     </section>
     {''.join(section_blocks)}
     <section id="watchlist" class="watchlist">
