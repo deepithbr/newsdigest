@@ -185,6 +185,63 @@ TOP_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 WATCHLIST_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 
 EDITORIAL_RUBRIC = {
+    "impact": [
+        "billion",
+        "million",
+        "nationwide",
+        "global",
+        "statewide",
+        "record",
+        "largest",
+        "major",
+        "multiple",
+        "war",
+        "attack",
+        "red alert",
+        "data leak",
+        "antitrust",
+    ],
+    "decision_relevance": [
+        "policy",
+        "regulation",
+        "budget",
+        "rates",
+        "tax",
+        "market",
+        "security",
+        "privacy",
+        "cyber",
+        "infrastructure",
+        "rain",
+        "flood",
+        "port",
+        "bank",
+        "recruitment",
+        "approval",
+    ],
+    "novelty": [
+        "first",
+        "new",
+        "launches",
+        "launched",
+        "rolls out",
+        "released",
+        "releases",
+        "approves",
+        "approved",
+        "orders",
+        "ordered",
+        "rules",
+        "ruled",
+        "blocks",
+        "blocked",
+        "fines",
+        "fined",
+        "investigating",
+        "probe launched",
+        "announces",
+        "announced",
+    ],
     "consequence": [
         "approved",
         "ordered",
@@ -204,7 +261,7 @@ EDITORIAL_RUBRIC = {
         "data leak",
         "antitrust",
     ],
-    "authority": [
+    "source_authority": [
         "supreme court",
         "high court",
         "rbi",
@@ -218,34 +275,7 @@ EDITORIAL_RUBRIC = {
         "district administration",
         "european commission",
     ],
-    "decision_relevance": [
-        "policy",
-        "regulation",
-        "budget",
-        "rates",
-        "tax",
-        "market",
-        "security",
-        "privacy",
-        "cyber",
-        "infrastructure",
-        "rain",
-        "flood",
-        "port",
-        "bank",
-    ],
-    "scale": [
-        "billion",
-        "million",
-        "nationwide",
-        "global",
-        "statewide",
-        "record",
-        "largest",
-        "major",
-        "multiple",
-    ],
-    "proximity": [
+    "local_relevance": [
         "india",
         "indian",
         "mangaluru",
@@ -510,28 +540,46 @@ def apply_source_bonus(score: int, reason: str, source: dict[str, Any]) -> tuple
     return score + bonus, f"{reason}; source_bonus {sign}{bonus}"
 
 
-def editorial_rubric_score(title: str, summary: str, bucket: str) -> tuple[int, list[str]]:
+def editorial_rubric_score(
+    title: str,
+    summary: str,
+    bucket: str,
+    quality: int,
+    age_hours: float,
+) -> tuple[int, list[str]]:
     haystack = f"{title} {summary}".lower()
     points = 0
     labels: list[str] = []
     weights = {
+        "impact": 4,
+        "decision_relevance": 4,
+        "novelty": 3,
         "consequence": 4,
-        "authority": 3,
-        "decision_relevance": 3,
-        "scale": 2,
-        "proximity": 2,
+        "source_authority": 3,
+        "local_relevance": 3,
     }
     for axis, terms in EDITORIAL_RUBRIC.items():
         if any(keyword_matches(haystack, term) for term in terms):
             points += weights[axis]
             labels.append(axis.replace("_", " "))
-    if bucket == "local" and "proximity" in labels:
+
+    if quality >= 5 and "source authority" not in labels:
+        points += weights["source_authority"]
+        labels.append("source authority")
+    elif quality >= 4 and any(label in labels for label in ("consequence", "decision relevance", "impact")):
+        points += 1
+
+    if age_hours <= 12 and any(label in labels for label in ("novelty", "consequence")):
+        points += 2
+        labels.append("fresh change")
+
+    if bucket == "local" and "local relevance" in labels:
         points += 2
         labels.append("local consequence")
     if bucket == "tech" and any(keyword_matches(haystack, term) for term in ("ai", "cyber", "security", "chip", "model", "privacy")):
         points += 2
         labels.append("professional signal")
-    return min(points, 14), labels[:4]
+    return min(points, 18), labels[:5]
 
 
 def story_rubric_labels(story: Story) -> list[str]:
@@ -540,7 +588,7 @@ def story_rubric_labels(story: Story) -> list[str]:
         part = part.strip()
         if part.startswith("rubric "):
             labels.extend(label.strip() for label in part.removeprefix("rubric ").split(",") if label.strip())
-    return labels[:3]
+    return labels[:4]
 
 
 def impact_tier(story: Story) -> str:
@@ -613,7 +661,7 @@ def score_item(
         score += 3
         reasons.append("impact")
 
-    rubric_points, rubric_labels = editorial_rubric_score(title, summary, bucket)
+    rubric_points, rubric_labels = editorial_rubric_score(title, summary, bucket, quality, age_hours)
     if rubric_points:
         score += rubric_points
         reasons.append(f"rubric {', '.join(rubric_labels)}")
