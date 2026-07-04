@@ -184,6 +184,81 @@ SECTION_MIN_SCORE = {
 TOP_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 WATCHLIST_EXCLUDED_CLASSES = {"commercial", "culture_lite"}
 
+EDITORIAL_RUBRIC = {
+    "consequence": [
+        "approved",
+        "ordered",
+        "ruled",
+        "blocked",
+        "fined",
+        "banned",
+        "launched",
+        "released",
+        "cut",
+        "raised",
+        "resumed",
+        "halted",
+        "arrested",
+        "seized",
+        "red alert",
+        "data leak",
+        "antitrust",
+    ],
+    "authority": [
+        "supreme court",
+        "high court",
+        "rbi",
+        "sebi",
+        "reserve bank",
+        "regulator",
+        "ministry",
+        "government",
+        "court",
+        "police",
+        "district administration",
+        "european commission",
+    ],
+    "decision_relevance": [
+        "policy",
+        "regulation",
+        "budget",
+        "rates",
+        "tax",
+        "market",
+        "security",
+        "privacy",
+        "cyber",
+        "infrastructure",
+        "rain",
+        "flood",
+        "port",
+        "bank",
+    ],
+    "scale": [
+        "billion",
+        "million",
+        "nationwide",
+        "global",
+        "statewide",
+        "record",
+        "largest",
+        "major",
+        "multiple",
+    ],
+    "proximity": [
+        "india",
+        "indian",
+        "mangaluru",
+        "mangalore",
+        "dakshina kannada",
+        "coastal karnataka",
+        "udupi",
+        "kasaragod",
+        "bantwal",
+        "vittal",
+    ],
+}
+
 
 @dataclass(frozen=True)
 class Story:
@@ -435,6 +510,49 @@ def apply_source_bonus(score: int, reason: str, source: dict[str, Any]) -> tuple
     return score + bonus, f"{reason}; source_bonus {sign}{bonus}"
 
 
+def editorial_rubric_score(title: str, summary: str, bucket: str) -> tuple[int, list[str]]:
+    haystack = f"{title} {summary}".lower()
+    points = 0
+    labels: list[str] = []
+    weights = {
+        "consequence": 4,
+        "authority": 3,
+        "decision_relevance": 3,
+        "scale": 2,
+        "proximity": 2,
+    }
+    for axis, terms in EDITORIAL_RUBRIC.items():
+        if any(keyword_matches(haystack, term) for term in terms):
+            points += weights[axis]
+            labels.append(axis.replace("_", " "))
+    if bucket == "local" and "proximity" in labels:
+        points += 2
+        labels.append("local consequence")
+    if bucket == "tech" and any(keyword_matches(haystack, term) for term in ("ai", "cyber", "security", "chip", "model", "privacy")):
+        points += 2
+        labels.append("professional signal")
+    return min(points, 14), labels[:4]
+
+
+def story_rubric_labels(story: Story) -> list[str]:
+    labels: list[str] = []
+    for part in story.reason.split(";"):
+        part = part.strip()
+        if part.startswith("rubric "):
+            labels.extend(label.strip() for label in part.removeprefix("rubric ").split(",") if label.strip())
+    return labels[:3]
+
+
+def impact_tier(story: Story) -> str:
+    if story.score >= 28:
+        return "High impact"
+    if story.score >= 22:
+        return "Material"
+    if story.score >= 17:
+        return "Worth tracking"
+    return "Context"
+
+
 def sentence(value: str, max_words: int = 28) -> str:
     value = clean_text(value)
     if not value:
@@ -494,6 +612,16 @@ def score_item(
     if any(term in haystack for term in impact_terms):
         score += 3
         reasons.append("impact")
+
+    rubric_points, rubric_labels = editorial_rubric_score(title, summary, bucket)
+    if rubric_points:
+        score += rubric_points
+        reasons.append(f"rubric {', '.join(rubric_labels)}")
+
+    individual_crime_terms = ("gangrape", "sexual assault", "robbery", "murder", "domestic violence")
+    if bucket != "local" and any(term in haystack for term in individual_crime_terms):
+        score -= 6
+        reasons.append("individual crime -6")
 
     class_adjustments = {
         "high_impact": 5,
@@ -801,14 +929,34 @@ def select_sections(stories: list[Story], settings: dict[str, Any]) -> dict[str,
     top_pool = sorted(
         top_pool,
         key=lambda story: (
-            story.editorial_class in {"high_impact", "civic_safety"},
+            story.editorial_class == "high_impact",
+            story.editorial_class == "civic_safety",
             story.bucket != "local",
             story.score,
             story.published,
         ),
         reverse=True,
     )
-    sections["top"] = top_pool[: int(max_items["top"])]
+    top_items: list[Story] = []
+    bucket_counts = {bucket: 0 for bucket in ("global", "india", "tech", "local")}
+    top_limit = int(max_items["top"])
+    for story in top_pool:
+        bucket_cap = 2 if story.bucket in {"india", "tech", "global"} else 1
+        if bucket_counts.get(story.bucket, 0) >= bucket_cap:
+            continue
+        top_items.append(story)
+        bucket_counts[story.bucket] = bucket_counts.get(story.bucket, 0) + 1
+        if len(top_items) >= top_limit:
+            break
+    if len(top_items) < top_limit:
+        selected_top_links = {canonical_link(story.link) for story in top_items}
+        for story in top_pool:
+            if canonical_link(story.link) in selected_top_links:
+                continue
+            top_items.append(story)
+            if len(top_items) >= top_limit:
+                break
+    sections["top"] = top_items
 
     selected = {canonical_link(story.link) for bucket in sections.values() for story in bucket}
     sections["watchlist"] = [
@@ -1009,8 +1157,13 @@ def html_story_card(
     url = html.escape(story.link, quote=True)
     image_url = html.escape(story.image_url, quote=True)
     rank_html = f'<span class="rank">{rank:02d}</span>' if rank is not None else ""
+    tier = impact_tier(story)
+    tier_slug = tier.lower().replace(" ", "-")
+    rubric_labels = story_rubric_labels(story)
+    rubric_html = "".join(f"<span>{html.escape(label.title())}</span>" for label in rubric_labels)
     class_name = "story compact" if compact else "story"
     class_name += " lead" if lead else ""
+    class_name += f" {tier_slug}"
     fallback_label = html.escape(section_short_label(story.bucket))
     image_html = (
         f'<div class="story-media"><span>{fallback_label}</span><img src="{image_url}" alt="" loading="lazy" onerror="this.remove(); this.parentElement.classList.add(\'fallback\');"></div>'
@@ -1024,7 +1177,8 @@ def html_story_card(
           <div class="story-kicker">{rank_html}<span>{source}</span><span>{timestamp}</span></div>
           <h3>{title}</h3>
           <p>{summary}</p>
-          <div class="story-meta"><span>Score {story.score} / {html.escape(story.editorial_class.replace('_', ' '))}</span><span>Open source</span></div>
+          <div class="rubric">{rubric_html or f"<span>{html.escape(story.editorial_class.replace('_', ' ').title())}</span>"}</div>
+          <div class="story-meta"><span>{html.escape(tier)}</span><span>Open source</span></div>
         </a>
       </article>
     """
@@ -1033,9 +1187,16 @@ def html_story_card(
 def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
     labels = settings["section_labels"]
-    total_count = sum(len(items) for items in sections.values())
     lead = sections["top"][0] if sections["top"] else None
     top_rest = sections["top"][1:]
+    selected_without_top = [story for bucket in ("global", "india", "tech", "local", "watchlist") for story in sections[bucket]]
+    total_count = len(selected_without_top)
+    strongest = max(selected_without_top or sections["top"], key=lambda story: story.score, default=None)
+    strongest_label = impact_tier(strongest) if strongest else "No signal"
+    section_stats = "".join(
+        f'<div><strong>{len(sections[bucket])}</strong><span>{html.escape(labels[bucket].title())}</span></div>'
+        for bucket in ("global", "india", "tech", "local")
+    )
 
     top_cards = "\n".join(
         html_story_card(story, tz, index, compact=True)
@@ -1100,11 +1261,21 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     html {{ scroll-behavior: smooth; }}
     body {{
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, rgba(18,20,17,0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18,20,17,0.025) 1px, transparent 1px),
+        var(--bg);
+      background-size: 72px 72px, 72px 72px, auto;
       color: var(--ink);
       font: 15px/1.55 Inter, "Segoe UI", system-ui, sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }}
     a {{ color: inherit; text-decoration: none; }}
+    a:focus-visible {{
+      outline: 3px solid rgba(155, 21, 63, 0.35);
+      outline-offset: 3px;
+    }}
     .page {{
       max-width: 1180px;
       margin: 0 auto;
@@ -1171,6 +1342,39 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       letter-spacing: 0.06em;
       background: var(--surface);
     }}
+    .nav a:hover {{
+      background: var(--ink);
+      color: #fffaf1;
+      border-color: var(--ink);
+    }}
+    .editorial-strip {{
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border: 1px solid var(--ink);
+      border-top: 0;
+      background: rgba(255, 255, 255, 0.62);
+    }}
+    .editorial-strip div {{
+      min-height: 78px;
+      padding: 13px 14px;
+      border-right: 1px solid var(--rule);
+      display: grid;
+      align-content: space-between;
+    }}
+    .editorial-strip div:last-child {{
+      border-right: 0;
+    }}
+    .editorial-strip strong {{
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      line-height: 1;
+    }}
+    .editorial-strip span {{
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }}
     .lead-layout {{
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
@@ -1187,6 +1391,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       border: 1px solid var(--rule);
       box-shadow: var(--shadow);
       overflow: hidden;
+      transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }}
     .story-link {{
       display: grid;
@@ -1194,6 +1399,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     }}
     .story:hover {{
       border-color: var(--accent);
+      box-shadow: 0 22px 52px rgba(27, 22, 16, 0.11);
     }}
     .story-kicker, .story-meta {{
       display: flex;
@@ -1271,12 +1477,35 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       color: #313836;
       margin: 0 18px 18px;
     }}
+    .rubric {{
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 0 18px 16px;
+    }}
+    .rubric span {{
+      border: 1px solid rgba(155, 21, 63, 0.26);
+      color: var(--accent);
+      background: rgba(155, 21, 63, 0.055);
+      padding: 4px 7px;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }}
     .story-meta {{
       margin-top: auto;
       justify-content: space-between;
       border-top: 1px solid var(--faint);
       padding-top: 12px;
       padding-bottom: 16px;
+    }}
+    .high-impact {{
+      border-color: rgba(155, 21, 63, 0.52);
+    }}
+    .material .story-meta span:first-child {{
+      color: var(--accent-2);
     }}
     .lead {{
       border-top: 5px solid var(--accent);
@@ -1309,6 +1538,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     .compact .story-kicker,
     .compact h3,
     .compact p,
+    .compact .rubric,
     .compact .story-meta {{
       grid-column: 2;
     }}
@@ -1322,6 +1552,10 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       margin-left: 0;
     }}
     .compact p {{
+      margin-right: 14px;
+      margin-left: 0;
+    }}
+    .compact .rubric {{
       margin-right: 14px;
       margin-left: 0;
     }}
@@ -1388,6 +1622,11 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     .watchlist .story p {{
       color: #dce2de;
     }}
+    .watchlist .rubric span {{
+      border-color: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.08);
+      color: #f2ded4;
+    }}
     .watchlist .story-meta {{
       border-color: #46504b;
     }}
@@ -1402,6 +1641,15 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .page {{ padding: 20px 14px 44px; }}
       .masthead, .lead-layout, .section-head, .story-grid {{
         grid-template-columns: 1fr;
+      }}
+      .editorial-strip {{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }}
+      .editorial-strip div {{
+        border-bottom: 1px solid var(--rule);
+      }}
+      .editorial-strip div:nth-child(2n) {{
+        border-right: 0;
       }}
       .brand {{ font-size: 64px; }}
       .issue-box {{ text-align: left; }}
@@ -1436,6 +1684,13 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       <a href="#local">Coastal</a>
       <a href="#watchlist">Watchlist</a>
     </nav>
+    <section class="editorial-strip" aria-label="Editorial summary">
+      <div>
+        <span>Editorial threshold</span>
+        <strong>{html.escape(strongest_label)}</strong>
+      </div>
+      {section_stats}
+    </section>
     <section class="lead-layout" aria-label="Top stories">
       {lead_html}
       <div class="top-stack">{top_cards}</div>
