@@ -1,4 +1,4 @@
-Briefing generated: Saturday, 04 July 2026, 15:09 IST
+Briefing generated: Saturday, 04 July 2026, 15:19 IST
 
 TODAY'S TOP 5
 1. India investigating Tata data leak that exposed Apple iPhone secrets

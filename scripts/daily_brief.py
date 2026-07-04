@@ -1594,6 +1594,13 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(settings["brief_title"])}</title>
+  <script>
+    (() => {{
+      const saved = localStorage.getItem("newsbrief-theme");
+      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = saved || (systemDark ? "dark" : "light");
+    }})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;650;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
@@ -1611,14 +1618,44 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       --accent-2: #145c53;
       --gold: #a87624;
       --shadow: 0 18px 46px rgba(27, 22, 16, 0.08);
+      --brand-red: #e22c2f;
+      --grid-x: rgba(18,20,17,0.035);
+      --grid-y: rgba(18,20,17,0.025);
+      --nav-bg: rgba(246, 243, 238, 0.94);
+      --soft-panel: rgba(255, 255, 255, 0.62);
+      --warm-hover: #fffaf1;
+      --body-copy: #313836;
+      --section-copy: #4b514d;
+    }}
+    :root[data-theme="dark"] {{
+      color-scheme: dark;
+      --bg: #10110f;
+      --surface: #181a17;
+      --surface-2: #20221f;
+      --ink: #f4efe6;
+      --muted: #b9b0a4;
+      --faint: #393831;
+      --rule: #5a554b;
+      --accent: #ff4a4d;
+      --accent-2: #6bc3b2;
+      --gold: #d6a44a;
+      --shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+      --brand-red: #ff3538;
+      --grid-x: rgba(255,255,255,0.045);
+      --grid-y: rgba(255,255,255,0.028);
+      --nav-bg: rgba(16, 17, 15, 0.9);
+      --soft-panel: rgba(24, 26, 23, 0.78);
+      --warm-hover: #22241f;
+      --body-copy: #ddd7cc;
+      --section-copy: #cbc3b7;
     }}
     * {{ box-sizing: border-box; }}
     html {{ scroll-behavior: smooth; }}
     body {{
       margin: 0;
       background:
-        linear-gradient(90deg, rgba(18,20,17,0.035) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(18,20,17,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-x) 1px, transparent 1px),
+        linear-gradient(180deg, var(--grid-y) 1px, transparent 1px),
         var(--bg);
       background-size: 72px 72px, 72px 72px, auto;
       color: var(--ink);
@@ -1665,6 +1702,56 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       background: var(--surface);
       text-align: right;
     }}
+    .mast-actions {{
+      justify-self: end;
+      display: grid;
+      gap: 10px;
+      align-items: end;
+    }}
+    .theme-toggle {{
+      justify-self: end;
+      border: 1px solid var(--faint);
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-grid;
+      grid-template-columns: 28px auto;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      font: 800 10px/1 Inter, "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }}
+    .theme-toggle:hover {{
+      border-color: var(--brand-red);
+      color: var(--brand-red);
+    }}
+    .theme-toggle:focus-visible {{
+      outline: 3px solid rgba(226, 44, 47, 0.32);
+      outline-offset: 3px;
+    }}
+    .theme-icon {{
+      position: relative;
+      width: 28px;
+      height: 15px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+    }}
+    .theme-icon::after {{
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+      transition: transform 160ms ease;
+    }}
+    :root[data-theme="dark"] .theme-icon::after {{
+      transform: translateX(13px);
+    }}
     .issue-box strong {{
       display: block;
       font-size: 26px;
@@ -1686,7 +1773,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       gap: 8px;
       flex-wrap: wrap;
       padding: 12px 0;
-      background: rgba(246, 243, 238, 0.94);
+      background: var(--nav-bg);
       border-bottom: 1px solid var(--faint);
       backdrop-filter: blur(10px);
     }}
@@ -1700,7 +1787,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     }}
     .nav a:hover {{
       background: var(--ink);
-      color: #fffaf1;
+      color: var(--warm-hover);
       border-color: var(--ink);
     }}
     .editorial-strip {{
@@ -1708,7 +1795,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       grid-template-columns: repeat(5, minmax(0, 1fr));
       border: 1px solid var(--ink);
       border-top: 0;
-      background: rgba(255, 255, 255, 0.62);
+      background: var(--soft-panel);
     }}
     .editorial-strip div {{
       min-height: 78px;
@@ -1773,7 +1860,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       padding: 14px;
     }}
     .top-item:hover {{
-      background: #fffaf1;
+      background: var(--warm-hover);
     }}
     .top-media {{
       position: relative;
@@ -2590,6 +2677,80 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     .watchlist .story-meta {{
       border-color: var(--faint);
     }}
+    :root[data-theme="dark"] .brand {{
+      color: var(--brand-red);
+      text-shadow: 0 0 22px rgba(255, 53, 56, 0.12);
+    }}
+    :root[data-theme="dark"] .nav a {{
+      color: var(--ink);
+    }}
+    :root[data-theme="dark"] .nav a:hover {{
+      color: var(--brand-red);
+    }}
+    :root[data-theme="dark"] .editorial-strip,
+    :root[data-theme="dark"] .popular-rail,
+    :root[data-theme="dark"] .breaking-gallery,
+    :root[data-theme="dark"] .news-section,
+    :root[data-theme="dark"] .story,
+    :root[data-theme="dark"] .news-section .story,
+    :root[data-theme="dark"] .watchlist .story,
+    :root[data-theme="dark"] .empty {{
+      background: var(--surface);
+      color: var(--ink);
+    }}
+    :root[data-theme="dark"] .top-item {{
+      background: rgba(24, 26, 23, 0.74);
+    }}
+    :root[data-theme="dark"] .popular-rail,
+    :root[data-theme="dark"] .story {{
+      box-shadow: var(--shadow);
+    }}
+    :root[data-theme="dark"] .story p,
+    :root[data-theme="dark"] .watchlist .story p,
+    :root[data-theme="dark"] .top-item p {{
+      color: var(--body-copy);
+    }}
+    :root[data-theme="dark"] .news-section .section-head > p {{
+      color: var(--section-copy);
+    }}
+    :root[data-theme="dark"] .rubric span,
+    :root[data-theme="dark"] .news-section .rubric span,
+    :root[data-theme="dark"] .watchlist .rubric span {{
+      border-color: rgba(255, 53, 56, 0.36);
+      background: rgba(255, 53, 56, 0.1);
+      color: #ff6b6d;
+    }}
+    :root[data-theme="dark"] .story-media,
+    :root[data-theme="dark"] .news-section .story-media {{
+      background:
+        linear-gradient(135deg, rgba(255, 53, 56, 0.22), transparent 42%),
+        linear-gradient(315deg, rgba(255, 255, 255, 0.1), transparent 48%),
+        #1a1c19;
+    }}
+    :root[data-theme="dark"] .popular-thumb,
+    :root[data-theme="dark"] .breaking-media {{
+      background: #171915;
+    }}
+    :root[data-theme="dark"] .hero-media {{
+      background:
+        linear-gradient(135deg, rgba(255, 53, 56, 0.36), transparent 38%),
+        linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, 0.9)),
+        #171915;
+    }}
+    :root[data-theme="dark"] .breaking-card {{
+      background: #121310;
+      border: 1px solid var(--faint);
+    }}
+    :root[data-theme="dark"] .module-head span,
+    :root[data-theme="dark"] .hero-kicker span,
+    :root[data-theme="dark"] .breaking-copy span,
+    :root[data-theme="dark"] .news-section .eyebrow {{
+      background: var(--brand-red);
+      color: #fff;
+    }}
+    :root[data-theme="dark"] .section-local {{
+      border-top-color: var(--brand-red);
+    }}
     @media (max-width: 820px) {{
       .page {{ padding: 20px 14px 44px; }}
       .page {{
@@ -2616,6 +2777,12 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .issue-box {{
         justify-self: center;
         text-align: center;
+      }}
+      .mast-actions {{
+        justify-self: center;
+      }}
+      .theme-toggle {{
+        justify-self: center;
       }}
       .magazine-layout,
       .breaking-grid {{
@@ -2769,9 +2936,15 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         <h1 class="brand">News Brief</h1>
         <p class="dateline">Generated {generated_at.strftime('%A, %d %B %Y, %H:%M IST')}. A compact scan of global, India, technology, and coastal Karnataka signals.</p>
       </div>
-      <div class="issue-box">
-        <strong>{total_count}</strong>
-        <span>editor selected</span>
+      <div class="mast-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true"></span>
+          <span class="theme-text">Dark</span>
+        </button>
+        <div class="issue-box">
+          <strong>{total_count}</strong>
+          <span>editor selected</span>
+        </div>
       </div>
     </header>
     <nav class="nav" aria-label="Brief sections">
@@ -2820,6 +2993,29 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       <div class="story-grid">{watchlist_cards}</div>
     </section>
   </main>
+  <script>
+    (() => {{
+      const root = document.documentElement;
+      const toggle = document.querySelector(".theme-toggle");
+      const label = toggle?.querySelector(".theme-text");
+      if (!toggle || !label) return;
+
+      const applyTheme = (theme) => {{
+        const isDark = theme === "dark";
+        root.dataset.theme = theme;
+        toggle.setAttribute("aria-pressed", String(isDark));
+        toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+        label.textContent = isDark ? "Light" : "Dark";
+      }};
+
+      applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+      toggle.addEventListener("click", () => {{
+        const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("newsbrief-theme", nextTheme);
+        applyTheme(nextTheme);
+      }});
+    }})();
+  </script>
 </body>
 </html>
 """
