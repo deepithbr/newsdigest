@@ -1,0 +1,104 @@
+[
+  {
+    "name": "BBC World",
+    "type": "rss",
+    "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+    "bucket": "global",
+    "quality": 4
+  },
+  {
+    "name": "BBC Technology",
+    "type": "rss",
+    "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+    "bucket": "tech",
+    "quality": 4
+  },
+  {
+    "name": "The Hindu India",
+    "type": "rss",
+    "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+    "bucket": "india",
+    "quality": 4
+  },
+  {
+    "name": "The Hindu World",
+    "type": "rss",
+    "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+    "bucket": "global",
+    "quality": 4
+  },
+  {
+    "name": "The Hindu Technology",
+    "type": "rss",
+    "url": "https://www.thehindu.com/sci-tech/technology/feeder/default.rss",
+    "bucket": "tech",
+    "quality": 4
+  },
+  {
+    "name": "Times of India Top Stories",
+    "type": "rss",
+    "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+    "bucket": "india",
+    "quality": 3
+  },
+  {
+    "name": "Daijiworld Local",
+    "type": "daijiworld_html",
+    "url": "https://www.daijiworld.com/news",
+    "bucket": "local",
+    "quality": 4
+  },
+  {
+    "name": "Mangalorean.com",
+    "type": "rss",
+    "url": "https://www.mangalorean.com/feed/",
+    "bucket": "local",
+    "quality": 3
+  },
+  {
+    "name": "Coastal Digest",
+    "type": "rss",
+    "url": "https://coastaldigest.com/feed/",
+    "bucket": "local",
+    "quality": 3
+  },
+  {
+    "name": "Google News Local Fallback",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=Mangaluru%20OR%20Mangalore%20OR%20%22Coastal%20Karnataka%22%20OR%20Udupi%20OR%20%22Dakshina%20Kannada%22&hl=en-IN&gl=IN&ceid=IN%3Aen",
+    "bucket": "local",
+    "quality": 2
+  },
+  {
+    "name": "GDELT Global Signals",
+    "type": "gdelt",
+    "enabled": false,
+    "query": "(economy OR climate OR technology OR security OR regulation OR court OR policy)",
+    "bucket": "global",
+    "quality": 3
+  },
+  {
+    "name": "GDELT India Signals",
+    "type": "gdelt",
+    "enabled": false,
+    "query": "(India OR Indian) (policy OR economy OR court OR regulation OR infrastructure OR technology)",
+    "bucket": "india",
+    "quality": 3
+  },
+  {
+    "name": "GDELT Coastal Karnataka",
+    "type": "gdelt",
+    "enabled": false,
+    "query": "(Mangalore OR Mangaluru OR \"Coastal Karnataka\" OR Udupi OR Dakshina Kannada) (policy OR infrastructure OR rain OR port OR education OR environment)",
+    "bucket": "local",
+    "quality": 3
+  },
+  {
+    "name": "GDELT Tech AI",
+    "type": "gdelt",
+    "enabled": false,
+    "query": "(AI OR \"artificial intelligence\" OR OpenAI OR Google OR Microsoft OR Nvidia OR cybersecurity OR semiconductor) (launches OR releases OR regulation OR funding OR chip OR model)",
+    "bucket": "tech",
+    "quality": 3
+  }
+]
