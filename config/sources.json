@@ -22,6 +22,17 @@
     "exclude_terms": ["opinion", "analysis", "photos", "could ", "speech", "praises"]
   },
   {
+    "name": "Google News Global Discovery",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=%28%22European%20Commission%22%20OR%20%22Federal%20Reserve%22%20OR%20NATO%20OR%20UN%20OR%20%22Bank%20of%20England%22%20OR%20Russia%20OR%20Ukraine%20OR%20China%20OR%20%22Middle%20East%22%29%20%28approved%20OR%20ordered%20OR%20ruled%20OR%20blocked%20OR%20fined%20OR%20launched%20OR%20released%20OR%20warning%20OR%20billion%20OR%20sanctions%29&hl=en-IN&gl=IN&ceid=IN%3Aen",
+    "bucket": "global",
+    "quality": 3,
+    "use_item_source": true,
+    "require_any_terms": ["european commission", "federal reserve", "nato", "un", "bank of england", "russia", "ukraine", "china", "middle east", "approved", "ordered", "ruled", "blocked", "fined", "launched", "released", "warning", "billion", "sanctions"],
+    "allowed_item_sources": ["Reuters", "AP", "BBC", "Al Jazeera", "The Hindu", "Le Monde", "Financial Times", "The Guardian", "Politico", "France 24", "DW", "CNBC", "CNN", "Nikkei", "Caixin"],
+    "exclude_terms": ["opinion", "analysis", "explained", "live", "india", "rjd", "ram temple", "fox news reporter"]
+  },
+  {
     "name": "The Hindu India",
     "type": "rss",
     "url": "https://www.thehindu.com/news/national/feeder/default.rss",
@@ -80,7 +91,19 @@
     "type": "rss",
     "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
     "bucket": "india",
-    "quality": 3
+    "quality": 3,
+    "require_any_terms": ["india", "indian", "rbi", "sebi", "supreme court", "delhi", "mumbai", "telangana", "karnataka", "kerala", "maharashtra", "defence", "ministry"]
+  },
+  {
+    "name": "Google News India Discovery",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=India%20%28RBI%20OR%20SEBI%20OR%20%22Supreme%20Court%22%20OR%20regulator%20OR%20ministry%20OR%20%22red%20alert%22%20OR%20infrastructure%20OR%20cybersecurity%20OR%20%22data%20leak%22%29%20%28approved%20OR%20ordered%20OR%20ruled%20OR%20fined%20OR%20launched%20OR%20released%20OR%20warning%20OR%20billion%29&hl=en-IN&gl=IN&ceid=IN%3Aen",
+    "bucket": "india",
+    "quality": 3,
+    "use_item_source": true,
+    "require_any_terms": ["india", "rbi", "sebi", "supreme court", "regulator", "ministry", "red alert", "infrastructure", "cybersecurity", "data leak", "approved", "ordered", "ruled", "fined"],
+    "allowed_item_sources": ["The Hindu", "Indian Express", "News On AIR", "Business Standard", "Mint", "Reuters", "PTI", "Deccan Herald", "Hindustan Times", "India Today", "CNBC TV18", "Moneycontrol"],
+    "exclude_terms": ["opinion", "analysis", "explained", "live", "know details"]
   },
   {
     "name": "BBC Technology",
@@ -169,6 +192,17 @@
       "cloud",
       "windows"
     ]
+  },
+  {
+    "name": "Google News Tech Discovery",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=%28AI%20OR%20%22artificial%20intelligence%22%20OR%20cybersecurity%20OR%20semiconductor%20OR%20OpenAI%20OR%20Nvidia%20OR%20Google%20OR%20Microsoft%20OR%20Apple%29%20%28launches%20OR%20released%20OR%20regulation%20OR%20fine%20OR%20funding%20OR%20breach%20OR%20billion%20OR%20antitrust%29&hl=en-IN&gl=IN&ceid=IN%3Aen",
+    "bucket": "tech",
+    "quality": 3,
+    "use_item_source": true,
+    "require_any_terms": ["ai", "artificial intelligence", "cybersecurity", "semiconductor", "openai", "nvidia", "google", "microsoft", "apple", "launches", "released", "regulation", "fine", "funding", "breach", "billion", "antitrust"],
+    "allowed_item_sources": ["Reuters", "AP", "The Hindu", "Indian Express", "TechCrunch", "The Verge", "Wired", "Ars Technica", "BleepingComputer", "SecurityWeek", "VentureBeat", "CNBC", "Bloomberg", "Business Today", "MIT Technology Review", "The Register"],
+    "exclude_terms": ["opinion", "analysis", "review", "deal", "discount", "price in india", "how to"]
   },
   {
     "name": "Daijiworld Local",

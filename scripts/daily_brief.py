@@ -454,6 +454,17 @@ def clean_text(value: str) -> str:
     return value
 
 
+def strip_title_source_suffix(value: str) -> str:
+    value = clean_text(value)
+    if " - " not in value:
+        return value
+    title_part, suffix = value.rsplit(" - ", 1)
+    suffix_words = suffix.split()
+    if 1 <= len(suffix_words) <= 7:
+        return title_part.strip()
+    return value
+
+
 def repair_mojibake(value: str) -> str:
     markers = ("â", "Â", "Ã")
     if not any(marker in value for marker in markers):
@@ -466,10 +477,73 @@ def repair_mojibake(value: str) -> str:
 
 
 def normalize_title(title: str) -> str:
+    title = strip_title_source_suffix(title)
     title = title.lower()
     title = re.sub(r"[^a-z0-9\s]", " ", title)
     stopwords = {"a", "an", "the", "to", "of", "in", "on", "for", "and", "with", "as", "by"}
     return " ".join(word for word in title.split() if word not in stopwords)
+
+
+def title_tokens(title: str) -> set[str]:
+    tokens = set(normalize_title(title).split())
+    weak = {
+        "news",
+        "report",
+        "reports",
+        "says",
+        "said",
+        "new",
+        "latest",
+        "update",
+        "updates",
+        "company",
+        "companies",
+        "business",
+    }
+    return {token for token in tokens if len(token) > 2 and token not in weak}
+
+
+def money_markers(title: str) -> set[str]:
+    title = title.lower()
+    return set(re.findall(r"\b\d+(?:\.\d+)?\s*(?:billion|million|crore|trillion)\b", title))
+
+
+def entity_markers(title: str) -> set[str]:
+    title = title.lower()
+    entities = {
+        "microsoft",
+        "google",
+        "openai",
+        "apple",
+        "nvidia",
+        "meta",
+        "tesla",
+        "rbi",
+        "sebi",
+        "supreme court",
+        "european commission",
+        "ukraine",
+        "russia",
+        "tata",
+    }
+    return {entity for entity in entities if entity in title}
+
+
+def titles_are_similar(left: str, right: str) -> bool:
+    left_tokens = title_tokens(left)
+    right_tokens = title_tokens(right)
+    if not left_tokens or not right_tokens:
+        return False
+    intersection = left_tokens & right_tokens
+    overlap = len(intersection) / max(1, min(len(left_tokens), len(right_tokens)))
+    jaccard = len(intersection) / max(1, len(left_tokens | right_tokens))
+    shared_entities = entity_markers(left) & entity_markers(right)
+    shared_money = money_markers(left) & money_markers(right)
+    if shared_entities and shared_money and len(intersection) >= 2:
+        return True
+    if {"microsoft", "ai"} <= left_tokens and {"microsoft", "ai"} <= right_tokens and "frontier" in intersection:
+        return True
+    return overlap >= 0.72 or (jaccard >= 0.52 and len(intersection) >= 4)
 
 
 def keyword_matches(text: str, keyword: str) -> bool:
@@ -528,6 +602,22 @@ def source_allows_item(source: dict[str, Any], title: str, summary: str) -> bool
         return False
     excluded_terms = source.get("exclude_terms", [])
     if excluded_terms and any(keyword_matches(haystack, term) for term in excluded_terms):
+        return False
+    return True
+
+
+def rss_item_source_name(item: ElementTree.Element, fallback: str) -> str:
+    source = text_from_child(item, "source") or text_from_local_child(item, ("source",))
+    return source or fallback
+
+
+def source_allows_publisher(source: dict[str, Any], publisher: str) -> bool:
+    publisher_key = publisher.lower()
+    allowed_publishers = [name.lower() for name in source.get("allowed_item_sources", [])]
+    if allowed_publishers and not any(name in publisher_key for name in allowed_publishers):
+        return False
+    blocked_publishers = [name.lower() for name in source.get("exclude_item_sources", [])]
+    if blocked_publishers and any(name in publisher_key for name in blocked_publishers):
         return False
     return True
 
@@ -615,7 +705,7 @@ def sentence(value: str, max_words: int = 28) -> str:
 
 
 def headline(value: str, max_words: int = 13) -> str:
-    value = clean_text(value)
+    value = strip_title_source_suffix(value)
     value = re.sub(r"\s*[-|]\s*(BBC News|The Hindu|Times of India|Mangalore Today).*$", "", value)
     words = value.split()
     if len(words) > max_words:
@@ -759,6 +849,9 @@ def collect_rss(source: dict[str, Any], settings: dict[str, Any], now: datetime,
             continue
         if not has_bucket_relevance(title, summary, source["bucket"]):
             continue
+        story_source = rss_item_source_name(item, source["name"]) if source.get("use_item_source") else source["name"]
+        if not source_allows_publisher(source, story_source):
+            continue
         image_url = image_from_rss_item(item, summary)
         score, reason = score_item(title, summary, source["bucket"], int(source["quality"]), settings, now, published)
         score, reason = apply_source_bonus(score, reason, source)
@@ -767,7 +860,7 @@ def collect_rss(source: dict[str, Any], settings: dict[str, Any], now: datetime,
             Story(
                 title=title,
                 link=link,
-                source=source["name"],
+                source=story_source,
                 bucket=source["bucket"],
                 published=published,
                 summary=summary,
@@ -920,7 +1013,13 @@ def dedupe(stories: list[Story]) -> list[Story]:
                 best_by_key[loose_key] = story
 
     unique = list({canonical_link(story.link): story for story in best_by_key.values()}.values())
-    return sorted(unique, key=lambda item: (item.score, item.published), reverse=True)
+    ranked = sorted(unique, key=lambda item: (item.score, item.published), reverse=True)
+    fuzzy_unique: list[Story] = []
+    for story in ranked:
+        if any(titles_are_similar(story.title, selected.title) for selected in fuzzy_unique):
+            continue
+        fuzzy_unique.append(story)
+    return fuzzy_unique
 
 
 def collect(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int) -> list[Story]:
