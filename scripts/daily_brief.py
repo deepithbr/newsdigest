@@ -1523,6 +1523,7 @@ def html_breaking_card(story: Story, tz: ZoneInfo) -> str:
 
 def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
+    generated_iso = generated_at.isoformat()
     labels = settings["section_labels"]
     selected_without_top = [story for bucket in ("global", "india", "tech", "local", "watchlist") for story in sections[bucket]]
     total_count = len(selected_without_top)
@@ -1730,6 +1731,57 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
     .theme-toggle:focus-visible {{
       outline: 3px solid rgba(226, 44, 47, 0.32);
       outline-offset: 3px;
+    }}
+    .refresh-link {{
+      justify-self: end;
+      border: 1px solid var(--brand-red);
+      background: var(--brand-red);
+      color: #fff;
+      display: inline-block;
+      padding: 8px 10px;
+      font: 900 10px/1 Inter, "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }}
+    .refresh-link:hover {{
+      background: transparent;
+      color: var(--brand-red);
+    }}
+    .stale-banner {{
+      display: none;
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border: 1px solid rgba(226, 44, 47, 0.42);
+      background: rgba(226, 44, 47, 0.08);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.4;
+    }}
+    .stale-banner.is-visible {{
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }}
+    .stale-banner strong {{
+      color: var(--brand-red);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 11px;
+    }}
+    .stale-banner a {{
+      flex: 0 0 auto;
+      border: 1px solid var(--brand-red);
+      color: var(--brand-red);
+      padding: 7px 9px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }}
+    .stale-banner a:hover {{
+      background: var(--brand-red);
+      color: #fff;
     }}
     .theme-icon {{
       position: relative;
@@ -2784,6 +2836,16 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .theme-toggle {{
         justify-self: center;
       }}
+      .refresh-link {{
+        justify-self: center;
+      }}
+      .stale-banner.is-visible {{
+        display: block;
+      }}
+      .stale-banner a {{
+        display: inline-block;
+        margin-top: 10px;
+      }}
       .magazine-layout,
       .breaking-grid {{
         grid-template-columns: 1fr;
@@ -2930,7 +2992,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
   </style>
 </head>
 <body>
-  <main class="page">
+  <main class="page" data-generated-at="{html.escape(generated_iso)}">
     <header class="masthead">
       <div>
         <h1 class="brand">News Brief</h1>
@@ -2941,12 +3003,17 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
           <span class="theme-icon" aria-hidden="true"></span>
           <span class="theme-text">Dark</span>
         </button>
+        <a class="refresh-link" href="https://github.com/deepithbr/newsdigest/actions/workflows/daily-news.yml" target="_blank" rel="noopener">Refresh news</a>
         <div class="issue-box">
           <strong>{total_count}</strong>
           <span>editor selected</span>
         </div>
       </div>
     </header>
+    <div class="stale-banner" role="status" aria-live="polite">
+      <div><strong>Brief may be stale.</strong> The last successful cloud refresh is more than 24 hours old. Open GitHub Actions and click <b>Run workflow</b> to refresh it manually.</div>
+      <a href="https://github.com/deepithbr/newsdigest/actions/workflows/daily-news.yml" target="_blank" rel="noopener">Run workflow</a>
+    </div>
     <nav class="nav" aria-label="Brief sections">
       <a href="#global">Global</a>
       <a href="#india">India</a>
@@ -3014,6 +3081,16 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         localStorage.setItem("newsbrief-theme", nextTheme);
         applyTheme(nextTheme);
       }});
+
+      const page = document.querySelector(".page");
+      const staleBanner = document.querySelector(".stale-banner");
+      const generatedAt = page?.dataset.generatedAt ? new Date(page.dataset.generatedAt) : null;
+      if (staleBanner && generatedAt && !Number.isNaN(generatedAt.getTime())) {{
+        const ageHours = (Date.now() - generatedAt.getTime()) / 36e5;
+        if (ageHours >= 24) {{
+          staleBanner.classList.add("is-visible");
+        }}
+      }}
     }})();
   </script>
 </body>
