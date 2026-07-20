@@ -29,8 +29,19 @@
     "quality": 3,
     "use_item_source": true,
     "require_any_terms": ["european commission", "federal reserve", "nato", "un", "bank of england", "russia", "ukraine", "china", "middle east", "approved", "ordered", "ruled", "blocked", "fined", "launched", "released", "warning", "billion", "sanctions"],
-    "allowed_item_sources": ["Reuters", "AP", "BBC", "Al Jazeera", "The Hindu", "Le Monde", "Financial Times", "The Guardian", "Politico", "France 24", "DW", "CNBC", "CNN", "Nikkei", "Caixin"],
+    "allowed_item_sources": ["Reuters", "AP", "BBC", "Al Jazeera", "The Hindu", "Le Monde", "Financial Times", "The Guardian", "Politico", "France 24", "DW", "CNBC", "CNN", "Nikkei", "Caixin", "Fox News", "Fox Business", "Wall Street Journal", "New York Post", "The Hill"],
     "exclude_terms": ["opinion", "analysis", "explained", "live", "india", "rjd", "ram temple", "fox news reporter"]
+  },
+  {
+    "name": "Google News Coverage Lens Discovery",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=%28Russia%20OR%20Ukraine%20OR%20Iran%20OR%20Israel%20OR%20Gaza%20OR%20China%20OR%20NATO%20OR%20sanctions%20OR%20missile%20OR%20attack%20OR%20court%20OR%20migrants%20OR%20tariff%29&hl=en-IN&gl=IN&ceid=IN%3Aen",
+    "bucket": "global",
+    "quality": 3,
+    "use_item_source": true,
+    "require_any_terms": ["russia", "ukraine", "iran", "israel", "gaza", "china", "nato", "sanctions", "missile", "attack", "court", "migrants", "tariff"],
+    "allowed_item_sources": ["Reuters", "AP", "Associated Press", "BBC", "Al Jazeera", "Financial Times", "The Guardian", "Politico", "CNN", "Fox News", "Fox Business", "Wall Street Journal", "New York Post", "The Hill", "The Hindu"],
+    "exclude_terms": ["opinion", "analysis", "explained", "live", "photos", "video"]
   },
   {
     "name": "The Hindu India",

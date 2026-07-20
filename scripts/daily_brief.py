@@ -335,9 +335,27 @@ class Story:
     editorial_class: str
 
 
+@dataclass(frozen=True)
+class CoverageCluster:
+    lead: Story
+    stories: tuple[Story, ...]
+    counts: dict[str, int]
+    labels: dict[str, list[str]]
+    warnings: tuple[str, ...]
+
+
 def load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_bias_config() -> dict[str, Any]:
+    path = CONFIG_DIR / "source_bias.json"
+    try:
+        return load_json(path)
+    except Exception as exc:
+        print(f"WARN: source bias config unavailable: {exc}", file=sys.stderr)
+        return {"sources": {}}
 
 
 def fetch_url(url: str, timeout: int = 12, attempts: int = 2) -> bytes:
@@ -559,6 +577,34 @@ def entity_markers(title: str) -> set[str]:
     return {entity for entity in entities if entity in title}
 
 
+def normalize_source_name(value: str) -> str:
+    value = clean_text(value).lower()
+    value = re.sub(r"\s*[/|:-]\s*.*$", "", value)
+    value = value.replace(".com", "")
+    value = re.sub(r"\b(the\s+)?associated press\b", "associated press", value)
+    value = re.sub(r"\bap news\b", "ap", value)
+    value = re.sub(r"\bbbc world\b", "bbc", value)
+    value = re.sub(r"\bbbc news\b", "bbc news", value)
+    value = re.sub(r"\bal jazeera world\b", "al jazeera", value)
+    value = re.sub(r"\bthe hindu world\b", "the hindu", value)
+    value = re.sub(r"\bthe guardian world\b", "the guardian", value)
+    value = re.sub(r"\s+", " ", value).strip()
+    return value
+
+
+def source_bias_for(source_name: str, bias_config: dict[str, Any]) -> dict[str, str]:
+    normalized = normalize_source_name(source_name)
+    ratings = bias_config.get("sources", {})
+    for key, rating in ratings.items():
+        if key in normalized or normalized in key:
+            return {
+                "label": str(rating.get("label", "Unknown")),
+                "bucket": str(rating.get("bucket", "unknown")),
+                "reference": str(rating.get("reference", "")),
+            }
+    return {"label": "Unknown", "bucket": "unknown", "reference": ""}
+
+
 def titles_are_similar(left: str, right: str) -> bool:
     left_tokens = title_tokens(left)
     right_tokens = title_tokens(right)
@@ -574,6 +620,37 @@ def titles_are_similar(left: str, right: str) -> bool:
     if {"microsoft", "ai"} <= left_tokens and {"microsoft", "ai"} <= right_tokens and "frontier" in intersection:
         return True
     return overlap >= 0.72 or (jaccard >= 0.52 and len(intersection) >= 4)
+
+
+def coverage_titles_are_related(left: str, right: str) -> bool:
+    if titles_are_similar(left, right):
+        return True
+    shared_entities = entity_markers(left) & entity_markers(right)
+    if not shared_entities:
+        return False
+    left_tokens = title_tokens(left)
+    right_tokens = title_tokens(right)
+    intersection = left_tokens & right_tokens
+    event_terms = {
+        "attack",
+        "attacks",
+        "missile",
+        "missiles",
+        "drone",
+        "drones",
+        "strike",
+        "strikes",
+        "killed",
+        "injured",
+        "court",
+        "rules",
+        "ruled",
+        "sanctions",
+        "tariff",
+        "war",
+        "migrants",
+    }
+    return bool(intersection & event_terms) and len(intersection) >= 2
 
 
 def keyword_matches(text: str, keyword: str) -> bool:
@@ -733,6 +810,108 @@ def is_breaking_candidate(story: Story, now: datetime) -> bool:
     if story.score < 26 and story.editorial_class != "high_impact":
         return False
     return True
+
+
+def is_coverage_candidate(story: Story) -> bool:
+    haystack = f"{story.title} {story.summary}".lower()
+    coverage_terms = (
+        "war",
+        "ukraine",
+        "russia",
+        "china",
+        "iran",
+        "israel",
+        "gaza",
+        "nato",
+        "un ",
+        "sanctions",
+        "court",
+        "election",
+        "migrants",
+        "tariff",
+        "trade",
+        "strike",
+        "attack",
+        "climate",
+        "regulation",
+    )
+    return (
+        story.bucket == "global"
+        and story.score >= 16
+        and story.editorial_class not in TOP_EXCLUDED_CLASSES
+        and any(term in haystack for term in coverage_terms)
+    )
+
+
+def build_coverage_lens(
+    stories: list[Story],
+    bias_config: dict[str, Any],
+    limit: int = 4,
+) -> list[CoverageCluster]:
+    candidates = sorted(
+        [story for story in stories if is_coverage_candidate(story)],
+        key=lambda story: (story.score, story.published),
+        reverse=True,
+    )
+    grouped: list[list[Story]] = []
+    for story in candidates:
+        for group in grouped:
+            if any(coverage_titles_are_related(story.title, existing.title) for existing in group):
+                group.append(story)
+                break
+        else:
+            grouped.append([story])
+
+    clusters: list[CoverageCluster] = []
+    for group in grouped:
+        by_source: dict[str, Story] = {}
+        for story in sorted(group, key=lambda item: (item.score, item.published), reverse=True):
+            source_key = normalize_source_name(story.source)
+            if source_key not in by_source:
+                by_source[source_key] = story
+        unique = tuple(by_source.values())
+        if len(unique) < 2:
+            continue
+
+        counts = {"left": 0, "center": 0, "right": 0, "unknown": 0}
+        labels: dict[str, list[str]] = {key: [] for key in counts}
+        for story in unique:
+            rating = source_bias_for(story.source, bias_config)
+            bucket = rating["bucket"] if rating["bucket"] in counts else "unknown"
+            counts[bucket] += 1
+            labels[bucket].append(story.source)
+
+        known_sides = sum(1 for side in ("left", "center", "right") if counts[side] > 0)
+        warnings: list[str] = []
+        if known_sides <= 1:
+            warnings.append("Narrow rated spread")
+        if counts["unknown"] >= max(2, len(unique) // 2):
+            warnings.append("Many unrated sources")
+        if counts["right"] == 0:
+            warnings.append("No right-rated source")
+        if counts["center"] == 0:
+            warnings.append("No center-rated source")
+
+        lead = max(unique, key=lambda story: (story.score, story.published))
+        clusters.append(
+            CoverageCluster(
+                lead=lead,
+                stories=unique,
+                counts=counts,
+                labels=labels,
+                warnings=tuple(warnings[:3]),
+            )
+        )
+
+    clusters.sort(
+        key=lambda cluster: (
+            len(cluster.stories),
+            sum(1 for side in ("left", "center", "right") if cluster.counts[side] > 0),
+            cluster.lead.score,
+        ),
+        reverse=True,
+    )
+    return clusters[:limit]
 
 
 def sentence(value: str, max_words: int = 28) -> str:
@@ -1066,7 +1245,7 @@ def dedupe(stories: list[Story]) -> list[Story]:
     return fuzzy_unique
 
 
-def collect(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int) -> list[Story]:
+def collect_raw(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int) -> list[Story]:
     tz = ZoneInfo(settings["timezone"])
     now = datetime.now(tz)
     since = now - timedelta(hours=hours)
@@ -1083,10 +1262,19 @@ def collect(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int)
             stories.extend(collect_gdelt(source, settings, now, since, hours))
         else:
             print(f"WARN: unsupported source type {source['type']} for {source['name']}", file=sys.stderr)
-    return dedupe(stories)
+    return stories
 
 
-def select_sections(stories: list[Story], settings: dict[str, Any]) -> dict[str, list[Story]]:
+def collect(settings: dict[str, Any], sources: list[dict[str, Any]], hours: int) -> list[Story]:
+    return dedupe(collect_raw(settings, sources, hours))
+
+
+def select_sections(
+    stories: list[Story],
+    settings: dict[str, Any],
+    raw_stories: list[Story] | None = None,
+    bias_config: dict[str, Any] | None = None,
+) -> dict[str, list[Any]]:
     max_items = settings["max_items"]
     tz = ZoneInfo(settings["timezone"])
     now = datetime.now(tz)
@@ -1165,6 +1353,10 @@ def select_sections(stories: list[Story], settings: dict[str, Any]) -> dict[str,
         and story.score >= 16
         and story.editorial_class not in WATCHLIST_EXCLUDED_CLASSES
     ][: int(max_items["watchlist"])]
+    if raw_stories is not None and bias_config is not None:
+        sections["coverage"] = build_coverage_lens(raw_stories, bias_config)
+    else:
+        sections["coverage"] = []
     return sections
 
 
@@ -1204,6 +1396,22 @@ def render_markdown(sections: dict[str, list[Story]], settings: dict[str, Any], 
         lines.append("No critical breaking items crossed the threshold.")
         lines.append("")
     lines.append("---")
+
+    if sections.get("coverage"):
+        lines.append("")
+        lines.append("COVERAGE LENS")
+        lines.append("")
+        for cluster in sections["coverage"]:
+            counts = cluster.counts
+            warnings = "; ".join(cluster.warnings) if cluster.warnings else "Broad enough for comparison"
+            lines.append(f"**{headline(cluster.lead.title, 13)}**")
+            lines.append(
+                f"{len(cluster.stories)} sources; "
+                f"Left {counts['left']}, Center {counts['center']}, Right {counts['right']}, Unknown {counts['unknown']}. "
+                f"{warnings}."
+            )
+            lines.append("")
+        lines.append("---")
 
     for bucket in ("global", "india", "tech", "local"):
         lines.append("")
@@ -1521,9 +1729,63 @@ def html_breaking_card(story: Story, tz: ZoneInfo) -> str:
     """
 
 
-def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any], generated_at: datetime) -> str:
+def html_coverage_card(cluster: CoverageCluster, bias_config: dict[str, Any]) -> str:
+    lead = cluster.lead
+    url = html.escape(lead.link, quote=True)
+    title = html.escape(headline(lead.title, 14))
+    summary = html.escape(sentence(lead.summary, 24) or "Open the source for the full update.")
+    total = max(1, len(cluster.stories))
+    left = cluster.counts.get("left", 0)
+    center = cluster.counts.get("center", 0)
+    right = cluster.counts.get("right", 0)
+    unknown = cluster.counts.get("unknown", 0)
+    segments = [
+        ("Left", "left", left),
+        ("Center", "center", center),
+        ("Right", "right", right),
+        ("Unknown", "unknown", unknown),
+    ]
+    bar_html = "".join(
+        f'<span class="bias-segment bias-{bucket}" style="--w:{(count / total) * 100:.1f}%">{count}</span>'
+        for _label, bucket, count in segments
+        if count
+    )
+    legend_html = "".join(
+        f'<span><i class="bias-dot bias-{bucket}"></i>{label} {count}</span>'
+        for label, bucket, count in segments
+    )
+    source_items: list[str] = []
+    for story in cluster.stories[:6]:
+        rating = source_bias_for(story.source, bias_config)
+        bucket = rating["bucket"] if rating["bucket"] in {"left", "center", "right", "unknown"} else "unknown"
+        source_items.append(
+            f'<span class="source-chip source-{bucket}">{html.escape(story.source)} <small>{html.escape(rating["label"])}</small></span>'
+        )
+    source_html = "".join(source_items)
+    warnings = cluster.warnings or ("Broad enough for comparison",)
+    warning_html = "".join(f"<span>{html.escape(warning)}</span>" for warning in warnings)
+    return f"""
+      <article class="coverage-card">
+        <a href="{url}">
+          <div class="coverage-topline">
+            <span>{total} sources</span>
+            <small>Coverage spread, not a truth score</small>
+          </div>
+          <h3>{title}</h3>
+          <p>{summary}</p>
+          <div class="bias-bar" aria-label="Coverage bias spread">{bar_html}</div>
+          <div class="bias-legend">{legend_html}</div>
+          <div class="coverage-warnings">{warning_html}</div>
+          <div class="source-chips">{source_html}</div>
+        </a>
+      </article>
+    """
+
+
+def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], generated_at: datetime) -> str:
     tz = generated_at.tzinfo or ZoneInfo(settings["timezone"])
     generated_iso = generated_at.isoformat()
+    bias_config = load_bias_config()
     labels = settings["section_labels"]
     selected_without_top = [story for bucket in ("global", "india", "tech", "local", "watchlist") for story in sections[bucket]]
     total_count = len(selected_without_top)
@@ -1555,6 +1817,24 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
         </section>
         """
         if breaking_cards
+        else ""
+    )
+    coverage_cards = "\n".join(
+        html_coverage_card(cluster, bias_config)
+        for cluster in sections.get("coverage", [])
+    )
+    coverage_html = (
+        f"""
+        <section id="coverage" class="coverage-lens" aria-label="Coverage lens">
+          <div class="module-head coverage-head">
+            <span>Coverage Lens</span>
+            <strong>How the same global story is being covered across rated sources</strong>
+          </div>
+          <p class="coverage-note">Bias labels are outlet-level reference signals, not article truth ratings. Unknown means this briefing has no maintained public rating for that source yet.</p>
+          <div class="coverage-grid">{coverage_cards}</div>
+        </section>
+        """
+        if coverage_cards
         else ""
     )
 
@@ -2604,6 +2884,139 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       font-weight: 800;
       line-height: 1.02;
     }}
+    .coverage-lens {{
+      margin: 30px 0 34px;
+      padding: 22px;
+      border: 1px solid var(--faint);
+      border-top: 3px solid var(--ink);
+      background: var(--surface);
+    }}
+    .coverage-note {{
+      max-width: 820px;
+      margin: -6px 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }}
+    .coverage-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+      gap: 16px;
+    }}
+    .coverage-card {{
+      border: 1px solid var(--faint);
+      background: var(--surface);
+    }}
+    .coverage-card a {{
+      display: grid;
+      gap: 12px;
+      min-height: 100%;
+      padding: 16px;
+    }}
+    .coverage-topline {{
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }}
+    .coverage-topline span {{
+      color: var(--brand-red);
+    }}
+    .coverage-card h3 {{
+      margin: 0;
+      font-family: Newsreader, Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.02;
+    }}
+    .coverage-card p {{
+      margin: 0;
+      color: var(--body-copy);
+      font-size: 13px;
+    }}
+    .bias-bar {{
+      display: flex;
+      min-height: 18px;
+      overflow: hidden;
+      border: 1px solid var(--faint);
+      background: var(--surface-2);
+    }}
+    .bias-segment {{
+      flex: 0 0 var(--w);
+      display: grid;
+      place-items: center;
+      min-width: 26px;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }}
+    .bias-left {{ background: #d83a4a; }}
+    .bias-center {{ background: #f2ede4; color: #151713; }}
+    .bias-right {{ background: #2863d8; }}
+    .bias-unknown {{ background: #777064; }}
+    .bias-legend {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
+    .bias-dot {{
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+      vertical-align: 0;
+    }}
+    .coverage-warnings {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }}
+    .coverage-warnings span {{
+      border: 1px solid rgba(226, 44, 47, 0.3);
+      background: rgba(226, 44, 47, 0.07);
+      color: var(--brand-red);
+      padding: 5px 7px;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
+    .source-chips {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding-top: 2px;
+    }}
+    .source-chip {{
+      border: 1px solid var(--faint);
+      padding: 6px 8px;
+      color: var(--ink);
+      font-size: 11px;
+      line-height: 1;
+    }}
+    .source-chip small {{
+      color: var(--muted);
+      margin-left: 4px;
+      text-transform: uppercase;
+      font-size: 9px;
+      font-weight: 900;
+    }}
+    .source-left {{ border-color: rgba(216, 58, 74, 0.45); }}
+    .source-center {{ border-color: rgba(120, 112, 100, 0.45); }}
+    .source-right {{ border-color: rgba(40, 99, 216, 0.45); }}
+    .source-unknown {{ opacity: 0.8; }}
     .masthead::before {{
       content: none;
     }}
@@ -2793,6 +3206,18 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       background: #121310;
       border: 1px solid var(--faint);
     }}
+    :root[data-theme="dark"] .coverage-lens,
+    :root[data-theme="dark"] .coverage-card {{
+      background: var(--surface);
+      color: var(--ink);
+    }}
+    :root[data-theme="dark"] .bias-center {{
+      background: #ddd6ca;
+      color: #151713;
+    }}
+    :root[data-theme="dark"] .coverage-card p {{
+      color: var(--body-copy);
+    }}
     :root[data-theme="dark"] .module-head span,
     :root[data-theme="dark"] .hero-kicker span,
     :root[data-theme="dark"] .breaking-copy span,
@@ -2849,6 +3274,19 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       .magazine-layout,
       .breaking-grid {{
         grid-template-columns: 1fr;
+      }}
+      .coverage-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .coverage-lens {{
+        padding: 16px;
+      }}
+      .coverage-topline {{
+        display: block;
+      }}
+      .coverage-topline small {{
+        display: block;
+        margin-top: 6px;
       }}
       .magazine-layout {{
         display: block;
@@ -3020,6 +3458,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       <a href="#tech">Tech / AI</a>
       <a href="#local">Mangalore / Coast</a>
       <a href="#breaking">Breaking</a>
+      <a href="#coverage">Coverage Lens</a>
       <a href="#watchlist">Watchlist</a>
     </nav>
     <section class="editorial-strip" aria-label="Editorial summary">
@@ -3048,6 +3487,7 @@ def render_html_brief(sections: dict[str, list[Story]], settings: dict[str, Any]
       </div>
     </section>
     {breaking_html}
+    {coverage_html}
     {''.join(section_blocks)}
     <section id="watchlist" class="news-section watchlist">
       <div class="section-head">
@@ -3131,16 +3571,18 @@ def main() -> int:
     args = parse_args()
     settings = load_json(CONFIG_DIR / "settings.json")
     sources = load_json(CONFIG_DIR / "sources.json")
+    bias_config = load_bias_config()
     hours = args.hours or int(settings["default_hours"])
 
-    stories = collect(settings, sources, hours)
-    sections = select_sections(stories, settings)
+    raw_stories = collect_raw(settings, sources, hours)
+    stories = dedupe(raw_stories)
+    sections = select_sections(stories, settings, raw_stories=raw_stories, bias_config=bias_config)
     tz = ZoneInfo(settings["timezone"])
     generated_at = datetime.now(tz)
     markdown = render_markdown(sections, settings, generated_at)
     md_path, html_path = write_outputs(markdown, sections, settings, generated_at)
 
-    print(f"Collected {len(stories)} unique recent stories.")
+    print(f"Collected {len(stories)} unique recent stories from {len(raw_stories)} raw items.")
     print(f"Markdown: {md_path}")
     print(f"HTML: {html_path}")
 

@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "version": 1,
+    "methodology": "Manual seed for Coverage Lens. Prefer AllSides public ratings where available; use Unknown when no clean public rating is maintained here. Ratings describe outlet tendency, not article truth.",
+    "last_reviewed": "2026-07-20",
+    "primary_reference": "https://www.allsides.com/media-bias/media-bias-chart/"
+  },
+  "sources": {
+    "al jazeera": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/al-jazeera-media-bias"
+    },
+    "ap": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/associated-press-media-bias"
+    },
+    "associated press": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/associated-press-media-bias"
+    },
+    "bbc": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/bbc-news-media-bias"
+    },
+    "bbc news": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/bbc-news-media-bias"
+    },
+    "cnn": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/cnn-media-bias"
+    },
+    "financial times": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/financial-times-media-bias"
+    },
+    "fox business": {
+      "label": "Lean Right",
+      "bucket": "right",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/fox-business-media-bias"
+    },
+    "fox news": {
+      "label": "Right",
+      "bucket": "right",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/fox-news-media-bias"
+    },
+    "google news": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/google-news-media-bias"
+    },
+    "guardian": {
+      "label": "Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/guardian-media-bias"
+    },
+    "the guardian": {
+      "label": "Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/guardian-media-bias"
+    },
+    "new york post": {
+      "label": "Lean Right",
+      "bucket": "right",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/new-york-post-news-media-bias"
+    },
+    "new york times": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/new-york-times-news-media-bias"
+    },
+    "nytimes": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/new-york-times-news-media-bias"
+    },
+    "politico": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/politico-media-bias"
+    },
+    "reuters": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/reuters-media-bias"
+    },
+    "rt": {
+      "label": "Lean Right",
+      "bucket": "right",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/rt-media-bias"
+    },
+    "the economist": {
+      "label": "Lean Left",
+      "bucket": "left",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/economist-media-bias"
+    },
+    "the hill": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/hill-media-bias"
+    },
+    "wall street journal": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/wall-street-journal-media-bias"
+    },
+    "wsj": {
+      "label": "Center",
+      "bucket": "center",
+      "confidence": "medium",
+      "reference": "https://www.allsides.com/news-source/wall-street-journal-media-bias"
+    },
+    "the hindu": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    },
+    "france 24": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    },
+    "dw": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    },
+    "le monde": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    },
+    "nikkei": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    },
+    "caixin": {
+      "label": "Unknown",
+      "bucket": "unknown",
+      "confidence": "none",
+      "reference": ""
+    }
+  }
+}
