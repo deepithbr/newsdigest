@@ -798,6 +798,39 @@ def impact_tier(story: Story) -> str:
     return "Context"
 
 
+def why_this_matters(story: Story) -> str:
+    haystack = f"{story.title} {story.summary}".lower()
+    if story.bucket == "tech":
+        if any(term in haystack for term in ("ai", "artificial intelligence", "model", "openai", "google", "microsoft")):
+            return "Signals a platform, AI, or product shift worth tracking for digital strategy."
+        if any(term in haystack for term in ("cyber", "breach", "data leak", "privacy", "security")):
+            return "Changes the risk picture for privacy, security, or institutional tech use."
+        return "Relevant to technology adoption, regulation, or professional digital workflows."
+    if story.bucket == "india":
+        if any(term in haystack for term in ("rbi", "sebi", "supreme court", "ministry", "regulator", "parliament")):
+            return "Institutional action that can affect policy, compliance, markets, or public systems."
+        if any(term in haystack for term in ("red alert", "rain", "flood", "heat", "cyclone", "attack")):
+            return "Immediate civic or safety signal with practical consequences."
+        return "National development with likely policy, economy, civic, or institutional relevance."
+    if story.bucket == "local":
+        return "Local signal for Mangalore, coastal Karnataka, mobility, safety, institutions, or community context."
+    if any(term in haystack for term in ("war", "attack", "missile", "drone", "nato", "iran", "russia", "ukraine", "israel", "gaza")):
+        return "Geopolitical or security development that can shape global risk and media framing."
+    if any(term in haystack for term in ("court", "rules", "ordered", "sanctions", "tariff", "trade", "regulation")):
+        return "A decision or constraint that changes the operating environment, not just the conversation."
+    if any(term in haystack for term in ("climate", "heat", "flood", "red alert", "emergency")):
+        return "Climate, safety, or infrastructure signal with real-world consequence."
+    return "High-signal update selected because it changes context, risk, or what deserves attention."
+
+
+def confidence_label(story: Story) -> str:
+    if story.quality >= 5 or story.score >= 30:
+        return "High confidence"
+    if story.quality >= 4 or story.score >= 22:
+        return "Solid signal"
+    return "Watch carefully"
+
+
 def is_breaking_candidate(story: Story, now: datetime) -> bool:
     haystack = f"{story.title} {story.summary}".lower()
     age_hours = max(0.0, (now - story.published).total_seconds() / 3600)
@@ -912,6 +945,18 @@ def build_coverage_lens(
         reverse=True,
     )
     return clusters[:limit]
+
+
+def coverage_notes_by_link(clusters: list[CoverageCluster]) -> dict[str, str]:
+    notes: dict[str, str] = {}
+    for cluster in clusters:
+        total = len(cluster.stories)
+        known_sides = sum(1 for side in ("left", "center", "right") if cluster.counts.get(side, 0) > 0)
+        warning = cluster.warnings[0] if cluster.warnings else "Broad comparison"
+        note = f"{total} sources, {known_sides} rated side{'s' if known_sides != 1 else ''}; {warning.lower()}"
+        for story in cluster.stories:
+            notes[canonical_link(story.link)] = note
+    return notes
 
 
 def sentence(value: str, max_words: int = 28) -> str:
@@ -1568,6 +1613,7 @@ def html_story_card(
     rank: int | None = None,
     compact: bool = False,
     lead: bool = False,
+    coverage_note: str = "",
 ) -> str:
     timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
     title = html.escape(headline(story.title, 16 if compact else 18))
@@ -1580,6 +1626,8 @@ def html_story_card(
     tier_slug = tier.lower().replace(" ", "-")
     rubric_labels = story_rubric_labels(story)
     rubric_html = "".join(f"<span>{html.escape(label.title())}</span>" for label in rubric_labels)
+    confidence = html.escape(confidence_label(story))
+    coverage_html = f"<span>{html.escape(coverage_note)}</span>" if coverage_note else ""
     class_name = "story compact" if compact else "story"
     class_name += " lead" if lead else ""
     class_name += f" {tier_slug}"
@@ -1597,7 +1645,7 @@ def html_story_card(
           <h3>{title}</h3>
           <p>{summary}</p>
           <div class="rubric">{rubric_html or f"<span>{html.escape(story.editorial_class.replace('_', ' ').title())}</span>"}</div>
-          <div class="story-meta"><span>{html.escape(tier)}</span><span>Open source</span></div>
+          <div class="story-meta"><span>{html.escape(tier)}</span><span>{confidence}</span>{coverage_html}<span>Open source</span></div>
         </a>
       </article>
     """
@@ -1649,11 +1697,14 @@ def html_rail_item(story: Story, tz: ZoneInfo, label: str | None = None) -> str:
     """
 
 
-def html_hero_story(story: Story, tz: ZoneInfo) -> str:
+def html_hero_story(story: Story, tz: ZoneInfo, coverage_note: str = "") -> str:
     timestamp = story.published.astimezone(tz).strftime("%d %b, %H:%M IST")
     title = html.escape(headline(story.title, 15))
     summary = html.escape(sentence(story.summary, 28) or "Open the source for the full update.")
     source = html.escape(story.source)
+    why = html.escape(why_this_matters(story))
+    confidence = html.escape(confidence_label(story))
+    coverage_html = f"<span>{html.escape(coverage_note)}</span>" if coverage_note else ""
     url = html.escape(story.link, quote=True)
     image_url = html.escape(story.image_url, quote=True)
     fallback_label = html.escape(section_short_label(story.bucket))
@@ -1673,6 +1724,8 @@ def html_hero_story(story: Story, tz: ZoneInfo) -> str:
             <div class="hero-kicker"><span>{html.escape(section_short_label(story.bucket))}</span><small>{source} / {timestamp}</small></div>
             <h2>{title}</h2>
             <p>{summary}</p>
+            <div class="why-matters"><span>Why this matters</span><strong>{why}</strong></div>
+            <div class="hero-signals"><span>{confidence}</span>{coverage_html}</div>
           </div>
         </a>
       </article>
@@ -1796,6 +1849,7 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
         for bucket in ("global", "india", "tech", "local")
     )
     lead_story = sections["top"][0] if sections["top"] else strongest
+    coverage_notes = coverage_notes_by_link(sections.get("coverage", []))
     fresh_pool = [story for story in sections["top"][1:] + sections["india"] + sections["global"] if story is not lead_story]
     popular_pool = [
         story
@@ -1804,7 +1858,8 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
     ]
     fresh_rail = "\n".join(html_rail_item(story, tz) for story in fresh_pool[:6])
     popular_rail = "\n".join(html_popular_item(story, tz) for story in popular_pool[:5])
-    hero_html = html_hero_story(lead_story, tz) if lead_story else '<p class="empty">No high-confidence lead story found.</p>'
+    hero_coverage_note = coverage_notes.get(canonical_link(lead_story.link), "") if lead_story else ""
+    hero_html = html_hero_story(lead_story, tz, hero_coverage_note) if lead_story else '<p class="empty">No high-confidence lead story found.</p>'
     breaking_cards = "\n".join(html_breaking_card(story, tz) for story in sections.get("breaking", []))
     breaking_html = (
         f"""
@@ -1847,7 +1902,10 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
     section_blocks: list[str] = []
     for bucket in ("global", "india", "tech", "local"):
         stories = sections[bucket]
-        cards = "\n".join(html_story_card(story, tz) for story in stories)
+        cards = "\n".join(
+            html_story_card(story, tz, coverage_note=coverage_notes.get(canonical_link(story.link), ""))
+            for story in stories
+        )
         if not cards:
             cards = '<p class="empty">No strong, recent items found for this section.</p>'
         section_blocks.append(
@@ -1865,7 +1923,10 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
             """
         )
 
-    watchlist_cards = "\n".join(html_story_card(story, tz) for story in sections["watchlist"])
+    watchlist_cards = "\n".join(
+        html_story_card(story, tz, coverage_note=coverage_notes.get(canonical_link(story.link), ""))
+        for story in sections["watchlist"]
+    )
     if not watchlist_cards:
         watchlist_cards = '<p class="empty">No additional watchlist items crossed the threshold.</p>'
 
@@ -2026,6 +2087,57 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
     .refresh-link:hover {{
       background: transparent;
       color: var(--brand-red);
+    }}
+    .freshness-card {{
+      justify-self: end;
+      border: 1px solid var(--faint);
+      padding: 9px 10px;
+      min-width: 132px;
+      background: var(--surface);
+      text-align: right;
+    }}
+    .freshness-card strong {{
+      display: block;
+      color: var(--brand-red);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .freshness-card span {{
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.2;
+    }}
+    .freshness-card.is-stale strong {{
+      color: var(--gold);
+    }}
+    .editorial-cutoff {{
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--faint);
+      color: var(--muted);
+    }}
+    .editorial-cutoff span {{
+      color: var(--brand-red);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }}
+    .editorial-cutoff strong {{
+      max-width: 760px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.35;
+      text-align: right;
     }}
     .stale-banner {{
       display: none;
@@ -2756,6 +2868,43 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
       font-size: 15px;
       line-height: 1.42;
     }}
+    .why-matters {{
+      max-width: 650px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.22);
+    }}
+    .why-matters span {{
+      display: block;
+      color: #ff4a4d;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .why-matters strong {{
+      display: block;
+      margin-top: 5px;
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+      line-height: 1.35;
+    }}
+    .hero-signals {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 12px;
+    }}
+    .hero-signals span {{
+      border: 1px solid rgba(255,255,255,0.32);
+      color: rgba(255,255,255,0.88);
+      padding: 5px 7px;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
     .popular-rail {{
       background: #fff;
       padding: 18px 18px 8px;
@@ -3218,6 +3367,12 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
     :root[data-theme="dark"] .coverage-card p {{
       color: var(--body-copy);
     }}
+    :root[data-theme="dark"] .freshness-card {{
+      background: var(--surface);
+    }}
+    :root[data-theme="dark"] .editorial-cutoff strong {{
+      color: var(--ink);
+    }}
     :root[data-theme="dark"] .module-head span,
     :root[data-theme="dark"] .hero-kicker span,
     :root[data-theme="dark"] .breaking-copy span,
@@ -3263,6 +3418,18 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
       }}
       .refresh-link {{
         justify-self: center;
+      }}
+      .freshness-card {{
+        justify-self: center;
+        text-align: center;
+      }}
+      .editorial-cutoff {{
+        display: block;
+      }}
+      .editorial-cutoff strong {{
+        display: block;
+        margin-top: 6px;
+        text-align: left;
       }}
       .stale-banner.is-visible {{
         display: block;
@@ -3442,6 +3609,10 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
           <span class="theme-text">Dark</span>
         </button>
         <a class="refresh-link" href="https://github.com/deepithbr/newsdigest/actions/workflows/daily-news.yml" target="_blank" rel="noopener">Refresh news</a>
+        <div class="freshness-card" data-freshness-card>
+          <strong>Fresh edition</strong>
+          <span>Generated under 24h ago</span>
+        </div>
         <div class="issue-box">
           <strong>{total_count}</strong>
           <span>editor selected</span>
@@ -3468,6 +3639,10 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
       </div>
       {section_stats}
     </section>
+    <div class="editorial-cutoff">
+      <span>No filler rule</span>
+      <strong>Sections stay short when the signal is weak. The page optimizes for useful awareness, not volume.</strong>
+    </div>
     <section class="front-page" aria-label="Top stories">
       <div class="magazine-layout">
         <aside class="fresh-rail" aria-label="Fresh signals">
@@ -3524,9 +3699,22 @@ def render_html_brief(sections: dict[str, list[Any]], settings: dict[str, Any], 
 
       const page = document.querySelector(".page");
       const staleBanner = document.querySelector(".stale-banner");
+      const freshnessCard = document.querySelector("[data-freshness-card]");
       const generatedAt = page?.dataset.generatedAt ? new Date(page.dataset.generatedAt) : null;
       if (staleBanner && generatedAt && !Number.isNaN(generatedAt.getTime())) {{
         const ageHours = (Date.now() - generatedAt.getTime()) / 36e5;
+        if (freshnessCard) {{
+          const title = freshnessCard.querySelector("strong");
+          const detail = freshnessCard.querySelector("span");
+          if (ageHours >= 24) {{
+            freshnessCard.classList.add("is-stale");
+            if (title) title.textContent = "Stale edition";
+            if (detail) detail.textContent = "Manual refresh recommended";
+          }} else if (ageHours >= 12) {{
+            if (title) title.textContent = "Aging edition";
+            if (detail) detail.textContent = "Still under 24h old";
+          }}
+        }}
         if (ageHours >= 24) {{
           staleBanner.classList.add("is-visible");
         }}
